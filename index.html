@@ -3,8 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ESNAF DEFTERİ (V4)</title>
+    <title>Esnaf Defteri V4</title>
+    
+    <!-- PWA META TAGS -->
     <meta name="theme-color" content="#4338ca">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Esnaf V4">
+    <meta name="application-name" content="Esnaf V4">
+
+    <!-- EMBEDDED ICON (Base64 SVG) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgZmlsbD0iIzQzMzhjYSIvPjxwYXRoIGQ9Ik0xNDAgMTMwaDIzMnYyNTJIMTQweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0zNzIgMTMwSDMyMHYyNTJoNTJ6IiBmaWxsPSIjZTBlN2ZmIi8+PHBhdGggZD0iTTE0MCAxMzBoNTJ2MjUyaC01MnoiIGZpbGw9IiMzNzMwYTMiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMTkwIiB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjIwIiByeD0iMTAiIGZpbGw9IiM0MzM4Y2EiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMjUwIiB3aWR0aD0iODAiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzQzMzhjYSIgb3BhY2l0eT0iMC4yIi8+PC9zdmc+">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgZmlsbD0iIzQzMzhjYSIvPjxwYXRoIGQ9Ik0xNDAgMTMwaDIzMnYyNTJIMTQweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0zNzIgMTMwSDMyMHYyNTJoNTJ6IiBmaWxsPSIjZTBlN2ZmIi8+PHBhdGggZD0iTTE0MCAxMzBoNTJ2MjUyaC01MnoiIGZpbGw9IiMzNzMwYTMiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMTkwIiB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjIwIiByeD0iMTAiIGZpbGw9IiM0MzM4Y2EiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMjUwIiB3aWR0aD0iODAiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzQzMzhjYSIgb3BhY2l0eT0iMC4yIi8+PC9zdmc+">
+
+    <!-- EMBEDDED MANIFEST -->
+    <link rel="manifest" id="my-manifest-placeholder">
+
+    <script>
+        // Dynamically create Manifest to keep it single-file
+        const manifest = {
+            "name": "Esnaf Defteri",
+            "short_name": "Esnaf V4",
+            "start_url": ".",
+            "display": "standalone",
+            "background_color": "#f8fafc",
+            "theme_color": "#4338ca",
+            "orientation": "portrait",
+            "icons": [{
+                "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgZmlsbD0iIzQzMzhjYSIvPjxwYXRoIGQ9Ik0xNDAgMTMwaDIzMnYyNTJIMTQweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0zNzIgMTMwSDMyMHYyNTJoNTJ6IiBmaWxsPSIjZTBlN2ZmIi8+PHBhdGggZD0iTTE0MCAxMzBoNTJ2MjUyaC01MnoiIGZpbGw9IiMzNzMwYTMiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMTkwIiB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjIwIiByeD0iMTAiIGZpbGw9IiM0MzM4Y2EiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMjUwIiB3aWR0aD0iODAiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzQzMzhjYSIgb3BhY2l0eT0iMC4yIi8+PC9zdmc+",
+                "sizes": "512x512",
+                "type": "image/svg+xml"
+            }]
+        };
+        const stringManifest = JSON.stringify(manifest);
+        const blob = new Blob([stringManifest], {type: 'application/json'});
+        const manifestURL = URL.createObjectURL(blob);
+        document.querySelector('#my-manifest-placeholder').setAttribute('href', manifestURL);
+    </script>
+
     <style>
         :root {
             --primary: #4338ca;
@@ -16,20 +53,26 @@
             --shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
             --radius: 16px;
             --header-h: 70px;
+            --safe-bottom: env(safe-area-inset-bottom, 20px);
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body { margin: 0; background: var(--bg); padding-bottom: 120px; color: var(--text); font-size: 16px; line-height: 1.5; }
+        
+        html, body { height: 100%; overscroll-behavior-y: none; /* Prevents pull-to-refresh effect on mobile app mode */ }
+        
+        body { margin: 0; background: var(--bg); padding-bottom: calc(90px + var(--safe-bottom)); color: var(--text); font-size: 16px; line-height: 1.5; }
 
         /* --- HEADER --- */
-        header { height: var(--header-h); background: var(--card); padding: 0 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .brand { font-weight: 800; font-size: 1.3rem; color: var(--primary); letter-spacing: -0.5px; }
+        header { height: var(--header-h); background: var(--card); padding: 0 20px; padding-top: env(safe-area-inset-top, 0); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .brand { font-weight: 800; font-size: 1.3rem; color: var(--primary); letter-spacing: -0.5px; display:flex; align-items:center; gap:8px; }
+        .brand::before { content:''; display:inline-block; width:24px; height:24px; background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgZmlsbD0iIzQzMzhjYSIvPjxwYXRoIGQ9Ik0xNDAgMTMwaDIzMnYyNTJIMTQweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0zNzIgMTMwSDMyMHYyNTJoNTJ6IiBmaWxsPSIjZTBlN2ZmIi8+PC9zdmc+"); background-size:contain; }
+        
         .btn-icon { background: var(--primary-light); color: var(--primary); width: 42px; height: 42px; border-radius: 12px; border: none; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
         .btn-icon:active { transform: scale(0.95); }
 
         /* --- FAB (CENTER DOCKED) --- */
         .fab { 
             position: fixed; 
-            bottom: 40px; /* Sits on top of nav */
+            bottom: calc(40px + var(--safe-bottom)); /* Adjust for safe area */
             left: 50%; 
             transform: translateX(-50%);
             width: 64px; 
@@ -46,6 +89,8 @@
             z-index: 60; 
             border: 5px solid var(--bg); /* Matches background for cutout look */
             transition: transform 0.15s; 
+            /* Prevent text selection */
+            user-select: none;
         }
         .fab:active { transform: translateX(-50%) scale(0.90); }
 
@@ -75,7 +120,7 @@
         .btn-danger { background: var(--danger); color: white; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3); }
         
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .btn-action { background: white; border: 1px solid #e2e8f0; border-radius: var(--radius); padding: 15px 5px; font-weight: 600; font-size: 0.8rem; color: var(--text); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: 0.2s; }
+        .btn-action { background: white; border: 1px solid #e2e8f0; border-radius: var(--radius); padding: 15px 5px; font-weight: 600; font-size: 0.8rem; color: var(--text); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: 0.2s; -webkit-user-select: none; user-select: none; }
         .btn-action:active { background: #f8fafc; border-color: var(--primary); }
         .btn-action i { font-size: 1.6rem; font-style: normal; margin-bottom: 2px; }
 
@@ -85,7 +130,7 @@
 
         /* --- CHIPS --- */
         .chips-container { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; }
-        .chip { background: #f1f5f9; border: 1px solid #e2e8f0; color: var(--text-light); padding: 8px 12px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; font-weight: 500; transition: 0.2s; }
+        .chip { background: #f1f5f9; border: 1px solid #e2e8f0; color: var(--text-light); padding: 8px 12px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; font-weight: 500; transition: 0.2s; user-select: none; }
         .chip:active { background: var(--primary-light); color: var(--primary); border-color: var(--primary); transform: scale(0.95); }
 
         /* --- LIST ITEMS --- */
@@ -101,18 +146,18 @@
 
         /* --- SEGMENTED CONTROL --- */
         .seg-control { display: flex; background: #f1f5f9; padding: 4px; border-radius: 14px; margin-bottom: 24px; }
-        .seg-opt { flex: 1; text-align: center; padding: 12px; font-size: 0.9rem; font-weight: 600; color: var(--text-light); border-radius: 12px; cursor: pointer; transition: 0.2s; }
+        .seg-opt { flex: 1; text-align: center; padding: 12px; font-size: 0.9rem; font-weight: 600; color: var(--text-light); border-radius: 12px; cursor: pointer; transition: 0.2s; user-select: none;}
         .seg-opt.active { background: white; color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
         /* --- MODAL --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 100; display: none; align-items: flex-end; opacity: 0; transition: opacity 0.2s; }
         .modal-overlay.active { display: flex; opacity: 1; }
-        .modal { background: #fff; width: 100%; max-width: 600px; margin: 0 auto; border-radius: 28px 28px 0 0; padding: 30px 25px; animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); max-height: 90vh; overflow-y: auto; }
+        .modal { background: #fff; width: 100%; max-width: 600px; margin: 0 auto; border-radius: 28px 28px 0 0; padding: 30px 25px; animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); max-height: 90vh; overflow-y: auto; padding-bottom: 50px; }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
         /* --- NAV (Z-index 40) --- */
-        .nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 450px; background: #1e293b; border-radius: 24px; display: flex; justify-content: space-between; padding: 12px 15px; z-index: 40; box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
-        .nav-item { color: #64748b; font-size: 1.5rem; padding: 5px 8px; border-radius: 10px; cursor: pointer; transition: 0.25s; display: flex; flex-direction: column; align-items: center; position: relative; flex:1; }
+        .nav { position: fixed; bottom: 20px; bottom: var(--safe-bottom); left: 50%; transform: translateX(-50%); width: 92%; max-width: 450px; background: #1e293b; border-radius: 24px; display: flex; justify-content: space-between; padding: 12px 15px; z-index: 40; box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
+        .nav-item { color: #64748b; font-size: 1.5rem; padding: 5px 8px; border-radius: 10px; cursor: pointer; transition: 0.25s; display: flex; flex-direction: column; align-items: center; position: relative; flex:1; -webkit-tap-highlight-color: transparent; }
         .nav-item.active { color: white; transform: translateY(-5px); }
         .nav-item.active::after { content:''; position:absolute; bottom:-8px; width: 4px; height: 4px; background: var(--primary); border-radius: 50%; }
         .nav-lbl { font-size: 0.65rem; margin-top: 4px; font-weight: 600; letter-spacing: 0.3px; }
@@ -134,12 +179,16 @@
         .text-red { color: var(--danger); }
         .empty-state { text-align:center; color:#94a3b8; padding:30px 10px; font-style:italic; }
 
+        /* IOS NOTCH FIX */
+        @supports (-webkit-touch-callout: none) {
+            body { -webkit-text-size-adjust: none; }
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="brand">Esnaf Defteri v4</div>
+    <div class="brand">Esnaf Defteri</div>
     <button class="btn-icon" onclick="openSettings()">⚙️</button>
 </header>
 
@@ -403,6 +452,11 @@
 <div id="modal-settings" class="modal-overlay" onclick="if(event.target===this) closeModal('modal-settings')">
     <div class="modal">
         <h3>Ayarlar</h3>
+        
+        <button class="btn-main" style="background:#334155; color:white; margin-bottom:20px; font-size:0.9rem;" onclick="showInstallHelp()">
+            📲 Ana Ekrana Nasıl Eklenir?
+        </button>
+
         <div style="margin-bottom:20px;">
             <label>Ortalama Kar Marjı (%)</label>
             <input type="number" id="inp-settings-margin" placeholder="30">
@@ -425,7 +479,17 @@
 </div>
 
 <script>
-/* --- ÇEKİRDEK (CORE) --- */
+/* --- PWA INSTALL HELP --- */
+function showInstallHelp() {
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    if(isIOS) {
+        alert('iPhone için:\n1. Alttaki "Paylaş" butonuna basın.\n2. Aşağı kaydırıp "Ana Ekrana Ekle" seçeneğini seçin.');
+    } else {
+        alert('Android için:\n1. Tarayıcı menüsüne (3 nokta) tıklayın.\n2. "Ana Ekrana Ekle" veya "Uygulamayı Yükle" seçeneğini seçin.');
+    }
+}
+
+/* --- CORE APP --- */
 let db = { cash: 0, stock: 0, profitMargin: 30, contacts: [], history: [] };
 let tempIncomeType = 'ciro';
 let selectedCId = null;
@@ -438,6 +502,16 @@ window.onload = () => {
     // Migrate
     if(!db.profitMargin) db.profitMargin = 30;
     initApp();
+    
+    // Try to register service worker if supported (For strict Installability checks)
+    // Note: This often fails in local file/data-uri contexts due to security, but we try.
+    if ('serviceWorker' in navigator) {
+        // Minimal SW that just allows installation
+        const swCode = "self.addEventListener('install', e=>self.skipWaiting());self.addEventListener('fetch',e=>e.respondWith(fetch(e.request)));";
+        const blob = new Blob([swCode], {type: 'text/javascript'});
+        const swUrl = URL.createObjectURL(blob);
+        navigator.serviceWorker.register(swUrl).catch(() => console.log('SW Skipped (Single File Mode)'));
+    }
 };
 
 function initApp() {
@@ -545,25 +619,19 @@ function drawChart(days) {
 
 /* --- EXPENSE SUGGESTIONS --- */
 function updateExpenseSuggestions() {
-    // 1. Gather all expense descriptions
     const counts = {};
     db.history.filter(h => h.type === 'gider').forEach(h => {
         const txt = (h.desc || '').trim();
-        // Normalize slightly to count "Kira" and "kira" as same, but display Capitalized
         const key = txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase();
         if(key) counts[key] = (counts[key] || 0) + 1;
     });
 
-    // 2. Sort by frequency
     const sorted = Object.keys(counts).sort((a,b) => counts[b] - counts[a]);
-
-    // 3. Populate Chips (Top 5)
     const chipContainer = document.getElementById('expense-chips');
     chipContainer.innerHTML = '';
     
     const top5 = sorted.slice(0, 5);
     if(top5.length === 0) {
-        // Defauts if history is empty
         ['Yemek', 'Yol', 'Kira', 'Fatura'].forEach(item => {
             chipContainer.innerHTML += `<div class="chip" onclick="fillExpense('${item}')">${item}</div>`;
         });
@@ -573,7 +641,6 @@ function updateExpenseSuggestions() {
         });
     }
 
-    // 4. Populate Datalist (All unique for realtime typing)
     const datalist = document.getElementById('expense-suggestions');
     datalist.innerHTML = '';
     sorted.forEach(item => {
@@ -817,7 +884,6 @@ function openModal(id) {
     document.querySelectorAll(`#${id} input`).forEach(i => i.value = '');
     document.getElementById(id).classList.add('active'); 
     
-    // Trigger suggestions when opening Expense modal
     if(id === 'modal-expense') {
         updateExpenseSuggestions();
     }
@@ -912,7 +978,7 @@ function saveSettings() {
 function hardReset() {
     if(confirm('DİKKAT: Tüm veriler kalıcı olarak silinecek!')) {
         localStorage.removeItem('esnaf_v4_db');
-        localStorage.removeItem('esnaf_v3_db'); // Clean old
+        localStorage.removeItem('esnaf_v3_db'); 
         localStorage.removeItem('esnaf_v2_db');
         location.reload();
     }
