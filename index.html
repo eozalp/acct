@@ -12,12 +12,12 @@
     <meta name="apple-mobile-web-app-title" content="Esnaf V4">
     <meta name="application-name" content="Esnaf V4">
 
-    <!-- EMBEDDED ICON (Base64 SVG) -->
+    <!-- EMBEDDED ICON -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgZmlsbD0iIzQzMzhjYSIvPjxwYXRoIGQ9Ik0xNDAgMTMwaDIzMnYyNTJIMTQweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0zNzIgMTMwSDMyMHYyNTJoNTJ6IiBmaWxsPSIjZTBlN2ZmIi8+PHBhdGggZD0iTTE0MCAxMzBoNTJ2MjUyaC01MnoiIGZpbGw9IiMzNzMwYTMiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMTkwIiB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjIwIiByeD0iMTAiIGZpbGw9IiM0MzM4Y2EiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMjUwIiB3aWR0aD0iODAiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzQzMzhjYSIgb3BhY2l0eT0iMC4yIi8+PC9zdmc+">
     <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgZmlsbD0iIzQzMzhjYSIvPjxwYXRoIGQ9Ik0xNDAgMTMwaDIzMnYyNTJIMTQweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0zNzIgMTMwSDMyMHYyNTJoNTJ6IiBmaWxsPSIjZTBlN2ZmIi8+PHBhdGggZD0iTTE0MCAxMzBoNTJ2MjUyaC01MnoiIGZpbGw9IiMzNzMwYTMiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMTkwIiB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjIwIiByeD0iMTAiIGZpbGw9IiM0MzM4Y2EiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMjUwIiB3aWR0aD0iODAiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzQzMzhjYSIgb3BhY2l0eT0iMC4yIi8+PC9zdmc+">
 
     <!-- EMBEDDED MANIFEST -->
-    <link rel="manifest" id="my-manifest-placeholder" href="blob:https://eozalp.github.io/4b60835a-1326-49c2-8346-f29c147352bd">
+    <link rel="manifest" id="my-manifest-placeholder" href="blob:https://dummy">
 
     <script>
         const manifest = {
@@ -110,8 +110,8 @@
         .btn-action:active { background: #f8fafc; border-color: var(--primary); }
         .btn-action i { font-size: 1.6rem; font-style: normal; margin-bottom: 2px; }
 
-        input, select { width: 100%; padding: 16px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1rem; background: #fff; outline: none; -webkit-appearance: none; transition: border 0.2s; color: var(--text); }
-        input:focus, select:focus { border-color: var(--primary); background: #fff; }
+        input, select, textarea { width: 100%; padding: 16px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1rem; background: #fff; outline: none; -webkit-appearance: none; transition: border 0.2s; color: var(--text); }
+        input:focus, select:focus, textarea:focus { border-color: var(--primary); background: #fff; }
         label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-light); font-size: 0.85rem; margin-left: 4px; }
 
         /* --- CHIPS --- */
@@ -525,27 +525,31 @@
                  </div>
              </div>
 
-             <p style="font-size:0.85rem; color:#64748b; margin-bottom:15px;">
-                Verilerinizi düzenli olarak yedekleyin.
-            </p>
-            
-            <div class="grid-3" style="margin-bottom:25px;">
-                <button class="btn-action" onclick="backupToClipboard()">
-                    <span>📋</span> Kopyala
-                </button>
+             <h4 style="margin-bottom:10px; color:var(--primary)">Yöntem 1: Dosya İle (Klasik)</h4>
+            <div class="grid-3" style="grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px;">
                 <button class="btn-action" onclick="backupDownload()">
-                    <span>💾</span> İndir
+                    <span>💾</span> Yedek İndir
                 </button>
-                <button class="btn-action" onclick="backupShare()">
-                    <span>📤</span> Paylaş
-                </button>
+                <div style="position:relative; border:1px solid #e2e8f0; border-radius:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:0.8rem; font-weight:600; background:#f8fafc;">
+                    <span>📂 Yedek Seç</span>
+                    <input type="file" onchange="restoreBackup(this)" accept=".json,.txt" style="opacity:0; position:absolute; top:0; left:0; width:100%; height:100%;">
+                </div>
             </div>
             
-            <div style="position:relative; border:2px dashed #cbd5e1; padding:25px; border-radius:12px; text-align:center; color:#64748b; background:#f8fafc;">
-                <b style="color:var(--primary)">📥 Yedek Yükle</b><br>
-                <span style="font-size:0.8rem">(Dosya seçmek için tıklayın: .json veya .txt)</span>
-                <input type="file" onchange="restoreBackup(this)" accept=".json,.txt" style="opacity:0; position:absolute; top:0; left:0; width:100%; height:100%;">
-            </div>
+            <hr style="border:0; border-top:1px dashed #cbd5e1; margin:20px 0;">
+
+            <h4 style="margin-bottom:10px; color:var(--success)">Yöntem 2: Metin İle (Garantili)</h4>
+            <p style="font-size:0.8rem; color:#64748b;">Dosya hatası alıyorsanız burayı kullanın.</p>
+            
+            <button class="btn-main" style="margin-bottom:15px; background:#334155; color:white;" onclick="backupToClipboard()">
+                📋 Tüm Veriyi Kopyala (Yedekle)
+            </button>
+
+            <textarea id="restore-text-area" rows="4" placeholder="Yedekleme metnini buraya yapıştırın..." style="width:100%; padding:10px; border-radius:12px; border:2px solid #e2e8f0; font-size:0.8rem;"></textarea>
+            <button class="btn-main btn-success" style="margin-top:10px;" onclick="restoreFromText()">
+                📥 Metni Yükle (Geri Yükle)
+            </button>
+
         </div>
 
         <!-- PANE 3: SİSTEM -->
@@ -1129,99 +1133,47 @@ function hardReset() {
     }
 }
 
-/* --- BACKUP FUNCTIONS --- */
+/* --- BACKUP FUNCTIONS (RADICAL FIX) --- */
 function resetBackupCounter() {
     db.txCount = 0;
     saveDB();
-    alert('Yedekleme başarılı işaretlendi. Sayaç sıfırlandı.');
+    // alert('Yedekleme başarılı işaretlendi. Sayaç sıfırlandı.');
 }
 
+// 1. COPY TEXT (Universal)
 async function backupToClipboard() {
     const json = JSON.stringify(db, null, 2);
     try {
         await navigator.clipboard.writeText(json);
         resetBackupCounter();
-    } catch(e) { alert('Kopyalama başarısız.'); }
-}
-
-async function backupShare() {
-    const json = JSON.stringify(db, null, 2);
-    
-    // Generate Filename for Share too
-    const now = new Date();
-    const timestamp = now.getFullYear() + '-' + 
-                      String(now.getMonth()+1).padStart(2, '0') + '-' + 
-                      String(now.getDate()).padStart(2, '0') + '_' + 
-                      String(now.getHours()).padStart(2, '0') + '-' + 
-                      String(now.getMinutes()).padStart(2, '0');
-    const filename = `esnaf_yedek_${timestamp}.txt`; // Use TXT for max compatibility
-
-    const file = new File([json], filename, {type: "text/plain"});
-    
-    if(navigator.canShare && navigator.canShare({files:[file]})) {
-        try { 
-            await navigator.share({
-                files: [file], 
-                title: 'Esnaf Defteri Yedek',
-                text: 'Esnaf Defteri yedek dosyası ektedir.'
-            }); 
-            resetBackupCounter();
-            return;
-        } catch(e) {
-            if(e.name !== 'AbortError') console.error(e);
-        }
-    } 
-    
-    try {
-        await navigator.share({
-            title: 'Esnaf Defteri Yedek',
-            text: json
-        });
+        alert("Veriler panoya kopyalandı! \n\nŞimdi WhatsApp'a veya Notlara yapıştırabilirsiniz.");
+    } catch(e) { 
+        // Fallback for old browsers
+        const ta = document.createElement('textarea');
+        ta.value = json;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
         resetBackupCounter();
-    } catch(e) {
-        if(e.name !== 'AbortError') {
-             alert('Paylaşım başarısız. Yedek kopyalanıyor...');
-             backupToClipboard();
-        }
+        alert("Veriler panoya kopyalandı!");
     }
 }
 
-async function backupDownload() {
+// 2. DOWNLOAD FILE (Classic & Reliable)
+function backupDownload() {
     const json = JSON.stringify(db, null, 2);
-    
-    // 1. Generate Timestamped Filename
     const now = new Date();
     const timestamp = now.getFullYear() + '-' + 
                       String(now.getMonth()+1).padStart(2, '0') + '-' + 
-                      String(now.getDate()).padStart(2, '0') + '_' + 
-                      String(now.getHours()).padStart(2, '0') + '-' + 
-                      String(now.getMinutes()).padStart(2, '0');
+                      String(now.getDate()).padStart(2, '0');
     const filename = `esnaf_yedek_${timestamp}.json`;
 
-    // 2. Modern File System Access API (Chrome/Edge/Android Chrome)
-    if ('showSaveFilePicker' in window) {
-        try {
-            const handle = await window.showSaveFilePicker({
-                suggestedName: filename,
-                types: [{ description: 'JSON Yedek Dosyası', accept: {'application/json': ['.json']} }],
-            });
-            const writable = await handle.createWritable();
-            await writable.write(json);
-            await writable.close();
-            resetBackupCounter();
-            return;
-        } catch (err) {
-             if(err.name !== 'AbortError') console.log('FS API Error, falling back');
-             else return; 
-        }
-    }
-
-    // 3. Legacy Download (iOS Safari / Firefox)
     const blob = new Blob([json], {type: "application/json"});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = filename; // This ensures the incremental name is used
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -1229,40 +1181,56 @@ async function backupDownload() {
     resetBackupCounter();
 }
 
+// 3. RESTORE FROM TEXT (Robust)
+function restoreFromText() {
+    const text = document.getElementById('restore-text-area').value;
+    if(!text.trim()) return alert("Lütfen metin kutusuna yedek kodunu yapıştırın.");
+    
+    processRestoreData(text);
+}
+
+// 4. RESTORE FROM FILE (Robust)
 function restoreBackup(input) {
+    if(!input.files || !input.files[0]) return;
+    
     const reader = new FileReader();
-    reader.onload = e => {
-        try {
-            const data = JSON.parse(e.target.result);
-            // Veri bir nesne (object) mi diye basitçe kontrol et
-            if (data && typeof data === 'object') {
-                if(confirm('Yedek yüklensin mi? Mevcut veriler silinecek.')) {
-                    // EKSİK VERİLERİ ONAR (Hata vermek yerine boş liste ata)
-                    if (!Array.isArray(data.contacts)) data.contacts = [];
-                    if (!Array.isArray(data.history)) data.history = [];
-                    if (typeof data.cash !== 'number') data.cash = 0;
-                    if (typeof data.stock !== 'number') data.stock = 0;
-                    
-                    // Veriyi yükle ve kaydet
-                    db = data; 
-                    saveDB(); 
-                    alert('Yedek başarıyla yüklendi!'); 
-                    closeModal('modal-settings');
-                    
-                    // Sayfayı yenile ki her şey yerine otursun
-                    setTimeout(() => location.reload(), 500);
-                }
-            } else {
-                alert('Bu dosya geçerli bir yedek dosyası değil (JSON formatı hatalı).');
-            }
-        } catch(e) { 
-            console.error(e);
-            alert('Dosya okuma hatası! Dosya bozuk olabilir.'); 
+    reader.onload = e => processRestoreData(e.target.result);
+    reader.onerror = () => alert('Dosya okuma hatası!');
+    reader.readAsText(input.files[0]);
+}
+
+// CENTRALIZED PROCESSING LOGIC
+function processRestoreData(rawString) {
+    try {
+        // BOM Temizliği (Windows Notepad Sorunu)
+        // Bazı dosyaların başında görünmez \uFEFF karakteri olur, JSON'u patlatır.
+        let cleanString = rawString.trim();
+        if (cleanString.charCodeAt(0) === 0xFEFF) {
+            cleanString = cleanString.slice(1);
         }
-    };
-    // Dosya seçildiyse okumayı başlat
-    if(input.files && input.files[0]) {
-        reader.readAsText(input.files[0]);
+
+        const data = JSON.parse(cleanString);
+        
+        if (data && typeof data === 'object') {
+            if(confirm('DİKKAT: Bu yedek yüklenecek ve şu anki veriler SİLİNECEK. Devam edilsin mi?')) {
+                
+                // RADİKAL ONARIM: Eksik verileri tamamla
+                if (!Array.isArray(data.contacts)) data.contacts = [];
+                if (!Array.isArray(data.history)) data.history = [];
+                if (typeof data.cash !== 'number') data.cash = 0;
+                if (typeof data.stock !== 'number') data.stock = 0;
+                
+                db = data; 
+                saveDB(); 
+                alert('Yedek başarıyla yüklendi! Uygulama yeniden başlatılıyor...');
+                setTimeout(() => location.reload(), 1000);
+            }
+        } else {
+            alert('Geçersiz veri formatı. Bu bir Esnaf Defteri yedeği değil gibi görünüyor.');
+        }
+    } catch(e) {
+        console.error(e);
+        alert('HATA: Veri okunamadı!\n\nOlası sebepler:\n1. Kopyalama eksik yapılmış olabilir.\n2. Dosya bozuk olabilir.\n3. JSON formatı hatalı.');
     }
 }
 
