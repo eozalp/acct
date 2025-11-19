@@ -491,7 +491,7 @@
              </div>
 
              <p style="font-size:0.85rem; color:#64748b; margin-bottom:15px;">
-                Aşağıdaki yöntemlerden biriyle verilerinizi güvenceye alın.
+                Verilerinizi düzenli olarak yedekleyin.
             </p>
             
             <div class="grid-3" style="margin-bottom:25px;">
@@ -508,8 +508,8 @@
             
             <div style="position:relative; border:2px dashed #cbd5e1; padding:25px; border-radius:12px; text-align:center; color:#64748b; background:#f8fafc;">
                 <b style="color:var(--primary)">📥 Yedek Yükle</b><br>
-                <span style="font-size:0.8rem">(Dosya seçmek için tıklayın)</span>
-                <input type="file" onchange="restoreBackup(this)" style="opacity:0; position:absolute; top:0; left:0; width:100%; height:100%;">
+                <span style="font-size:0.8rem">(Dosya seçmek için tıklayın: .json veya .txt)</span>
+                <input type="file" onchange="restoreBackup(this)" accept=".json,.txt" style="opacity:0; position:absolute; top:0; left:0; width:100%; height:100%;">
             </div>
         </div>
 
@@ -530,7 +530,6 @@
 </div>
 
 <script>
-/* --- PWA INSTALL HELP --- */
 function showInstallHelp() {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     if(isIOS) {
@@ -540,7 +539,6 @@ function showInstallHelp() {
     }
 }
 
-/* --- DOWNLOAD APP SOURCE --- */
 function downloadAppSource() {
     let html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
     const blob = new Blob([html], {type: "text/html"});
@@ -558,7 +556,7 @@ function downloadAppSource() {
 let db = { 
     cash: 0, stock: 0, profitMargin: 30, 
     contacts: [], history: [],
-    txCount: 0, backupLimit: 10 // New Fields
+    txCount: 0, backupLimit: 10 
 };
 let tempIncomeType = 'ciro';
 let selectedCId = null;
@@ -568,7 +566,6 @@ window.onload = () => {
     if(saved) {
         try { db = JSON.parse(saved); } catch(e) { console.error(e); }
     }
-    // Migrations
     if(!db.profitMargin) db.profitMargin = 30;
     if(db.txCount === undefined) db.txCount = 0;
     if(db.backupLimit === undefined) db.backupLimit = 10;
@@ -974,7 +971,6 @@ function openModal(id) {
     if(id === 'modal-settings') {
         document.getElementById('inp-settings-margin').value = db.profitMargin;
         document.getElementById('inp-settings-reminder').value = db.backupLimit || 10;
-        // Default to first tab? optional, keeps state if not reset
     }
 }
 function closeModal(id) { document.getElementById(id).classList.remove('active'); }
@@ -1097,21 +1093,44 @@ async function backupToClipboard() {
 
 async function backupShare() {
     const json = JSON.stringify(db, null, 2);
-    const file = new File([json], "esnaf_yedek.json", {type: "application/json"});
+    
+    // STRATEGY 1: Share as .txt file (Highest compatibility)
+    // Apps like WhatsApp reject .json but accept .txt
+    const file = new File([json], "esnaf_yedek.txt", {type: "text/plain"});
+    
     if(navigator.canShare && navigator.canShare({files:[file]})) {
         try { 
-            await navigator.share({files:[file], title:'Esnaf Defteri Yedek'}); 
+            await navigator.share({
+                files: [file], 
+                title: 'Esnaf Defteri Yedek',
+                text: 'Esnaf Defteri yedek dosyası ektedir.'
+            }); 
             resetBackupCounter();
-        } catch(e){}
-    } else {
-        alert('Paylaşım bu cihazda desteklenmiyor. İndirme veya kopyalamayı deneyin.');
+            return;
+        } catch(e) {
+            if(e.name !== 'AbortError') console.error(e);
+        }
+    } 
+    
+    // STRATEGY 2: Fallback to raw text sharing
+    try {
+        await navigator.share({
+            title: 'Esnaf Defteri Yedek',
+            text: json
+        });
+        resetBackupCounter();
+    } catch(e) {
+        // STRATEGY 3: Fallback to Clipboard
+        if(e.name !== 'AbortError') {
+             alert('Paylaşım başarısız. Yedek kopyalanıyor...');
+             backupToClipboard();
+        }
     }
 }
 
 async function backupDownload() {
     const json = JSON.stringify(db, null, 2);
     
-    // 1. Try Modern File System API (Chrome Desktop / Edge)
     if ('showSaveFilePicker' in window) {
         try {
             const handle = await window.showSaveFilePicker({
@@ -1124,13 +1143,11 @@ async function backupDownload() {
             resetBackupCounter();
             return;
         } catch (err) {
-             // User cancelled or error, fall through to legacy download
              if(err.name !== 'AbortError') console.log('FS API Error, falling back');
-             else return; // If user cancelled picker, do nothing
+             else return; 
         }
     }
 
-    // 2. Legacy Download (Mobile / Safari)
     const blob = new Blob([json], {type: "application/json"});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -1163,7 +1180,6 @@ function fmt(n) { return new Intl.NumberFormat('tr-TR', { style: 'currency', cur
 
 function addHistory(type, amt, desc, cost=null, cId=null) {
     db.history.unshift({ id: Date.now(), date: new Date().toISOString(), type, amount: amt, desc, cost, contactId: cId });
-    // Increment backup counter
     db.txCount = (db.txCount || 0) + 1;
 }
 </script>
