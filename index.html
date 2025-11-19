@@ -3,11 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Esnaf Glass Final</title>
+    <title>Esnaf Glass</title>
     
+    <!-- PWA META TAGS -->
     <meta name="theme-color" content="#000000">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Esnaf Glass">
+    <meta name="application-name" content="Esnaf Glass">
+
+    <!-- EMBEDDED ICON -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgZmlsbD0iIzQzMzhjYSIvPjxwYXRoIGQ9Ik0xNDAgMTMwaDIzMnYyNTJIMTQweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0zNzIgMTMwSDMyMHYyNTJoNTJ6IiBmaWxsPSIjZTBlN2ZmIi8+PHBhdGggZD0iTTE0MCAxMzBoNTJ2MjUyaC01MnoiIGZpbGw9IiMzNzMwYTMiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMTkwIiB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjIwIiByeD0iMTAiIGZpbGw9IiM0MzM4Y2EiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMjUwIiB3aWR0aD0iODAiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzQzMzhjYSIgb3BhY2l0eT0iMC4yIi8+PC9zdmc+">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgZmlsbD0iIzQzMzhjYSIvPjxwYXRoIGQ9Ik0xNDAgMTMwaDIzMnYyNTJIMTQweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0zNzIgMTMwSDMyMHYyNTJoNTJ6IiBmaWxsPSIjZTBlN2ZmIi8+PHBhdGggZD0iTTE0MCAxMzBoNTJ2MjUyaC01MnoiIGZpbGw9IiMzNzMwYTMiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMTkwIiB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjIwIiByeD0iMTAiIGZpbGw9IiM0MzM4Y2EiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMjUwIiB3aWR0aD0iODAiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzQzMzhjYSIgb3BhY2l0eT0iMC4yIi8+PC9zdmc+">
+
+    <!-- DYNAMIC MANIFEST SCRIPT -->
+    <link rel="manifest" id="my-manifest-placeholder" href="blob:https://dummy">
+    <script>
+        const manifest = {
+            "name": "Esnaf Glass",
+            "short_name": "Esnaf Glass",
+            "start_url": ".",
+            "display": "standalone",
+            "background_color": "#000000",
+            "theme_color": "#000000",
+            "orientation": "portrait",
+            "icons": [{
+                "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgZmlsbD0iIzQzMzhjYSIvPjxwYXRoIGQ9Ik0xNDAgMTMwaDIzMnYyNTJIMTQweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0zNzIgMTMwSDMyMHYyNTJoNTJ6IiBmaWxsPSIjZTBlN2ZmIi8+PHBhdGggZD0iTTE0MCAxMzBoNTJ2MjUyaC01MnoiIGZpbGw9IiMzNzMwYTMiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMTkwIiB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjIwIiByeD0iMTAiIGZpbGw9IiM0MzM4Y2EiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMjUwIiB3aWR0aD0iODAiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzQzMzhjYSIgb3BhY2l0eT0iMC4yIi8+PC9zdmc+",
+                "sizes": "512x512",
+                "type": "image/svg+xml"
+            }]
+        };
+        const stringManifest = JSON.stringify(manifest);
+        const blob = new Blob([stringManifest], {type: 'application/json'});
+        const manifestURL = URL.createObjectURL(blob);
+        document.querySelector('#my-manifest-placeholder').setAttribute('href', manifestURL);
+    </script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
@@ -69,7 +100,8 @@
             position: sticky; top: 0; z-index: 50;
             background: rgba(0,0,0,0.01); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
         }
-        .brand { font-weight: 800; font-size: 1.5rem; letter-spacing: -0.5px; background: linear-gradient(135deg, #fff 0%, #a5f3fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .brand { font-weight: 800; font-size: 1.5rem; letter-spacing: -0.5px; background: linear-gradient(135deg, #fff 0%, #a5f3fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display:flex; align-items:center; gap:8px;}
+        .brand::before { content:''; display:inline-block; width:24px; height:24px; background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgZmlsbD0iIzQzMzhjYSIvPjxwYXRoIGQ9Ik0xNDAgMTMwaDIzMnYyNTJIMTQweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0zNzIgMTMwSDMyMHYyNTJoNTJ6IiBmaWxsPSIjZTBlN2ZmIi8+PHBhdGggZD0iTTE0MCAxMzBoNTJ2MjUyaC01MnoiIGZpbGw9IiMzNzMwYTMiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMTkwIiB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjIwIiByeD0iMTAiIGZpbGw9IiM0MzM4Y2EiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMjUwIiB3aWR0aD0iODAiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzQzMzhjYSIgb3BhY2l0eT0iMC4yIi8+PC9zdmc+"); background-size:contain; }
         
         .btn-icon { 
             background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); 
@@ -208,7 +240,6 @@
         .settings-pane { display: none; }
         .settings-pane.active { display: block; }
         
-        /* Filter Active Indicator */
         #filter-indicator { font-size:0.75rem; background:rgba(10,132,255,0.2); color:var(--blue); padding:4px 10px; border-radius:8px; display:none; align-items:center; gap:5px; border:1px solid rgba(10,132,255,0.3); margin-left: 10px; }
     </style>
 </head>
@@ -460,7 +491,15 @@
             <div id="pane-genel" class="settings-pane active">
                 <button class="btn-main btn-glass" style="font-size:0.9rem; margin-bottom:20px;" onclick="showInstallHelp()">📲 Ana Ekrana Ekle</button>
                 <div style="margin-bottom:20px;"><label>Ortalama Kar Marjı (%)</label><input type="number" id="inp-settings-margin" placeholder="30"></div>
-                <div style="margin-bottom:10px;"><label>⚠️ Yedekleme Hatırlatıcısı</label><select id="inp-settings-reminder"><option value="0">Kapalı</option><option value="10">Her 10 İşlemde Bir</option></select></div>
+                <div style="margin-bottom:10px;"><label>⚠️ Yedekleme Hatırlatıcısı</label>
+                <select id="inp-settings-reminder">
+                    <option value="0">Kapalı</option>
+                    <option value="5">Her 5 İşlemde Bir</option>
+                    <option value="10">Her 10 İşlemde Bir</option>
+                    <option value="20">Her 20 İşlemde Bir</option>
+                    <option value="50">Her 50 İşlemde Bir</option>
+                </select>
+                </div>
                 <button class="btn-main btn-primary" style="margin-top:15px;" onclick="saveSettings()">KAYDET</button>
             </div>
             <div id="pane-yedek" class="settings-pane">
@@ -485,7 +524,10 @@
 let db={cash:0,stock:0,profitMargin:30,contacts:[],history:[],txCount:0,backupLimit:10},tempIncomeType='ciro',selectedCId=null;
 let activeFilter = false;
 
-window.onload=()=>{const s=localStorage.getItem('esnaf_v4_db');if(s)try{db=JSON.parse(s)}catch(e){}if(!db.profitMargin)db.profitMargin=30;if(db.txCount===undefined)db.txCount=0;initApp();initSwipeGestures();};
+window.onload=()=>{
+    const s=localStorage.getItem('esnaf_v4_db');if(s)try{db=JSON.parse(s)}catch(e){}if(!db.profitMargin)db.profitMargin=30;if(db.txCount===undefined)db.txCount=0;initApp();initSwipeGestures();
+    if('serviceWorker' in navigator){navigator.serviceWorker.register(URL.createObjectURL(new Blob(["self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('fetch',e=>e.respondWith(fetch(e.request)));"],{type:'application/javascript'}))).catch(()=>console.log('SW Skipped'));}
+};
 function initApp(){if(!Array.isArray(db.contacts))db.contacts=[];if(!Array.isArray(db.history))db.history=[];updateUI();}
 function saveDB(){localStorage.setItem('esnaf_v4_db',JSON.stringify(db));updateUI();}
 function updateUI(){checkBackupStatus();const tr=db.contacts.reduce((a,c)=>a+(c.balance>0?c.balance:0),0),td=db.contacts.reduce((a,c)=>a+(c.balance<0?Math.abs(c.balance):0),0),n=db.cash+db.stock+tr-td;document.getElementById('dash-net').innerText=fmt(n);document.getElementById('dash-cash').innerText=fmt(db.cash);document.getElementById('dash-stock').innerText=fmt(db.stock);document.getElementById('lbl-margin').innerText=db.profitMargin;
@@ -519,12 +561,72 @@ function openSettings(){openModal('modal-settings');}
 function saveSettings(){db.profitMargin=getNum('inp-settings-margin');db.backupLimit=parseInt(document.getElementById('inp-settings-reminder').value);saveDB();closeModal('modal-settings');}
 function hardReset(){if(confirm('Her şey silinecek!')){localStorage.clear();location.reload();}}
 function checkBackupStatus(){const w=document.getElementById('backup-warning'),b=document.getElementById('settings-badge');document.getElementById('backup-count-lbl').innerText=db.txCount;if(db.backupLimit>0&&db.txCount>=db.backupLimit){w.classList.add('active');b.style.display='flex';}else{w.classList.remove('active');b.style.display='none';}}
-async function backupToClipboard(){await navigator.clipboard.writeText(JSON.stringify(db));db.txCount=0;saveDB();alert('Kopyalandı!');}
-function backupDownload(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(db)],{type:'application/json'}));a.download='esnaf_yedek.json';a.click();db.txCount=0;saveDB();}
-function restoreBackup(i){const r=new FileReader();r.onload=e=>{try{db=JSON.parse(e.target.result);saveDB();alert('Yüklendi!');location.reload();}catch(x){alert('Hata');}};r.readAsText(i.files[0]);}
-function restoreFromText(){try{db=JSON.parse(document.getElementById('restore-text-area').value);saveDB();alert('Yüklendi!');location.reload();}catch(x){alert('Hata');}}
-function showInstallHelp(){alert('IOS: Paylaş -> Ana Ekrana Ekle\nAndroid: Menü -> Ana Ekrana Ekle');}
-function downloadAppSource(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(["<!DOCTYPE html>\n"+document.documentElement.outerHTML],{type:"text/html"}));a.download="esnaf_glass_final.html";a.click();}
+
+/* --- ROBUST BACKUP/RESTORE (ORIGINAL LOGIC) --- */
+function resetBackupCounter() { db.txCount = 0; saveDB(); }
+
+async function backupToClipboard() {
+    const json = JSON.stringify(db, null, 2);
+    try {
+        await navigator.clipboard.writeText(json);
+        resetBackupCounter();
+        alert("Kopyalandı! Notlara veya WhatsApp'a yapıştırabilirsin.");
+    } catch(e) { 
+        // Fallback
+        const ta = document.createElement('textarea');
+        ta.value = json;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        resetBackupCounter();
+        alert("Kopyalandı! (Yedek Yöntem)");
+    }
+}
+
+function backupDownload() {
+    const json = JSON.stringify(db, null, 2);
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([json],{type:'application/json'}));
+    a.download=`esnaf_yedek_${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    resetBackupCounter();
+}
+
+function restoreBackup(i){
+    const r=new FileReader();
+    r.onload=e=>{ processRestoreData(e.target.result); };
+    r.readAsText(i.files[0]);
+}
+
+function restoreFromText(){
+    const txt = document.getElementById('restore-text-area').value;
+    if(!txt) return alert('Metin kutusu boş!');
+    processRestoreData(txt);
+}
+
+function processRestoreData(rawString) {
+    try {
+        let cleanString = rawString.trim();
+        if (cleanString.charCodeAt(0) === 0xFEFF) cleanString = cleanString.slice(1); // BOM FIX
+        const data = JSON.parse(cleanString);
+        
+        if (data && typeof data === 'object') {
+            if(confirm('Mevcut veriler silinip yedek yüklensin mi?')) {
+                if (!Array.isArray(data.contacts)) data.contacts = [];
+                if (!Array.isArray(data.history)) data.history = [];
+                if (typeof data.cash !== 'number') data.cash = 0;
+                if (typeof data.stock !== 'number') data.stock = 0;
+                db = data; saveDB(); 
+                alert('Başarıyla yüklendi! Sayfa yenileniyor...');
+                setTimeout(() => location.reload(), 1000);
+            }
+        } else { alert('Geçersiz veri!'); }
+    } catch(e) { alert('Hata! Veri bozuk veya hatalı kopyalanmış.'); }
+}
+
+function showInstallHelp(){alert('IOS: Paylaş -> Ana Ekrana Ekle\nAndroid: Menü -> Uygulamayı Yükle / Ana Ekrana Ekle');}
+function downloadAppSource(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(["<!DOCTYPE html>\n"+document.documentElement.outerHTML],{type:"text/html"}));a.download="esnaf_glass_final_v2.html";a.click();}
 function setIncomeType(t,e){tempIncomeType=t;document.querySelectorAll('.seg-opt').forEach(s=>s.classList.remove('active'));e.classList.add('active');document.getElementById('inc-details').style.display=t==='ciro'?'block':'none';}
 function toggleContactSelect(c,v){document.getElementById(`div-${c}-contact`).style.display=v==='veresiye'?'block':'none';}
 
