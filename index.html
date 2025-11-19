@@ -1124,8 +1124,16 @@ async function backupToClipboard() {
 async function backupShare() {
     const json = JSON.stringify(db, null, 2);
     
-    // STRATEGY 1: Share as .txt file
-    const file = new File([json], "esnaf_yedek.txt", {type: "text/plain"});
+    // Generate Filename for Share too
+    const now = new Date();
+    const timestamp = now.getFullYear() + '-' + 
+                      String(now.getMonth()+1).padStart(2, '0') + '-' + 
+                      String(now.getDate()).padStart(2, '0') + '_' + 
+                      String(now.getHours()).padStart(2, '0') + '-' + 
+                      String(now.getMinutes()).padStart(2, '0');
+    const filename = `esnaf_yedek_${timestamp}.txt`; // Use TXT for max compatibility
+
+    const file = new File([json], filename, {type: "text/plain"});
     
     if(navigator.canShare && navigator.canShare({files:[file]})) {
         try { 
@@ -1141,7 +1149,6 @@ async function backupShare() {
         }
     } 
     
-    // STRATEGY 2: Fallback to raw text sharing
     try {
         await navigator.share({
             title: 'Esnaf Defteri Yedek',
@@ -1149,7 +1156,6 @@ async function backupShare() {
         });
         resetBackupCounter();
     } catch(e) {
-        // STRATEGY 3: Fallback to Clipboard
         if(e.name !== 'AbortError') {
              alert('Paylaşım başarısız. Yedek kopyalanıyor...');
              backupToClipboard();
@@ -1160,10 +1166,20 @@ async function backupShare() {
 async function backupDownload() {
     const json = JSON.stringify(db, null, 2);
     
+    // 1. Generate Timestamped Filename
+    const now = new Date();
+    const timestamp = now.getFullYear() + '-' + 
+                      String(now.getMonth()+1).padStart(2, '0') + '-' + 
+                      String(now.getDate()).padStart(2, '0') + '_' + 
+                      String(now.getHours()).padStart(2, '0') + '-' + 
+                      String(now.getMinutes()).padStart(2, '0');
+    const filename = `esnaf_yedek_${timestamp}.json`;
+
+    // 2. Modern File System Access API (Chrome/Edge/Android Chrome)
     if ('showSaveFilePicker' in window) {
         try {
             const handle = await window.showSaveFilePicker({
-                suggestedName: 'esnaf_yedek.json',
+                suggestedName: filename,
                 types: [{ description: 'JSON Yedek Dosyası', accept: {'application/json': ['.json']} }],
             });
             const writable = await handle.createWritable();
@@ -1177,11 +1193,12 @@ async function backupDownload() {
         }
     }
 
+    // 3. Legacy Download (iOS Safari / Firefox)
     const blob = new Blob([json], {type: "application/json"});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = "esnaf_yedek.json";
+    a.download = filename; // This ensures the incremental name is used
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
