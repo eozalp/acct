@@ -993,7 +993,11 @@ function switchTab(id, el) {
         document.getElementById('contact-search').value = '';
         renderContacts();
     }
+    // Only apply filter if we are NOT coming from the special contact history function
+    // because that function handles its own filtering logic
     if(id === 'history') {
+        // We rely on current state of inputs, which is fine.
+        // BUT if we just switched tabs, we might want to ensure we see everything unless filter is set.
         applyFilter();
     }
     window.scrollTo(0,0);
@@ -1035,12 +1039,38 @@ function openContactModal(id) {
 }
 
 function showContactHistoryFromModal() {
+    if(!selectedCId) return;
+    
     closeModal('modal-contact-op');
+    
+    // 1. Switch Tab
     switchTab('history');
-    clearFilter();
-    document.getElementById('f-contact').value = selectedCId;
+    
+    // 2. Manually set filters (Avoid clearFilter() side effects)
+    document.getElementById('f-start').value = '';
+    document.getElementById('f-end').value = '';
+    document.getElementById('f-type').value = 'all';
+    
+    // 3. Set Contact
+    const contactSelect = document.getElementById('f-contact');
+    contactSelect.value = selectedCId;
+    
+    // Fallback: Ensure value is set even if types mismatch slightly
+    if(contactSelect.value !== selectedCId) {
+        for(let i=0; i<contactSelect.options.length; i++) {
+            if(contactSelect.options[i].value == selectedCId) {
+                contactSelect.selectedIndex = i;
+                break;
+            }
+        }
+    }
+
+    // 4. Open Filter Pane & Apply
     document.getElementById('filter-box').classList.add('open');
     applyFilter();
+    
+    // 5. Scroll to top
+    window.scrollTo(0,0);
 }
 
 function deleteContact() {
@@ -1094,8 +1124,7 @@ async function backupToClipboard() {
 async function backupShare() {
     const json = JSON.stringify(db, null, 2);
     
-    // STRATEGY 1: Share as .txt file (Highest compatibility)
-    // Apps like WhatsApp reject .json but accept .txt
+    // STRATEGY 1: Share as .txt file
     const file = new File([json], "esnaf_yedek.txt", {type: "text/plain"});
     
     if(navigator.canShare && navigator.canShare({files:[file]})) {
