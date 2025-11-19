@@ -2,1635 +2,961 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Nakit Akış V5</title>
-
-    <meta name="theme-color" content="#3f51b5">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Nakit Akış">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%233f51b5'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='60' font-family='sans-serif' fill='%23ffffff'%3EN%3C/text%3E%3C/svg%3E">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%233f51b5'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='60' font-family='sans-serif' fill='%23ffffff'%3EN%3C/text%3E%3C/svg%3E">
-    <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22short_name%22%3A%22Nakit%20Ak%C4%B1%C5%9F%22%2C%22name%22%3A%22Nakit%20Ak%C4%B1%C5%9F%20Takibi%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f0f2f5%22%2C%22theme_color%22%3A%22%233f51b5%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage/svg%2Bxml%2C%253Csvg%20xmlns%3D'http%3A//www.w3.org/2000/svg'%20viewBox%3D'0%200%20100%20100'%253E%253Crect%20width%3D'100'%20height%3D'100'%20rx%3D'20'%20fill%3D'%25233f51b5'/%253E%253Ctext%20x%3D'50%2525'%20y%3D'50%2525'%20dominant-baseline%3D'middle'%20text-anchor%3D'middle'%20font-size%3D'60'%20font-family%3D'sans-serif'%20fill%3D'%2523ffffff'%253EN%3C/text%253E%253C/svg%253E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image/svg%2Bxml%22%7D%2C%7B%22src%22%3A%22data%3Aimage/svg%2Bxml%2C%253Csvg%20xmlns%3D'http%3A//www.w3.org/2000/svg'%20viewBox%3D'0%200%20100%20100'%253E%253Crect%20width%3D'100'%20height%3D'100'%20rx%3D'20'%20fill%3D'%25233f51b5'/%253E%253Ctext%20x%3D'50%2525'%20y%3D'50%2525'%20dominant-baseline%3D'middle'%20text-anchor%3D'middle'%20font-size%3D'60'%20font-family%3D'sans-serif'%20fill%3D'%2523ffffff'%253EN%3C/text%253E%253C/svg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image/svg%2Bxml%22%7D%5D%7D">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ESNAF DEFTERİ (V4)</title>
+    <meta name="theme-color" content="#4338ca">
     <style>
         :root {
-            --primary-color: #3f51b5;
-            --accent-color: #ff4081;
-            --text-color: #212121;
-            --text-light: #757575;
-            --bg-color: #f0f2f5;
-            --card-bg: #ffffff;
-            --positive-color: #4CAF50;
-            --negative-color: #F44336;
-            --warning-color: #FFC107;
-            --info-color: #03A9F4;
-            --net-worth-color: #673AB7;
-            --settled-color: #9E9E9E;
-            --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+            --primary: #4338ca;
+            --primary-light: #e0e7ff;
+            --success: #059669; --success-bg: #d1fae5;
+            --danger: #dc2626; --danger-bg: #fee2e2;
+            --text: #1e293b; --text-light: #64748b;
+            --bg: #f8fafc; --card: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            --radius: 16px;
+            --header-h: 70px;
         }
-        /* Genel kutu modellemesi */
-        * {
-            box-sizing: border-box;
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { margin: 0; background: var(--bg); padding-bottom: 120px; color: var(--text); font-size: 16px; line-height: 1.5; }
+
+        /* --- HEADER --- */
+        header { height: var(--header-h); background: var(--card); padding: 0 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .brand { font-weight: 800; font-size: 1.3rem; color: var(--primary); letter-spacing: -0.5px; }
+        .btn-icon { background: var(--primary-light); color: var(--primary); width: 42px; height: 42px; border-radius: 12px; border: none; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .btn-icon:active { transform: scale(0.95); }
+
+        /* --- FAB (CENTER DOCKED) --- */
+        .fab { 
+            position: fixed; 
+            bottom: 40px; /* Sits on top of nav */
+            left: 50%; 
+            transform: translateX(-50%);
+            width: 64px; 
+            height: 64px; 
+            background: var(--primary); 
+            color: white; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 2.2rem; 
+            box-shadow: 0 8px 20px rgba(67, 56, 202, 0.5); 
+            cursor: pointer; 
+            z-index: 60; 
+            border: 5px solid var(--bg); /* Matches background for cutout look */
+            transition: transform 0.15s; 
         }
-        html, body {
-            height: 100%; /* HTML ve body'nin %100 yüksekliğini almasını sağla */
-        }
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        .app-bar {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 16px;
-            text-align: center;
-            font-size: 1.25rem;
-            font-weight: 500;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .app-content {
-            flex-grow: 1;
-            padding: 16px;
-            /* FAB ve bottom nav için cömert ek boşluk, olası taşmaları engellemek için */
-            padding-bottom: calc(16px + 80px + var(--safe-area-bottom)); 
-            overflow-y: auto;
-        }
-        .page { display: none; animation: fadeIn 0.3s ease-in-out; }
-        .page.active { display: block; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            transition: all 0.2s ease-in-out;
-        }
-        .clickable-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-            cursor: pointer;
-        }
-        .clickable-card:active {
-            transform: translateY(0);
-            background-color: #fafafa;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-        .card-title {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-light);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-        .card-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--text-color);
-        }
-        .card-value.positive { color: var(--positive-color); }
-        .card-value.negative { color: var(--negative-color); }
-        .card-value.warning { color: var(--warning-color); }
-        .card-value.info { color: var(--info-color); }
-        .card-value.net-worth { color: var(--net-worth-color); }
-        .card .card-subtitle {
-            font-size: 0.8rem;
-            color: var(--text-light);
-            margin-top: 4px;
-        }
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-        .dashboard-grid .card-value { font-size: 1.5rem; }
+        .fab:active { transform: translateX(-50%) scale(0.90); }
+
+        /* --- GENERAL LAYOUT --- */
+        .container { padding: 20px; max-width: 600px; margin: 0 auto; display: none; animation: fade 0.2s ease-out; }
+        .container.active { display: block; }
+        @keyframes fade { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- CARDS --- */
+        .card { background: var(--card); padding: 20px; border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 15px; border: 1px solid #f1f5f9; }
         
-        /* İşlem Listesi */
-        .transaction-list { list-style: none; padding: 0; margin: 0; }
-        .transaction-item {
-            display: flex;
-            align-items: center;
-            padding: 14px 16px;
-            background: var(--card-bg);
-            border-radius: 10px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-        }
-        .transaction-item.settled {
-            opacity: 0.7;
-        }
-        .transaction-item.settled .description {
-            text-decoration: line-through; /* Borç/Alacak kapandığında açıklamanın üzerini çiz */
-        }
-        .transaction-item .info {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-            margin-right: 10px;
-            overflow: hidden;
-        }
-        .transaction-item .description {
-            font-weight: 500;
-            font-size: 1rem;
-            color: var(--text-color);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .transaction-item .tx-progress { /* Kısmi ödeme kalan bilgisi */
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: var(--warning-color);
-            margin-left: 8px;
-        }
-        .transaction-item .date { font-size: 0.8rem; color: var(--text-light); }
-        .transaction-item .amount {
-            font-weight: 600;
-            font-size: 1.1rem;
-            white-space: nowrap;
-            margin-right: 10px;
-        }
-        .transaction-item .amount.positive { color: var(--positive-color); }
-        .transaction-item .amount.negative { color: var(--negative-color); }
+        .card-hero { background: linear-gradient(135deg, var(--primary) 0%, #4f46e5 100%); color: white; text-align: center; padding: 25px 20px; box-shadow: 0 10px 25px -5px rgba(67, 56, 202, 0.4); position: relative; overflow: hidden; }
+        .hero-lbl { font-size: 0.75rem; opacity: 0.9; letter-spacing: 1px; font-weight: 700; text-transform: uppercase; }
+        .hero-val { font-size: 2.6rem; font-weight: 800; margin: 5px 0 20px 0; letter-spacing: -1px; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: rgba(255,255,255,0.15); padding: 12px; border-radius: 14px; font-size: 0.9rem; backdrop-filter: blur(5px); }
+        .stat-item { display: flex; flex-direction: column; align-items: center; }
+        .stat-lbl { font-size: 0.7rem; opacity: 0.8; margin-bottom: 2px; }
+        .stat-val { font-weight: 700; font-size: 1rem; }
+
+        .edit-stock-btn { position: absolute; top: 5px; right: 5px; background: rgba(255,255,255,0.2); color: white; border: none; border-radius: 50%; width: 24px; height: 24px; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+        /* --- BUTTONS & INPUTS --- */
+        .btn-main { width: 100%; padding: 16px; border-radius: var(--radius); border: none; font-weight: 700; font-size: 1rem; cursor: pointer; transition: opacity 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-main:active { opacity: 0.9; transform: scale(0.98); }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(67, 56, 202, 0.3); }
+        .btn-success { background: var(--success); color: white; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3); }
+        .btn-danger { background: var(--danger); color: white; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3); }
         
-        .tx-actions { display: flex; gap: 8px; }
-        .tx-action-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 50%;
-            width: 36px; /* Buton boyutunu büyüttük */
-            height: 36px; /* Buton boyutunu büyüttük */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .tx-action-btn.edit { color: var(--info-color); background-color: #e0f7fa; }
-        .tx-action-btn.delete { color: var(--negative-color); background-color: #ffebee; }
-        .tx-action-btn.settle { color: var(--positive-color); background-color: #e8f5e9; }
-        .tx-action-btn.settled { color: var(--settled-color); background-color: #f5f5f5; cursor: not-allowed; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .btn-action { background: white; border: 1px solid #e2e8f0; border-radius: var(--radius); padding: 15px 5px; font-weight: 600; font-size: 0.8rem; color: var(--text); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: 0.2s; }
+        .btn-action:active { background: #f8fafc; border-color: var(--primary); }
+        .btn-action i { font-size: 1.6rem; font-style: normal; margin-bottom: 2px; }
+
+        input, select { width: 100%; padding: 16px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1rem; background: #fff; outline: none; -webkit-appearance: none; transition: border 0.2s; color: var(--text); }
+        input:focus, select:focus { border-color: var(--primary); background: #fff; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-light); font-size: 0.85rem; margin-left: 4px; }
+
+        /* --- CHIPS --- */
+        .chips-container { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; }
+        .chip { background: #f1f5f9; border: 1px solid #e2e8f0; color: var(--text-light); padding: 8px 12px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; font-weight: 500; transition: 0.2s; }
+        .chip:active { background: var(--primary-light); color: var(--primary); border-color: var(--primary); transform: scale(0.95); }
+
+        /* --- LIST ITEMS --- */
+        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--card); margin-bottom: 10px; border-radius: var(--radius); border: 1px solid #f1f5f9; cursor: pointer; transition: 0.2s; }
+        .list-item:active { background: #f1f5f9; border-color: #cbd5e1; }
+        .badge { padding: 6px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.5px; }
+        .badge-green { background: var(--success-bg); color: var(--success); }
+        .badge-red { background: var(--danger-bg); color: var(--danger); }
         
-        .tx-action-btn svg { width: 20px; height: 20px; fill: currentColor; } /* SVG ikon boyutunu büyüttük */
+        .tx-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid #f1f5f9; }
+        .tx-row:last-child { border-bottom: none; }
+        .tx-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-right: 16px; flex-shrink: 0; }
+
+        /* --- SEGMENTED CONTROL --- */
+        .seg-control { display: flex; background: #f1f5f9; padding: 4px; border-radius: 14px; margin-bottom: 24px; }
+        .seg-opt { flex: 1; text-align: center; padding: 12px; font-size: 0.9rem; font-weight: 600; color: var(--text-light); border-radius: 12px; cursor: pointer; transition: 0.2s; }
+        .seg-opt.active { background: white; color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+
+        /* --- MODAL --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 100; display: none; align-items: flex-end; opacity: 0; transition: opacity 0.2s; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal { background: #fff; width: 100%; max-width: 600px; margin: 0 auto; border-radius: 28px 28px 0 0; padding: 30px 25px; animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); max-height: 90vh; overflow-y: auto; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+        /* --- NAV (Z-index 40) --- */
+        .nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 450px; background: #1e293b; border-radius: 24px; display: flex; justify-content: space-between; padding: 12px 15px; z-index: 40; box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
+        .nav-item { color: #64748b; font-size: 1.5rem; padding: 5px 8px; border-radius: 10px; cursor: pointer; transition: 0.25s; display: flex; flex-direction: column; align-items: center; position: relative; flex:1; }
+        .nav-item.active { color: white; transform: translateY(-5px); }
+        .nav-item.active::after { content:''; position:absolute; bottom:-8px; width: 4px; height: 4px; background: var(--primary); border-radius: 50%; }
+        .nav-lbl { font-size: 0.65rem; margin-top: 4px; font-weight: 600; letter-spacing: 0.3px; }
+
+        /* --- FILTER PANEL --- */
+        .filter-panel { background: white; padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 1px solid #e2e8f0; display: none; box-shadow: 0 10px 25px -10px rgba(0,0,0,0.1); }
+        .filter-panel.open { display: block; animation: fade 0.2s; }
+
+        /* --- CHART --- */
+        .chart-wrapper { margin-top: 20px; padding-top: 15px; border-top: 1px dashed #e2e8f0; }
+        .bar-container { display: flex; align-items: flex-end; justify-content: space-between; height: 120px; }
+        .bar-col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; padding: 0 4px; }
+        .bar { width: 100%; background: var(--primary-light); border-radius: 6px; min-height: 6px; transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative; }
+        .bar.filled { background: var(--primary); }
+        .bar-lbl { font-size: 0.65rem; color: var(--text-light); margin-top: 6px; font-weight: 600; text-align: center; }
         
-        .filter-bar {
-            background: var(--card-bg);
-            padding: 16px; /* Padding artırıldı */
-            margin-bottom: 16px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        .filter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;} /* Üstten boşluk */
-        .filter-bar .form-group { margin: 0; }
-        .filter-bar label { font-size: 0.85rem; margin-bottom: 6px; } /* Yazı boyutu ve boşluk */
-        .filter-bar .form-control { padding: 10px 12px; }
-        #btn-reset-filters { margin-top: 16px; } /* Üstten boşluk artırıldı */
-        
-        .fab {
-            position: fixed;
-            bottom: calc(70px + var(--safe-area-bottom));
-            right: 20px;
-            width: 56px;
-            height: 56px;
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            font-size: 28px;
-            line-height: 56px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            z-index: 101;
-            transition: transform 0.2s ease-in-out;
-        }
-        .fab:active { transform: scale(0.95); }
-        
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            background: var(--card-bg);
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            padding-bottom: var(--safe-area-bottom);
-            z-index: 102; /* FAB'dan daha yüksek z-index */
-        }
-        .nav-btn {
-            flex: 1;
-            padding: 12px 0; /* Padding artırıldı */
-            text-align: center;
-            cursor: pointer;
-            border: none;
-            background: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-light);
-            transition: color 0.2s;
-        }
-        .nav-btn svg { width: 24px; height: 24px; fill: currentColor; margin-bottom: 4px; }
-        .nav-btn span { font-size: 0.75rem; }
-        .nav-btn.active { color: var(--primary-color); }
-        
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 200; /* Modalların diğer her şeyin üstünde olması için */
-            backdrop-filter: blur(2px);
-        }
-        .modal-overlay.show { display: flex; }
-        @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .modal-content {
-            background: var(--card-bg);
-            padding: 24px;
-            border-radius: 16px;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-            animation: modalIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: 500;
-            margin-top: 0;
-            margin-bottom: 20px;
-        }
-        
-        .form-group { margin-bottom: 18px; } /* Boşluk artırıldı */
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-        .form-control {
-            width: 100%;
-            padding: 14px 16px;
-            font-size: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-sizing: border-box;
-            background-color: #f9f9f9;
-        }
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            background-color: white;
-            box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.2);
-        }
-        .form-control:disabled {
-            background-color: #eee;
-            color: #999;
-        }
-        
-        .modal-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; } /* Boşluk artırıldı */
-        
-        .btn {
-            padding: 12px 20px;
-            font-size: 1rem;
-            font-weight: 500;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s, box-shadow 0.2s;
-        }
-        .btn-primary { background-color: var(--primary-color); color: white; }
-        .btn-primary:active { background-color: #303f9f; }
-        .btn-secondary { background-color: #e0e0e0; color: var(--text-color); }
-        .btn-secondary:active { background-color: #bdbdbd; }
-        .btn-danger { background-color: var(--negative-color); color: white; }
-        .btn-warning { background-color: var(--warning-color); color: var(--text-color); }
-        .btn-info { background-color: var(--info-color); color: white; } /* Yeni buton rengi */
-        .btn-full-width { width: 100%; padding: 14px; }
-        
-        #page-settings p {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            line-height: 1.5;
-            margin-top: 0;
-            margin-bottom: 10px; /* Ayar metinleri için boşluk */
-        }
-        
-        #input-restore { display: none; }
-        
-        #no-transactions-message {
-            text-align: center;
-            color: var(--text-light);
-            padding: 40px 20px;
-            font-size: 1.1rem;
-        }
-        
-        /* Kısmi ödeme modalı için yardımcı metin */
-        #partial-tx-remaining {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            margin-bottom: 16px;
-            display: block;
-        }
+        /* --- HELPERS --- */
+        .text-green { color: var(--success); }
+        .text-red { color: var(--danger); }
+        .empty-state { text-align:center; color:#94a3b8; padding:30px 10px; font-style:italic; }
+
     </style>
 </head>
 <body>
 
-    <header class="app-bar">
-        Nakit Akış V5
-    </header>
+<header>
+    <div class="brand">Esnaf Defteri v4</div>
+    <button class="btn-icon" onclick="openSettings()">⚙️</button>
+</header>
 
-    <main class="app-content">
+<!-- FAB is now CENTERED on top of Nav -->
+<div class="fab" onclick="openModal('modal-income')">+</div>
 
-        <div id="page-dashboard" class="page active">
-            
-            <div class="card">
-                <div class="card-title">İşletme Net Değeri</div>
-                <div class="card-value net-worth" id="net-worth-value">0,00 ₺</div>
-                <div class="card-subtitle">(Net Nakit Bakiye + İşletmenin Sahip Olduğu Mal Varlığı Değeri + Kalan Alacaklar - Kalan Borçlar)</div>
+<!-- HOME VIEW -->
+<div id="view-home" class="container active">
+    <div class="card card-hero">
+        <div class="hero-lbl">NET VARLIK (KASA + STOK + ALACAK)</div>
+        <div class="hero-val" id="dash-net">0 ₺</div>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <span class="stat-lbl">KASA</span>
+                <span class="stat-val" id="dash-cash">0 ₺</span>
             </div>
-
-            <div class="card">
-                <div class="card-title">Net Nakit Bakiye</div>
-                <div class="card-value" id="total-balance">0,00 ₺</div>
-            </div>
-
-            <div class="dashboard-grid">
-                <div class="card clickable-card" data-filter-type="gelir">
-                    <div class="card-title">Toplam Gelir</div>
-                    <div class="card-value positive" id="total-income">0,00 ₺</div>
-                </div>
-                <div class="card clickable-card" data-filter-type="gider">
-                    <div class="card-title">Toplam Gider</div>
-                    <div class="card-value negative" id="total-expense">0,00 ₺</div>
-                </div>
-                <div class="card clickable-card" data-filter-type="borc_ver">
-                    <div class="card-title">Kalan Alacak</div>
-                    <div class="card-value warning" id="total-receivables">0,00 ₺</div>
-                </div>
-                <div class="card clickable-card" data-filter-type="borc_al">
-                    <div class="card-title">Kalan Borç</div>
-                    <div class="card-value negative" id="total-debts">0,00 ₺</div>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="card-title">Tahmini Net Kâr (Marj: <span id="margin-display">0</span>%)</div>
-                <div class="card-value info" id="estimated-profit">0,00 ₺</div>
+            <div class="stat-item" style="position:relative; cursor:pointer;" onclick="openEditStock()">
+                <span class="stat-lbl">STOK DEĞERİ <small>✏️</small></span>
+                <span class="stat-val" id="dash-stock">0 ₺</span>
             </div>
         </div>
+    </div>
 
-        <div id="page-transactions" class="page">
-            
-            <div class="filter-bar">
-                <div class="form-group">
-                    <label for="filter-type">İşlem Türüne Göre Filtrele</label>
-                    <select id="filter-type" class="form-control">
-                        <option value="all">Tüm İşlemler</option>
-                        <option value="gelir">Gelir</option>
-                        <option value="gider">Gider</option>
-                        <option value="mal_alimi">Mal Alımı</option>
-                        <option value="sermaye">Sermaye Girişi</option>
-                        <option value="borc_al">Borç Alındı (Nakit)</option>
-                        <option value="borc_ver">Borç Verildi (Nakit)</option>
-                        <option value="borc_al_mal">Borç Alındı (Mal Değeri)</option>
-                        <option value="borc_ver_mal">Borç Verildi (Mal Değeri)</option>
-                    </select>
-                </div>
-                <div class="filter-grid">
-                    <div class="form-group">
-                        <label for="filter-date-start">Başlangıç Tarihi</label>
-                        <input type="date" id="filter-date-start" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="filter-date-end">Bitiş Tarihi</label>
-                        <input type="date" id="filter-date-end" class="form-control">
-                    </div>
-                </div>
-                <button class="btn btn-secondary btn-full-width" id="btn-reset-filters">Filtreleri Temizle</button>
-            </div>
+    <div class="grid-3">
+        <button class="btn-action" onclick="openModal('modal-income')"><i style="color:var(--success)">💰</i> Satış</button>
+        <button class="btn-action" onclick="openModal('modal-buy')"><i style="color:var(--primary)">📦</i> Mal Al</button>
+        <button class="btn-action" onclick="openModal('modal-expense')"><i style="color:var(--danger)">📉</i> Gider</button>
+    </div>
 
-            <ul class="transaction-list" id="transaction-list-container">
-                </ul>
-            <div id="no-transactions-message">
-                Filtreye uygun işlem bulunamadı.
-            </div>
+    <div class="card">
+        <div style="display:flex; justify-content:space-between; margin-bottom:15px; align-items:center;">
+            <h3 style="margin:0; font-size:1.1rem;">Son Hareketler</h3>
+            <span style="font-size:0.85rem; color:var(--primary); cursor:pointer; font-weight:600;" onclick="switchTab('history')">Tümü ›</span>
         </div>
+        <div id="recent-list"></div>
+    </div>
+</div>
 
-        <div id="page-settings" class="page">
-            
-            <div class="card">
-                <div class="form-group">
-                    <label for="setting-profit-margin">Gelir Kar Marjı (%)</label>
-                    <p>Ana sayfada "Tahmini Net Kâr" hesaplaması için kullanılır. Bu oran, satış fiyatınızın yüzde kaçının brüt kâr olduğunu ifade eder. Kalan kısım ise Satılan Malın Maliyeti (COGS) ve diğer doğrudan giderleri zımnen içerir.</p>
-                    <input type="number" id="setting-profit-margin" class="form-control" placeholder="Örn: 25" min="0" max="100">
-                </div>
-            </div>
-
-            <div class="card">
-                 <div class="form-group">
-                    <label for="setting-backup-prefix">Yedek Dosya Öneki</label>
-                    <p>Yedek dosyanız bu isimle başlar (örn: 'isletmem-yedek...json')</p>
-                    <input type="text" id="setting-backup-prefix" class="form-control" placeholder="Varsayılan: nakit-akis">
-                </div>
-                
-                <div class="form-group">
-                    <label for="setting-auto-backup-freq">Otomatik Yedekleme Sıklığı</label>
-                    <p>Kaç işlemde bir yedekleme uyarısı gösterilsin? (0 = kapalı)</p>
-                    <input type="number" id="setting-auto-backup-freq" class="form-control" placeholder="Örn: 10" min="0">
-                </div>
-            </div>
-
-            <div class="card">
-                <p>Verilerinizi JSON dosyası olarak yedekleyin veya bir yedekten geri yükleyin.</p>
-                <button class="btn btn-primary btn-full-width" id="btn-backup">
-                    Verileri Yedekle (JSON İndir)
-                </button>
-                <button class="btn btn-secondary btn-full-width" id="btn-restore">
-                    Yedekten Geri Yükle...
-                </button>
-                <input type="file" id="input-restore" accept="application/json">
-            </div>
-
-            <div class="card">
-                <p>
-                    <b>Deneysel: Otomatik Klasöre Yedekleme</b><br>
-                    (Sadece Google Chrome, Microsoft Edge gibi Chromium tabanlı tarayıcılarda desteklenir)<br>
-                    Bu özellik, belirlediğiniz klasöre otomatik olarak yedekleme yapmayı deneyecektir.
-                    Kullanmak için bir kez bir yedekleme klasörü seçmeniz ve dosya yazma izni vermeniz GEREKLİDİR.
-                    Tarayıcınız izni hatırladığı sürece, yeni işlem eklediğinizde yedekleme otomatik olarak gerçekleşebilir.
-                    İzin kaybedilirse tekrar seçmeniz istenebilir.
-                </p>
-                <button class="btn btn-warning btn-full-width" id="btn-set-auto-backup-folder">
-                    Yedekleme Klasörünü Ayarla
-                </button>
-                <button class="btn btn-secondary btn-full-width" id="btn-perform-auto-backup-now" style="margin-top: 10px; display: none;">
-                    Şimdi Klasöre Yedekle
-                </button>
-                <p id="auto-folder-backup-status" style="font-size: 0.85rem; color: var(--text-light); margin-top: 10px;"></p>
-            </div>
-
-
-            <div class="card">
-                <p>Tüm işlem verilerinizi kalıcı olarak siler. Bu işlem geri alınamaz.</p>
-                <button class="btn btn-danger btn-full-width" id="btn-delete-all">
-                    Tüm Verileri Sil
-                </button>
-            </div>
-        </div>
-
-    </main>
-
-    <button class="fab" id="fab-add" aria-label="Yeni İşlem Ekle">+</button>
-
-    <nav class="bottom-nav">
-        <button class="nav-btn active" data-page="page-dashboard" aria-label="Ana Sayfa">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            <span>Ana Sayfa</span>
+<!-- CONTACTS VIEW -->
+<div id="view-contacts" class="container">
+    <div style="position:sticky; top:75px; background:var(--bg); padding-bottom:10px; z-index:30;">
+        <input type="text" id="contact-search" placeholder="Müşteri / Firma ara..." onkeyup="renderContacts()">
+    </div>
+    <div id="contact-list"></div>
+    <div style="margin-top: 20px; margin-bottom: 110px;">
+        <button class="btn-main btn-primary" onclick="openModal('modal-add-contact')">
+            + Yeni Kişi Ekle
         </button>
-        <button class="nav-btn" data-page="page-transactions" aria-label="İşlemler">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
-            <span>İşlemler</span>
-        </button>
-        <button class="nav-btn" data-page="page-settings" aria-label="Ayarlar">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.4 12.3c.1-.3.1-.6 0-.9l-1.5-2.6c-.4-.7-1.2-1-2-1H8.1c-.8 0-1.6.3-2 1l-1.5 2.6c-.1.3-.1.6 0 .9l1.5 2.6c.4.7 1.2 1 2 1h7.8c.8 0 1.6-.3 2-1l1.5-2.6zm-7.4 2.7c-1.7 0-3-1.3-3-3s1.3-3 3-3 3 1.3 3 3-1.3 3-3 3z"/></svg>
-            <span>Ayarlar</span>
-        </button>
-    </nav>
+    </div>
+</div>
 
-    <div class="modal-overlay" id="modal-add-tx">
-        <div class="modal-content">
-            <h3 class="modal-title" id="modal-tx-title">Yeni İşlem Ekle</h3>
-            <form id="form-add-tx">
-                <input type="hidden" id="tx-edit-id" value="">
-                <div class="form-group">
-                    <label for="tx-type">İşlem Türü</label>
-                    <select id="tx-type" class="form-control" required>
-                        <option value="gelir">Gelir (Satış, Hizmet vb.)</option>
-                        <option value="gider">Gider (Fatura, Kira vb.)</option>
-                        <option value="mal_alimi">Mal Alımı (Stok)</option>
-                        <option value="sermaye">Sermaye Girişi</option>
-                        <option value="borc_al">Borç Alındı (Nakit)</option>
-                        <option value="borc_ver">Borç Verildi (Nakit)</option>
-                        <option value="borc_al_mal">Borç Alındı (Mal Değeri)</option>
-                        <option value="borc_ver_mal">Borç Verildi (Mal Değeri)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="tx-amount">Tutar (₺)</label>
-                    <input type="number" id="tx-amount" class="form-control" placeholder="Örn: 1500" step="0.01" min="0" required>
-                </div>
-                <div class="form-group">
-                    <label for="tx-description">Açıklama (Opsiyonel)</label>
-                    <input type="text" id="tx-description" class="form-control" placeholder="Örn: Müşteri A ödemesi">
-                </div>
-                <div class="form-group">
-                    <label for="tx-date">Tarih</label>
-                    <input type="date" id="tx-date" class="form-control" required>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" id="btn-modal-cancel">İptal</button>
-                    <button type="submit" class="btn btn-primary">Kaydet</button>
-                </div>
-            </form>
+<!-- HISTORY VIEW -->
+<div id="view-history" class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <h3 style="margin:0;">İşlem Geçmişi</h3>
+        <button class="btn-icon" style="width:auto; padding:0 15px; font-size:0.9rem; font-weight:600;" onclick="toggleFilter()">🔍 Filtre</button>
+    </div>
+
+    <div id="filter-box" class="filter-panel">
+        <div class="grid-3" style="grid-template-columns:1fr 1fr; margin-bottom:12px;">
+            <div><label>Başlangıç</label><input type="date" id="f-start"></div>
+            <div><label>Bitiş</label><input type="date" id="f-end"></div>
         </div>
+        <div style="margin-bottom:12px;">
+            <label>İşlem Tipi</label>
+            <select id="f-type">
+                <option value="all">Tümü</option>
+                <option value="ciro">Satış (Peşin)</option>
+                <option value="veresiye_satis">Satış (Veresiye)</option>
+                <option value="gider">Gider</option>
+                <option value="mal">Mal Alımı</option>
+                <option value="cari_giris">Tahsilat</option>
+                <option value="cari_cikis">Ödeme</option>
+            </select>
+        </div>
+        <div style="margin-bottom:16px;">
+            <label>Kişi / Firma</label>
+            <select id="f-contact"><option value="all">Herkes</option></select>
+        </div>
+        <div style="display:flex; gap:10px;">
+            <button class="btn-main btn-primary" onclick="applyFilter()" style="padding:12px;">Uygula</button>
+            <button class="btn-main" style="background:#f1f5f9; color:#64748b; padding:12px;" onclick="clearFilter()">Temizle</button>
+        </div>
+    </div>
+
+    <div id="history-summary" style="display:none; background:var(--primary-light); padding:15px; border-radius:14px; margin-bottom:15px; border:1px solid #c7d2fe;">
+        <div style="display:flex; justify-content:space-between; font-weight:700; font-size:1rem; color:var(--primary);">
+            <span>Giriş: <span id="sum-in">0</span></span>
+            <span>Çıkış: <span id="sum-out">0</span></span>
+        </div>
+    </div>
+
+    <div id="full-history-list" style="padding-bottom:80px;"></div>
+</div>
+
+<!-- REPORT VIEW -->
+<div id="view-report" class="container">
+    <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <h3 style="margin:0; font-size:1.1rem;">Bu Ayın Tahmini</h3>
+            <span style="font-size:0.75rem; background:#fef3c7; color:#b45309; padding:4px 8px; border-radius:6px;">Kar Marjı: %<span id="lbl-margin">30</span></span>
+        </div>
+        
+        <div class="grid-3" style="grid-template-columns:1fr 1fr; gap:15px;">
+            <div style="background:var(--success-bg); padding:15px; border-radius:14px; text-align:center;">
+                <div style="font-size:0.75rem; font-weight:700; color:var(--success); margin-bottom:5px; text-transform:uppercase;">Toplam Ciro</div>
+                <div style="font-size:1.2rem; font-weight:800; color:var(--success);" id="rep-ciro">0</div>
+            </div>
+            <div style="background:var(--danger-bg); padding:15px; border-radius:14px; text-align:center;">
+                <div style="font-size:0.75rem; font-weight:700; color:var(--danger); margin-bottom:5px; text-transform:uppercase;">Toplam Gider</div>
+                <div style="font-size:1.2rem; font-weight:800; color:var(--danger);" id="rep-exp">0</div>
+            </div>
+        </div>
+        <div style="text-align:center; margin-top:20px; padding-top:20px; border-top:1px solid #f1f5f9;">
+            <div style="font-size:0.85rem; color:var(--text-light); font-weight:600;">NET KAR (Tahmini)</div>
+            <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:5px;">(Ciro - Ürün Maliyeti) - Giderler</div>
+            <div style="font-size:2.4rem; font-weight:900; letter-spacing:-1px;" id="rep-net">0 ₺</div>
+        </div>
+        
+        <div class="chart-wrapper">
+             <h4 style="margin:0 0 10px 0; font-size:0.9rem; color:var(--text-light);">Son 7 Gün Satışları</h4>
+             <div class="bar-container" id="weekly-chart"></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3 style="margin:0 0 15px 0; font-size:1.1rem;">Piyasa Durumu</h3>
+        <div class="list-item">
+            <span>Alacaklar (Piyasadaki)</span>
+            <span class="text-green" style="font-size:1.1rem; font-weight:700;" id="rep-rec">0</span>
+        </div>
+        <div class="list-item">
+            <span>Borçlar (Tedarikçiye)</span>
+            <span class="text-red" style="font-size:1.1rem; font-weight:700;" id="rep-debt">0</span>
+        </div>
+    </div>
+</div>
+
+<!-- NAV BAR (Redesigned for Center Button) -->
+<div class="nav">
+    <div class="nav-item active" onclick="switchTab('home', this)">
+        <span>🏠</span><span class="nav-lbl">Özet</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('contacts', this)">
+        <span>👥</span><span class="nav-lbl">Kişiler</span>
     </div>
     
-    <div class="modal-overlay" id="modal-force-backup">
-        <div class="modal-content">
-            <h3 class="modal-title">Yedekleme Zamanı!</h3>
-            <p id="backup-modal-message" style="white-space: pre-wrap;">Son yedeklemenizden bu yana çok fazla işlem girdiniz. Veri kaybını önlemek için lütfen şimdi yedekleme yapın.</p>
-            <div class="modal-actions">
-                <button type="button" class="btn btn-secondary" id="btn-backup-later">Daha Sonra</button>
-                <button type="button" class="btn btn-warning" id="btn-backup-now">Şimdi Yedekle</button>
+    <!-- SPACER DIV for the Center FAB -->
+    <div style="width:60px;"></div>
+
+    <div class="nav-item" onclick="switchTab('history', this)">
+        <span>📜</span><span class="nav-lbl">Geçmiş</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('report', this)">
+        <span>📊</span><span class="nav-lbl">Analiz</span>
+    </div>
+</div>
+
+<!-- MODALS -->
+<div id="modal-income" class="modal-overlay" onclick="if(event.target===this) closeModal('modal-income')">
+    <div class="modal">
+        <h3>💰 Satış / Giriş</h3>
+        <div class="seg-control">
+            <div class="seg-opt active" onclick="setIncomeType('ciro', this)">Ürün Satışı</div>
+            <div class="seg-opt" onclick="setIncomeType('sermaye', this)">Kasa Ekle</div>
+        </div>
+        <label>Tutar (₺)</label>
+        <input type="number" id="inp-inc-amt" placeholder="0" style="font-size:1.8rem; text-align:center; font-weight:800; color:var(--success); margin-bottom:20px;" inputmode="decimal">
+        <div id="inc-details">
+            <label>Ödeme Tipi</label>
+            <select id="inp-inc-method" onchange="toggleContactSelect('inc', this.value)">
+                <option value="pesin">Peşin (Nakit / Kredi Kartı)</option>
+                <option value="veresiye">Veresiye (Kişi Seç)</option>
+            </select>
+            <div id="div-inc-contact" style="display:none; margin-top:15px;">
+                <label>Müşteri Seçiniz</label>
+                <select id="inp-inc-contact"></select>
             </div>
         </div>
+        <button class="btn-main btn-success" style="margin-top:24px;" onclick="saveIncome()">KAYDET</button>
     </div>
-    
-    <div class="modal-overlay" id="modal-partial-payment">
-        <div class="modal-content">
-            <h3 class="modal-title" id="partial-modal-title">Ödeme Yap</h3>
-            <form id="form-partial-payment">
-                <input type="hidden" id="partial-tx-id" value="">
-                
-                <span id="partial-tx-remaining"></span>
-                
-                <div class="form-group">
-                    <label for="partial-tx-amount">Ödenecek / Tahsil Edilecek Tutar (₺)</label>
-                    <input type="number" id="partial-tx-amount" class="form-control" placeholder="Örn: 500" step="0.01" min="0.01" required>
-                </div>
-                
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" id="btn-partial-cancel">İptal</button>
-                    <button type="submit" class="btn btn-primary">Onayla</button>
-                </div>
-            </form>
+</div>
+
+<div id="modal-buy" class="modal-overlay" onclick="if(event.target===this) closeModal('modal-buy')">
+    <div class="modal">
+        <h3>📦 Mal Alımı (Stok Girişi)</h3>
+        <label>Tutar (₺)</label>
+        <input type="number" id="inp-buy-amt" placeholder="0" style="font-size:1.8rem; text-align:center; font-weight:800; color:var(--primary); margin-bottom:20px;" inputmode="decimal">
+        <label>Ödeme Şekli</label>
+        <select id="inp-buy-method" onchange="toggleContactSelect('buy', this.value)">
+            <option value="pesin">Peşin (Kasadan Öde)</option>
+            <option value="veresiye">Veresiye (Borca Yaz)</option>
+        </select>
+        <div id="div-buy-contact" style="display:none; margin-top:15px;">
+            <label>Tedarikçi Seçiniz</label>
+            <select id="inp-buy-contact"></select>
         </div>
+        <button class="btn-main btn-primary" style="margin-top:24px;" onclick="saveBuy()">STOK EKLE</button>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOMContentLoaded fired. App is starting.'); // Teşhis amaçlı log
-
-            // === DOM ELEMENTLERİ ===
-            const pages = document.querySelectorAll('.page');
-            const navButtons = document.querySelectorAll('.nav-btn');
-            const fabAdd = document.getElementById('fab-add');
-            
-            console.log('Nav buttons selected:', navButtons.length > 0); // Teşhis amaçlı log
-            console.log('FAB button selected:', fabAdd != null); // Teşhis amaçlı log
-
-            // Modal 1: İşlem Ekle
-            const modal = document.getElementById('modal-add-tx');
-            const modalTitle = document.getElementById('modal-tx-title');
-            const modalCancelBtn = document.getElementById('btn-modal-cancel');
-            const addTxForm = document.getElementById('form-add-tx');
-            const txEditIdInput = document.getElementById('tx-edit-id');
-            const txTypeInput = document.getElementById('tx-type');
-            const txAmountInput = document.getElementById('tx-amount');
-            const txDescriptionInput = document.getElementById('tx-description');
-            const txDateInput = document.getElementById('tx-date');
-
-            // Modal 2: Yedekleme Uyarısı
-            const modalBackup = document.getElementById('modal-force-backup');
-            const backupModalMessage = document.getElementById('backup-modal-message');
-            const btnBackupLater = document.getElementById('btn-backup-later');
-            const btnBackupNow = document.getElementById('btn-backup-now');
-            
-            // Modal 3: Kısmi Ödeme (YENİ)
-            const modalPartialPayment = document.getElementById('modal-partial-payment');
-            const formPartialPayment = document.getElementById('form-partial-payment'); 
-            const partialModalTitle = document.getElementById('partial-modal-title');
-            const partialTxId = document.getElementById('partial-tx-id');
-            const partialTxAmount = document.getElementById('partial-tx-amount');
-            const partialTxRemaining = document.getElementById('partial-tx-remaining');
-            const btnPartialCancel = document.getElementById('btn-partial-cancel');
-
-            // Dashboard
-            const netWorthValueEl = document.getElementById('net-worth-value');
-            const totalBalanceEl = document.getElementById('total-balance');
-            const totalIncomeEl = document.getElementById('total-income');
-            const totalExpenseEl = document.getElementById('total-expense');
-            const totalReceivablesEl = document.getElementById('total-receivables');
-            const totalDebtsEl = document.getElementById('total-debts');
-            const estimatedProfitEl = document.getElementById('estimated-profit');
-            const marginDisplayEl = document.getElementById('margin-display');
-            const clickableCards = document.querySelectorAll('.clickable-card');
-
-            // İşlem Listesi ve Filtreler
-            const txListContainer = document.getElementById('transaction-list-container');
-            const noTxMessage = document.getElementById('no-transactions-message');
-            const filterType = document.getElementById('filter-type');
-            const filterDateStart = document.getElementById('filter-date-start');
-            const filterDateEnd = document.getElementById('filter-date-end');
-            const btnResetFilters = document.getElementById('btn-reset-filters');
-
-            // Ayarlar
-            const btnBackup = document.getElementById('btn-backup');
-            const btnRestore = document.getElementById('btn-restore');
-            const inputRestore = document.getElementById('input-restore');
-            const btnDeleteAll = document.getElementById('btn-delete-all');
-            const settingProfitMargin = document.getElementById('setting-profit-margin');
-            const settingBackupPrefix = document.getElementById('setting-backup-prefix');
-            const settingAutoBackupFreq = document.getElementById('setting-auto-backup-freq');
-
-            // File System Access API için yeni DOM elementleri
-            const btnSetAutoBackupFolder = document.getElementById('btn-set-auto-backup-folder');
-            const btnPerformAutoBackupNow = document.getElementById('btn-perform-auto-backup-now');
-            const autoFolderBackupStatus = document.getElementById('auto-folder-backup-status');
-
-
-            // === UYGULAMA DURUMU (STATE) ===
-            let transactions = [];
-            let appSettings = {
-                profitMargin: 0,
-                backupPrefix: 'nakit-akis',
-                autoBackupFreq: 10
-            };
-            let backupCounter = {
-                sinceLastBackup: 0
-            };
-            let autoBackupDirectoryHandle = null; // File System Directory Handle'ı burada tutacağız
-            const STORAGE_KEY_DIR_HANDLE_ID = 'cashflow-backup-dir-handle-id-v5'; // Directory handle'ı kaydetmek için key (basit bir flag olarak)
-            
-            const STORAGE_KEY_TXS = 'cashflow-transactions-v5'; // Sürüm güncellendi
-            const STORAGE_KEY_SETTINGS = 'cashflow-settings-v5';
-            const STORAGE_KEY_COUNTER = 'cashflow-counter-v5';
-
-            const formatter = new Intl.NumberFormat('tr-TR', {
-                style: 'currency',
-                currency: 'TRY'
-            });
-
-            // === VERİ YÖNETİMİ ===
-
-            function loadData() {
-                const txs = localStorage.getItem(STORAGE_KEY_TXS);
-                let loadedTxs = txs ? JSON.parse(txs) : [];
-                
-                // Veri taşıma: Eski 'borc_al/ver' işlemlerine yeni alanları ekle
-                transactions = loadedTxs.map(tx => {
-                    // Tüm borç/alacak türleri için settlement alanlarını kontrol et
-                    if (tx.type.startsWith('borc_')) {
-                        if (tx.settled === undefined) {
-                            tx.settled = false; 
-                        }
-                        if (tx.amountSettled === undefined) {
-                            tx.amountSettled = 0; 
-                        }
-                        if (tx.originalAmount === undefined) { // originalAmount yoksa, amount'u kopyala (mutlak değer olarak)
-                            tx.originalAmount = Math.abs(tx.amount);
-                        }
-                    } else if (tx.type === 'mal_alimi') { // Mal alımı için de originalAmount tut
-                         if (tx.originalAmount === undefined) {
-                            tx.originalAmount = Math.abs(tx.amount);
-                        }
-                    }
-                    // Eski borc_al_mal/borc_ver_mal işlemleri için amount'ı 0'a çek
-                    if (tx.type === 'borc_al_mal' || tx.type === 'borc_ver_mal') {
-                        tx.amount = 0; // Stok borçları başlangıçta nakit akışı yaratmaz
-                    }
-                    return tx;
-                });
-                
-                const settings = localStorage.getItem(STORAGE_KEY_SETTINGS);
-                appSettings = settings ? { ...appSettings, ...JSON.parse(settings) } : appSettings;
-                
-                const counter = localStorage.getItem(STORAGE_KEY_COUNTER);
-                backupCounter = counter ? JSON.parse(counter) : backupCounter;
-
-                settingProfitMargin.value = appSettings.profitMargin;
-                settingBackupPrefix.value = appSettings.backupPrefix;
-                settingAutoBackupFreq.value = appSettings.autoBackupFreq;
-                marginDisplayEl.textContent = appSettings.profitMargin;
-
-                // File System Access API: Kayıtlı handle'ı yüklemeyi dene
-                if (checkFSAAPI()) {
-                    loadDirectoryHandleFromStorage(); // Async fonksiyon olduğu için doğrudan çağırıyoruz
-                } else {
-                    autoFolderBackupStatus.textContent = 'Tarayıcınız otomatik klasöre yedeklemeyi desteklemiyor.';
-                    btnSetAutoBackupFolder.disabled = true;
-                }
-            }
-
-            function saveTransactions() { localStorage.setItem(STORAGE_KEY_TXS, JSON.stringify(transactions)); }
-            function saveSettings() { localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(appSettings)); }
-            function saveCounter() { localStorage.setItem(STORAGE_KEY_COUNTER, JSON.stringify(backupCounter)); }
-
-            function renderApp() {
-                renderDashboard();
-                renderTransactionList();
-            }
-
-            // === DASHBOARD (Küçük işletme nakit akışı ve değer değişimi odağına göre güncellendi) ===
-
-            function renderDashboard() {
-                let cashBalance = 0; 
-                let totalOperationalIncome = 0; 
-                let totalOperationalExpense = 0; 
-                let purchasedGoodsTotalInvestment = 0; // Total money spent on buying goods (cumulative, represents capital in goods)
-                
-                let cashReceivables = 0;       // From 'borc_ver' (unsettled)
-                let goodsReceivables = 0;      // From 'borc_ver_mal' (unsettled)
-                
-                let cashDebts = 0;             // From 'borc_al' (unsettled)
-                let goodsDebts = 0;            // From 'borc_al_mal' (unsettled, liability to return goods)
-
-                let revenueForProfitCalc = 0; 
-                let temporaryBorrowedGoodsAsset = 0; // Value of borrowed goods effectively in our possession (asset, offsets goodsDebts)
-                let valueOfOurGoodsLentOut = 0; // Value of *our* goods currently lent out (reduces our physical inventory asset for net worth)
-
-
-                transactions.forEach(tx => {
-                    // Sadece nakit akışı yaratan işlemler cashBalance'ı etkiler
-                    // Borç al/ver (mal) işlemleri başlangıçta nakit akışı yaratmaz,
-                    // sadece tahsilat/ödeme yapıldığında nakit akışı olur.
-                    // Orijinal tx.amount'ı kullanmayıp, settlement'ı tamamlanan kısmı kullanmalıyız
-                    if (tx.type === 'gelir' || tx.type === 'sermaye' || tx.type === 'gider' || tx.type === 'mal_alimi') {
-                        cashBalance += tx.amount;
-                    } else if (tx.type === 'borc_al') { // Nakit borç alındı
-                        // cashBalance += tx.amount; // Bu, orijinal işlemde zaten yapılıyor
-                        // Ancak, partial payment mekanizması ile amountSettled eklendiği için
-                        // Sadece amountSettled kadar nakit akışı yaratılmalı
-                        // Veya basitleştirmek için, borc_al/borc_ver işlemleri, orijinal olarak
-                        // amount alanına zaten nakit akışını yazar.
-                        // Yani, bu loop içinde amountSettled'ı değil, doğrudan tx.amount'ı kullanmalıyız.
-                        // Bu kısım karmaşıklaşıyor, basitleştirelim: tx.amount zaten işlemi kaydederken
-                        // getAmountByType fonksiyonu ile belirlendiği için doğru değeri tutar.
-                        // Eğer borç/alacak işlemlerinde amount'ı sıfır tutuyorsak, o zaman farklı ele almak gerekir.
-                        // Mevcut yapıda borc_al (+) ve borc_ver (-) olarak amount'ı etkiliyor, bu doğru.
-                    } else if (tx.type === 'borc_ver') { // Nakit borç verildi
-                        // cashBalance += tx.amount; // Zaten (-) olacak
-                    }
-
-
-                    if (tx.type === 'gelir') {
-                        totalOperationalIncome += tx.amount;
-                        revenueForProfitCalc += tx.amount; 
-                    } else if (tx.type === 'sermaye') {
-                        totalOperationalIncome += tx.amount; 
-                    } else if (tx.type === 'gider') {
-                        totalOperationalExpense += Math.abs(tx.amount);
-                    } else if (tx.type === 'mal_alimi') {
-                        totalOperationalExpense += Math.abs(tx.amount); 
-                        purchasedGoodsTotalInvestment += tx.originalAmount; 
-                    }
-
-                    if (tx.type.startsWith('borc_')) {
-                        const remaining = tx.originalAmount - tx.amountSettled;
-                        if (!tx.settled && remaining > 0.001) {
-                            if (tx.type === 'borc_ver') {
-                                cashReceivables += remaining;
-                            } else if (tx.type === 'borc_ver_mal') {
-                                goodsReceivables += remaining;
-                                valueOfOurGoodsLentOut += remaining; // Our goods lent out
-                            } else if (tx.type === 'borc_al') {
-                                cashDebts += remaining;
-                            } else if (tx.type === 'borc_al_mal') {
-                                goodsDebts += remaining;
-                                temporaryBorrowedGoodsAsset += remaining; // Borrowed goods are in possession
-                            }
-                        }
-                    }
-                });
-
-                // Combine total receivables and debts for display
-                const totalReceivables = cashReceivables + goodsReceivables;
-                const totalDebts = cashDebts + goodsDebts;
-
-                // For Net Worth, Owned Goods should be: (Our total investment in goods) - (Value of our goods currently lent out)
-                const netOwnedGoodsForNetWorth = purchasedGoodsTotalInvestment - valueOfOurGoodsLentOut;
-
-                // Net Worth Calculation:
-                // Assets: cashBalance (liquid cash)
-                //         + netOwnedGoodsForNetWorth (value of our goods that are not currently lent out)
-                //         + temporaryBorrowedGoodsAsset (value of goods we have, but owe - this is an asset that offsets a liability for NW)
-                //         + totalReceivables (what others owe us, cash or goods)
-                // Liabilities: totalDebts (what we owe others, cash or goods)
-                const netWorth = cashBalance + netOwnedGoodsForNetWorth + temporaryBorrowedGoodsAsset + totalReceivables - totalDebts;
-
-                // Debugging logs - Tarayıcı konsolunda net değer hesaplama detaylarını gösterir
-                console.log('--- Dashboard Calc (Detailed) ---');
-                console.log('1. Net Nakit Bakiye (cashBalance):', cashBalance);
-                console.log('2. Toplam Mal Alım Yatırımı (purchasedGoodsTotalInvestment):', purchasedGoodsTotalInvestment);
-                console.log('3. İşletmeden Verilen Mal Değeri (valueOfOurGoodsLentOut):', valueOfOurGoodsLentOut);
-                console.log('   => Net Sahip Olunan Mal Varlığı (netOwnedGoodsForNetWorth):', netOwnedGoodsForNetWorth);
-                console.log('4. İşletmeye Borç Alınan Mal Değeri (temporaryBorrowedGoodsAsset):', temporaryBorrowedGoodsAsset);
-                console.log('5. Toplam Alacaklar (Nakit + Mal) (totalReceivables):', totalReceivables);
-                console.log('6. Toplam Borçlar (Nakit + Mal) (totalDebts):', totalDebts);
-                console.log('-------------------------------');
-                console.log('Final İşletme Net Değeri (Assets - Liabilities):', netWorth);
-                console.log('-------------------------------');
-
-                netWorthValueEl.textContent = formatter.format(netWorth);
-                netWorthValueEl.className = `card-value net-worth ${netWorth >= 0 ? 'positive' : 'negative'}`;
-
-                totalBalanceEl.textContent = formatter.format(cashBalance);
-                totalBalanceEl.className = `card-value ${cashBalance >= 0 ? 'positive' : 'negative'}`;
-                
-                totalIncomeEl.textContent = formatter.format(totalOperationalIncome);
-                totalExpenseEl.textContent = formatter.format(totalOperationalExpense);
-                totalReceivablesEl.textContent = formatter.format(totalReceivables); 
-                totalDebtsEl.textContent = formatter.format(totalDebts);
-                
-                const estimatedProfit = revenueForProfitCalc * (appSettings.profitMargin / 100);
-                estimatedProfitEl.textContent = formatter.format(estimatedProfit);
-            }
-
-            // === İŞLEM LİSTESİ (Kısmi ödemeye göre güncellendi) ===
-
-            function renderTransactionList() {
-                txListContainer.innerHTML = '';
-                const type = filterType.value;
-                const startDate = filterDateStart.value;
-                const endDate = filterDateEnd.value;
-                
-                let filteredTxs = [...transactions].filter(tx => {
-                    const typeMatch = (type === 'all') || (tx.type === type);
-                    const startDateMatch = !startDate || tx.date >= startDate;
-                    const endDateMatch = !endDate || tx.date <= endDate;
-                    return typeMatch && startDateMatch && endDateMatch;
-                });
-
-                if (filteredTxs.length === 0) {
-                    noTxMessage.style.display = 'block';
-                    return;
-                }
-                
-                noTxMessage.style.display = 'none';
-                
-                const sortedTxs = filteredTxs.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-                sortedTxs.forEach(tx => {
-                    let displayAmount;
-                    let isTransactionPositive; 
-
-                    // Borç/alacak işlemlerinde orijinal tutarı göster ve işaretini belirle
-                    if (tx.type === 'borc_al_mal' || tx.type === 'borc_al') { // Borçlar (yükümlülük)
-                        displayAmount = Math.abs(tx.originalAmount); 
-                        isTransactionPositive = false; // Borçlar negatif olarak gösterilmeli
-                    } else if (tx.type === 'borc_ver_mal' || tx.type === 'borc_ver') { // Alacaklar (varlık)
-                        displayAmount = Math.abs(tx.originalAmount); 
-                        isTransactionPositive = true; // Alacaklar pozitif olarak gösterilmeli
-                    } else { // Standart nakit akışı işlemleri (gelir/gider/sermaye/mal_alimi)
-                        displayAmount = Math.abs(tx.amount); 
-                        isTransactionPositive = tx.amount > 0; // Nakit akışına göre pozitif/negatif
-                    }
-
-                    const amountClass = isTransactionPositive ? 'positive' : 'negative';
-                    const amountSign = isTransactionPositive ? '+' : ''; 
-                    
-                    const li = document.createElement('li');
-                    li.className = 'transaction-item';
-                    
-                    if (tx.settled) { // Eğer işlem tamamlandıysa
-                        li.classList.add('settled'); // 'settled' sınıfını ekle, bu da CSS ile üzerini çizmeye yarar
-                    }
-                    
-                    // Kalan bakiyeyi göstermek için progress metni
-                    let progressHtml = '';
-                    if (tx.type.startsWith('borc_') && tx.amountSettled > 0 && !tx.settled) {
-                        const remaining = tx.originalAmount - tx.amountSettled;
-                        progressHtml = ` <span class="tx-progress">(Kalan: ${formatter.format(remaining)})</span>`;
-                    }
-
-                    li.innerHTML = `
-                        <div class="info">
-                            <span class="description">${tx.description || getTypeName(tx.type)}${progressHtml}</span>
-                            <span class="date">${formatDate(tx.date)}</span>
-                        </div>
-                        <span class="amount ${amountClass}">
-                            ${amountSign}${formatter.format(displayAmount)}
-                        </span>
-                        <div class="tx-actions">
-                            ${createSettleButton(tx)}
-                            <button class="tx-action-btn edit" data-id="${tx.id}" aria-label="Düzenle">
-                                <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
-                            </button>
-                            <button class="tx-action-btn delete" data-id="${tx.id}" aria-label="Sil">
-                                <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-                            </button>
-                        </div>
-                    `;
-                    txListContainer.appendChild(li);
-                });
-            }
-            
-            function createSettleButton(tx) {
-                if (!tx.type.startsWith('borc_')) { // Sadece borç/alacak türleri için settle butonu göster
-                    return '';
-                }
-                
-                const remaining = tx.originalAmount - tx.amountSettled;
-                if (tx.settled || remaining <= 0.001) { 
-                    return `
-                        <button class="tx-action-btn settled" disabled aria-label="Ödendi">
-                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                        </button>`;
-                } else {
-                    let title = 'Ödeme Yap';
-                    if (tx.type === 'borc_ver' || tx.type === 'borc_ver_mal') {
-                        title = 'Tahsilat Yap';
-                    }
-                    if (tx.type === 'borc_ver_mal') {
-                         title = 'Mal İadesi Al / Tahsil Et';
-                    } else if (tx.type === 'borc_al_mal') {
-                        title = 'Mal İadesi Yap / Öde';
-                    }
-                    return `
-                        <button class="tx-action-btn settle" data-id="${tx.id}" aria-label="${title}">
-                            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                        </button>`;
-                }
-            }
-            
-            [filterType, filterDateStart, filterDateEnd].forEach(el => {
-                el.addEventListener('change', renderTransactionList);
-            });
-            
-            btnResetFilters.addEventListener('click', () => {
-                filterType.value = 'all';
-                filterDateStart.value = '';
-                filterDateEnd.value = '';
-                renderTransactionList();
-            });
-            
-            function getTypeName(type) {
-                const types = {
-                    'gelir': 'Gelir',
-                    'gider': 'Gider',
-                    'mal_alimi': 'Mal Alımı',
-                    'sermaye': 'Sermaye Girişi',
-                    'borc_al': 'Borç Alındı (Nakit)',
-                    'borc_ver': 'Borç Verildi (Nakit)',
-                    'borc_al_mal': 'Borç Alındı (Mal Değeri)',
-                    'borc_ver_mal': 'Borç Verildi (Mal Değeri)'
-                };
-                return types[type] || 'Diğer';
-            }
-            
-            function formatDate(dateString) {
-                const date = new Date(dateString);
-                return date.toLocaleDateString('tr-TR', { day: '2-digit', month: 'long', year: 'numeric' });
-            }
-
-            function getAmountByType(amount, type) {
-                const positiveCashFlowTypes = ['gelir', 'sermaye', 'borc_al'];
-                // Stok borç/alacak işlemleri başlangıçta nakit akışı yaratmaz (ancak tx.amount'ı kullanmaya devam ediyoruz)
-                // Kısmi ödeme mekanizmasında bu "amount" değeri sadece bilgi amaçlı, nakit akışı ayrı bir işlemle oluşuyor.
-                if (type === 'borc_ver_mal' || type === 'borc_al_mal') {
-                     // Mal alacak/borçları, nakit akışı için amount'ı sıfır tutar
-                     // Ancak originalAmount'ı kullanırız. Dashboard hesaplaması için önemli.
-                    return 0; 
-                }
-                const absAmount = Math.abs(amount);
-                return positiveCashFlowTypes.includes(type) ? absAmount : -absAmount;
-            }
-
-            // === İŞLEM (CRUD) FONKSİYONLARI ===
-
-            async function addTransaction(type, amount, description, date) {
-                const newTx = {
-                    id: crypto.randomUUID(),
-                    type: type,
-                    amount: getAmountByType(amount, type), 
-                    originalAmount: amount, // Tüm borç/alacak ve mal alımı için orijinal tutarı tut
-                    description: description,
-                    date: date
-                };
-                
-                // Tüm borç/alacak türleri için settlement alanlarını set et
-                if (type.startsWith('borc_')) { 
-                    newTx.settled = false;
-                    newTx.amountSettled = 0;
-                }
-                
-                transactions.push(newTx);
-                saveTransactions();
-                
-                // Backup sayacını artır ve otomatik yedeklemeyi kontrol et
-                await checkBackupCounter(); // (DEĞİŞİKLİK)
-                
-                renderApp();
-            }
-
-            function updateTransaction(id, type, amount, description, date) {
-                const txIndex = transactions.findIndex(tx => tx.id === id);
-                if (txIndex === -1) return;
-                
-                // Kısmi ödemesi başlamış borç/alacak işlemleri için sadece açıklama ve tarih değiştirilebilir.
-                if (transactions[txIndex].type.startsWith('borc_') && transactions[txIndex].amountSettled > 0) {
-                    transactions[txIndex] = {
-                        ...transactions[txIndex],
-                        description: description,
-                        date: date
-                    };
-                } else {
-                    // Diğer işlemler veya kapanmamış borç/alacaklar için tam düzenleme
-                    transactions[txIndex] = {
-                        ...transactions[txIndex],
-                        type: type,
-                        amount: getAmountByType(amount, type),
-                        originalAmount: amount,
-                        description: description,
-                        date: date
-                    };
-                    // Eğer borç/alacak işlemi ise ve orijinal tutar veya tipi değişirse settlement durumunu sıfırla
-                    if (type.startsWith('borc_') && (transactions[txIndex].originalAmount !== amount || transactions[txIndex].type !== type)) {
-                         transactions[txIndex].settled = false;
-                         transactions[txIndex].amountSettled = 0;
-                    }
-                }
-
-                saveTransactions();
-                renderApp();
-            }
-
-            function deleteTransaction(id) {
-                transactions = transactions.filter(tx => tx.id !== id);
-                saveTransactions();
-                renderApp();
-            }
-            
-            // İşlem Listesi Olay Dinleyicisi
-            txListContainer.addEventListener('click', (e) => {
-                const btn = e.target.closest('.tx-action-btn');
-                if (!btn) return;
-
-                const id = btn.dataset.id;
-                
-                if (btn.classList.contains('delete')) {
-                    if (confirm('Bu işlemi silmek istediğinize emin misiniz?')) {
-                        deleteTransaction(id);
-                    }
-                } else if (btn.classList.contains('edit')) {
-                    openEditModal(id);
-                } else if (btn.classList.contains('settle')) {
-                    openPartialPaymentModal(id); 
-                }
-            });
-            
-            // === MODAL YÖNETİMİ (İŞLEM EKLE/DÜZENLE) ===
-
-            function openEditModal(id) {
-                const tx = transactions.find(t => t.id === id);
-                if (!tx) return;
-                
-                showModal(true);
-                modalTitle.textContent = 'İşlemi Düzenle';
-                txEditIdInput.value = tx.id;
-                txTypeInput.value = tx.type;
-                txAmountInput.value = tx.originalAmount; // Orijinal tutarı göster
-                txDescriptionInput.value = tx.description;
-                txDateInput.value = tx.date;
-                
-                // Kısmi ödemesi başlamış borç/alacak işlemin TÜRÜ ve TUTARI değiştirilemez
-                if (tx.type.startsWith('borc_') && tx.amountSettled > 0) {
-                    txTypeInput.disabled = true;
-                    txAmountInput.disabled = true;
-                } else {
-                    txTypeInput.disabled = false;
-                    txAmountInput.disabled = false;
-                }
-            }
-            
-            function openAddModal() {
-                showModal(true);
-                modalTitle.textContent = 'Yeni İşlem Ekle';
-                txEditIdInput.value = '';
-                txTypeInput.disabled = false;
-                txAmountInput.disabled = false;
-                txAmountInput.value = ''; 
-                txDescriptionInput.value = ''; 
-                txDateInput.value = new Date().toISOString().split('T')[0];
-            }
-
-            function showModal(show = true) {
-                if (show) {
-                    modal.classList.add('show');
-                } else {
-                    modal.classList.remove('show');
-                    addTxForm.reset();
-                    txEditIdInput.value = '';
-                    txTypeInput.disabled = false;
-                    txAmountInput.disabled = false;
-                }
-            }
-
-            fabAdd.addEventListener('click', openAddModal);
-            modalCancelBtn.addEventListener('click', () => showModal(false));
-            modal.addEventListener('click', (e) => { if (e.target === modal) showModal(false); });
-
-            addTxForm.addEventListener('submit', async (e) => { // (DEĞİŞİKLİK)
-                e.preventDefault();
-                const id = txEditIdInput.value;
-                const type = txTypeInput.value;
-                const amount = parseFloat(txAmountInput.value);
-                const description = txDescriptionInput.value.trim();
-                const date = txDateInput.value;
-
-                if (!type || isNaN(amount) || !date || amount <= 0) {
-                    alert('Lütfen tüm zorunlu alanları doğru doldurun.');
-                    return;
-                }
-                if (id) {
-                    updateTransaction(id, type, amount, description, date);
-                } else {
-                    // (DEĞİŞİKLİK) addTransaction artık async, await ile çağrılmalı
-                    await addTransaction(type, amount, description, date); 
-                }
-                showModal(false);
-            });
-            
-            // === MODAL YÖNETİMİ (KISMİ ÖDEME - YENİ) ===
-            
-            function showPartialModal(show = true) {
-                if (show) {
-                    modalPartialPayment.classList.add('show');
-                } else {
-                    modalPartialPayment.classList.remove('show');
-                    formPartialPayment.reset(); 
-                    partialTxId.value = '';
-                }
-            }
-
-            function openPartialPaymentModal(id) {
-                const tx = transactions.find(t => t.id === id);
-                if (!tx || tx.settled) return;
-
-                const remainingAmount = tx.originalAmount - tx.amountSettled;
-                
-                // Borç/Alacak tipine göre modal başlığını ve kalan tutar açıklamasını ayarla
-                if (tx.type === 'borc_ver_mal') {
-                    partialModalTitle.textContent = 'Mal İadesi Al / Tahsil Et';
-                    partialTxRemaining.textContent = `Kalan Mal Değeri: ${formatter.format(remainingAmount)}`;
-                } else if (tx.type === 'borc_al_mal') {
-                    partialModalTitle.textContent = 'Mal İadesi Yap / Öde';
-                    partialTxRemaining.textContent = `Kalan Mal Borcu Değeri: ${formatter.format(remainingAmount)}`;
-                } else if (tx.type === 'borc_ver') {
-                    partialModalTitle.textContent = 'Nakit Tahsilat Yap';
-                    partialTxRemaining.textContent = `Kalan Nakit Alacak: ${formatter.format(remainingAmount)}`;
-                } else if (tx.type === 'borc_al') {
-                    partialModalTitle.textContent = 'Nakit Ödeme Yap';
-                    partialTxRemaining.textContent = `Kalan Nakit Borç: ${formatter.format(remainingAmount)}`;
-                } else {
-                    partialModalTitle.textContent = 'Ödeme / Tahsilat Yap'; // Genelleştirilmiş fallback
-                    partialTxRemaining.textContent = `Kalan Tutar: ${formatter.format(remainingAmount)}`;
-                }
-                
-                partialTxId.value = id;
-                
-                partialTxAmount.max = remainingAmount.toFixed(2);
-                partialTxAmount.placeholder = `Maks ${formatter.format(remainingAmount)}`;
-                partialTxAmount.value = ''; 
-                
-                showPartialModal(true);
-            }
-            
-            // Kısmi Ödeme Formu Gönderme
-            formPartialPayment.addEventListener('submit', async (e) => { // async ekledik
-                e.preventDefault();
-                
-                const id = partialTxId.value;
-                const paymentAmount = parseFloat(partialTxAmount.value);
-                
-                const txIndex = transactions.findIndex(t => t.id === id);
-                if (txIndex === -1) return;
-                
-                const tx = transactions[txIndex];
-                const remainingAmount = tx.originalAmount - tx.amountSettled;
-
-                if (isNaN(paymentAmount) || paymentAmount <= 0) {
-                    alert('Lütfen geçerli bir tutar girin.');
-                    return;
-                }
-                if (paymentAmount > remainingAmount + 0.001) { 
-                    alert(`Maksimum ${formatter.format(remainingAmount)} girebilirsiniz.`);
-                    return;
-                }
-                
-                // Orijinal borç/alacak işleminin kapanan miktarını güncelle
-                tx.amountSettled += paymentAmount;
-                if (tx.amountSettled >= tx.originalAmount - 0.001) {
-                    tx.settled = true;
-                    tx.amountSettled = tx.originalAmount; 
-                }
-                saveTransactions(); 
-                
-                // Sadece nakit borç işlemlerinde otomatik nakit akışı oluştur
-                // Mal borçları için nakit akışı bu modal aracılığıyla otomatik oluşturulmaz;
-                // eğer mal borcu nakit olarak kapatılıyorsa, bu ayrıca bir "gelir" veya "gider" işlemi olarak girilmelidir.
-                if (tx.type === 'borc_ver') { // Nakit borç tahsilatı
-                    // (DEĞİŞİKLİK) addTransaction artık async
-                    await addTransaction('gelir', paymentAmount, `"${tx.description || getTypeName(tx.type)}" tahsilatı`, new Date().toISOString().split('T')[0]);
-                } else if (tx.type === 'borc_al') { // Nakit borç ödemesi
-                    // (DEĞİŞİKLİK) addTransaction artık async
-                    await addTransaction('gider', paymentAmount, `"${tx.description || getTypeName(tx.type)}" ödemesi`, new Date().toISOString().split('T')[0]);
-                }
-                
-                // (DEĞİŞİKLİK) Kısmi ödeme sonrası da yedekleme sayacını kontrol et
-                // await checkBackupCounter(); // -> Bu satır addTransaction içine taşındığı için gerek kalmadı.
-                showPartialModal(false);
-            });
-
-            btnPartialCancel.addEventListener('click', () => showPartialModal(false));
-            modalPartialPayment.addEventListener('click', (e) => { if (e.target === modalPartialPayment) showModal(false); });
-            
-
-            // === YEDEKLEME YÖNETİMİ (HEM MANUEL İNDİRME HEM OTOMATİK KLASÖR) ===
-            
-            // File System Access API desteğini kontrol et
-            function checkFSAAPI() {
-                return ('showDirectoryPicker' in window && 'FileSystemFileHandle' in window);
-            }
-
-            /**
-             * (YENİ YARDIMCI FONKSİYON - GÜVENİLİRLİK İÇİN)
-             * Dizin handle'ını ve ilgili tüm ayarları temizler.
-             * İzin reddedildiğinde veya ciddi bir yazma hatası olduğunda kullanılır.
-             * @param {string} statusMessage - Kullanıcıya gösterilecek durum mesajı.
-             */
-            function nukeHandle(statusMessage) {
-                console.warn('Otomatik yedekleme handle\'ı sıfırlanıyor. Sebep:', statusMessage);
-                autoBackupDirectoryHandle = null;
-                localStorage.removeItem(STORAGE_KEY_DIR_HANDLE_ID);
-                btnPerformAutoBackupNow.style.display = 'none';
-                
-                // Ayarlama butonunu tekrar etkinleştir, ancak 'denied' ise devre dışı bırak
-                btnSetAutoBackupFolder.disabled = statusMessage.includes('reddedildi');
-
-                if (statusMessage) {
-                    autoFolderBackupStatus.textContent = statusMessage;
-                }
-            }
-
-
-            // (DEĞİŞTİRİLDİ) - localStorage'dan kaydedilmiş dizin handle'ını yüklemeye çalış
-            async function loadDirectoryHandleFromStorage() {
-                const handleStored = localStorage.getItem(STORAGE_KEY_DIR_HANDLE_ID);
-                if (handleStored !== 'true') { 
-                    autoFolderBackupStatus.textContent = 'Yedekleme klasörü ayarlanmadı.';
-                    btnPerformAutoBackupNow.style.display = 'none';
-                    return;
-                }
-
-                try {
-                    autoBackupDirectoryHandle = await window.showDirectoryPicker({ id: 'cashflow_auto_backup_dir', mode: 'readwrite' });
-                    
-                    // İznin halen geçerli olup olmadığını SORGULA
-                    const permissionStatus = await autoBackupDirectoryHandle.queryPermission({ mode: 'readwrite' });
-
-                    if (permissionStatus === 'granted') {
-                        // İzin tamam, her şey yolunda
-                        btnPerformAutoBackupNow.style.display = 'block';
-                        autoFolderBackupStatus.textContent = `Yedekleme klasörü ayarlandı: "${autoBackupDirectoryHandle.name}"`;
-                    
-                    } else if (permissionStatus === 'denied') {
-                        // KULLANICI AÇIKÇA REDDETMİŞ
-                        // Bu durumu nukeHandle ile kalıcı olarak işaretle
-                        nukeHandle('İzin reddedildi. Otomatik yedekleme için tarayıcı ayarlarından site iznini sıfırlamalısınız.');
-                    
-                    } else {
-                        // İZİN KAYBEDİLMİŞ ('prompt' durumunda)
-                        // İzin 'granted' değilse, handle'ı geçersiz say ve yeniden ayarlanmasını iste
-                        nukeHandle('Yedekleme klasörü izni kaybedildi. Lütfen tekrar ayarlayın.');
-                    }
-                } catch (error) {
-                    // Handle yüklenirken bir hata oldu (örn: kullanıcı seçimi iptal etti)
-                    console.warn('Dizin handle\'ı yüklenirken hata:', error);
-                    nukeHandle('Yedekleme klasörü yüklenemedi. Lütfen tekrar ayarlayın.');
-                }
-            }
-            
-            // Yedekleme Klasörünü Ayarla butonu dinleyicisi
-            btnSetAutoBackupFolder.addEventListener('click', async () => {
-                if (!checkFSAAPI()) {
-                    alert('Tarayıcınız File System Access API\'yi desteklemiyor.');
-                    return;
-                }
-
-                try {
-                    // Kullanıcıdan dizin seçmesini iste
-                    autoBackupDirectoryHandle = await window.showDirectoryPicker({ id: 'cashflow_auto_backup_dir', mode: 'readwrite' });
-
-                    // İzni sorgula (kullanıcı genelde hemen verir)
-                    const permissionStatus = await autoBackupDirectoryHandle.queryPermission({ mode: 'readwrite' });
-
-                    if (permissionStatus === 'granted') {
-                        localStorage.setItem(STORAGE_KEY_DIR_HANDLE_ID, 'true'); // Başarılıysa flag'i kaydet
-                        btnPerformAutoBackupNow.style.display = 'block';
-                        autoFolderBackupStatus.textContent = `Yedekleme klasörü ayarlandı: "${autoBackupDirectoryHandle.name}"`;
-                        alert('Yedekleme klasörü başarıyla ayarlandı. Artık yeni işlem eklediğinizde bu klasöre otomatik yedekleme yapılabilir (izniniz devam ettiği sürece).');
-                    } else {
-                        // Kullanıcı izni reddetti
-                        autoBackupDirectoryHandle = null;
-                        localStorage.removeItem(STORAGE_KEY_DIR_HANDLE_ID);
-                        btnPerformAutoBackupNow.style.display = 'none';
-                        autoFolderBackupStatus.textContent = 'Yazma izni verilmedi. Otomatik yedekleme yapılamaz.';
-                        alert('Yedekleme klasörüne yazma izni verilmedi. Otomatik yedekleme yapılamayacak.');
-                    }
-                } catch (error) {
-                    console.error('Klasör seçilirken hata:', error);
-                    autoBackupDirectoryHandle = null;
-                    localStorage.removeItem(STORAGE_KEY_DIR_HANDLE_ID);
-                    btnPerformAutoBackupNow.style.display = 'none';
-                    autoFolderBackupStatus.textContent = 'Klasör seçimi iptal edildi veya bir hata oluştu.';
-                    alert('Klasör seçimi iptal edildi veya bir hata oluştu.');
-                }
-            });
-
-            // Klasöre Şimdi Yedekle butonu dinleyicisi
-            btnPerformAutoBackupNow.addEventListener('click', async () => {
-                // (DEĞİŞİKLİK) performAutomaticBackupToFolder artık bir obje döndürüyor
-                const result = await performAutomaticBackupToFolder();
-                if (result.success) {
-                    alert('Veriler başarıyla klasöre yedeklendi!');
-                    resetBackupCounter(); // Manuel klasör yedeklemesi de sayacı sıfırlasın
-                } else {
-                    alert(`Yedekleme başarısız: ${result.reason}. Lütfen Ayarlar sayfasındaki durumu kontrol edin.`);
-                }
-            });
-
-            // (DEĞİŞTİRİLDİ) - Asıl otomatik yedekleme işlemini yapan fonksiyon
-            async function performAutomaticBackupToFolder() {
-                if (!autoBackupDirectoryHandle) {
-                    autoFolderBackupStatus.textContent = 'Yedekleme klasörü ayarlanmadı.';
-                    return { success: false, reason: 'no_handle' };
-                }
-
-                try {
-                    // 1. İZİN DURUMUNU SORGULA
-                    let permissionStatus = await autoBackupDirectoryHandle.queryPermission({ mode: 'readwrite' });
-                    
-                    if (permissionStatus === 'denied') {
-                        // İzin reddedilmişse, handle'ı temizle ve başarısız dön
-                        nukeHandle('İzin reddedildi. Lütfen tarayıcı ayarlarından izni sıfırlayın.');
-                        return { success: false, reason: 'permission_denied' };
-                    }
-
-                    if (permissionStatus === 'prompt') {
-                        // İzin sorulacaksa, İSTE
-                        console.log('Otomatik yedekleme için izin isteniyor...');
-                        permissionStatus = await autoBackupDirectoryHandle.requestPermission({ mode: 'readwrite' });
-                    }
-
-                    // 2. İZİN HALA VERİLMEDİYSE BAŞARISIZ DÖN
-                    if (permissionStatus !== 'granted') {
-                        autoFolderBackupStatus.textContent = 'Yazma izni alınamadı. Otomatik yedekleme başarısız.';
-                        return { success: false, reason: 'permission_denied' };
-                    }
-
-                    // 3. İZİN VARSA YAZMA İŞLEMİNİ YAP
-                    const dataStr = JSON.stringify(transactions, null, 2);
-                    const prefix = appSettings.backupPrefix || 'nakit-akis';
-                    const filename = `${prefix}-otomatik-yedek-${new Date().toISOString().split('T')[0]}-${Date.now()}.json`;
-
-                    const fileHandle = await autoBackupDirectoryHandle.getFileHandle(filename, { create: true });
-                    const writable = await fileHandle.createWritable();
-                    await writable.write(dataStr);
-                    await writable.close();
-
-                    autoFolderBackupStatus.textContent = `Son otomatik yedekleme: ${new Date().toLocaleTimeString()} - ${filename}`;
-                    console.log('Otomatik klasöre yedekleme başarılı:', filename);
-                    return { success: true };
-
-                } catch (error) {
-                    console.error('Otomatik klasöre yedekleme sırasında hata:', error);
-                    // Hata durumunda (disk dolu, dosya kilitli vb.) handle'ı temizle
-                    nukeHandle(`Yedekleme hatası: ${error.message}. Lütfen klasörü yeniden ayarlayın.`);
-                    return { success: false, reason: 'write_error', message: error.message };
-                }
-            }
-
-
-            // Yedekleme Sayacını Sıfırla
-            function resetBackupCounter() {
-                backupCounter.sinceLastBackup = 0;
-                saveCounter();
-            }
-
-            // (DEĞİŞTİRİLDİ) - checkBackupCounter fonksiyonunu asenkron hale getiriyoruz
-            const checkBackupCounter = async function() {
-                // Manuel indirme uyarısı için sayacı artır
-                backupCounter.sinceLastBackup++;
-                saveCounter();
-
-                const freq = appSettings.autoBackupFreq;
-                if (freq <= 0) { // Frekans 0 ise (kapalı), hiçbir yedekleme uyarısı/işlemi yapma
-                    return;
-                }
-
-                // Sadece belirtilen sıklıkta kontrol et
-                if (backupCounter.sinceLastBackup >= freq) {
-                    
-                    let autoBackupResult = { success: false, reason: 'not_attempted' };
-                    let wasAttempted = false;
-
-                    // Önce otomatik klasör yedeklemesini kontrol et (eğer ayarlandıysa)
-                    if (autoBackupDirectoryHandle) {
-                        wasAttempted = true;
-                        // Güçlendirilmiş fonksiyonu çağır
-                        autoBackupResult = await performAutomaticBackupToFolder();
-                    }
-                    
-                    if (autoBackupResult.success) {
-                        // Başarılı olursa, manuel indirme uyarısını gösterme
-                        resetBackupCounter(); 
-                        return; // İşlem tamamlandı, manuel uyarıya gerek yok
-                    }
-                    
-                    // --- BURAYA GELİNDİYSE OTOMATİK YEDEKLEME BAŞARISIZ OLDU VEYA DENENMEDİ ---
-                    
-                    // Manuel indirme uyarısını göster
-                    // Mesajı, başarısızlığın nedenine göre özelleştir
-                    
-                    let message = `Son yedeklemenizden bu yana ${backupCounter.sinceLastBackup} işlem girdiniz. Veri kaybını önlemek için lütfen şimdi yedekleme yapın.`;
-
-                    if (wasAttempted) { 
-                        // Otomatik yedeklemeyi denedik ama BAŞARISIZ OLDU.
-                        // Kullanıcıya nedenini söyleyelim.
-                        
-                        if (autoBackupResult.reason === 'permission_denied') {
-                            message = `Otomatik yedekleme başarısız oldu: İzin verilmedi. \n\nLütfen verilerinizi MANUEL olarak indirin ve Ayarlar sayfasından klasör iznini yenileyin.`;
-                        } else if (autoBackupResult.reason === 'write_error') {
-                            message = `Otomatik yedekleme başarısız oldu: Yazma Hatası (${autoBackupResult.message}). \n\nLütfen verilerinizi MANUEL olarak indirin.`;
-                        } else {
-                            message = `Otomatik klasöre yedekleme denendi ancak BAŞARISIZ OLDU. \n\nVeri kaybını önlemek için lütfen verilerinizi MANUEL olarak indirin.`;
-                        }
-                    }
-                    
-                    backupModalMessage.textContent = message;
-                    modalBackup.classList.add('show');
-                    
-                    // ÖNEMLİ: Sayaç SIFIRLANMAZ.
-                    // Kullanıcı "Daha Sonra" derse, bir sonraki işlemde tekrar sorulur.
-                    // Sayaç, sadece kullanıcı manuel olarak "Şimdi Yedekle" butonuna bastığında sıfırlanır.
-                    // Bu, veri güvenliğini sağlar.
-                }
-            };
-            
-            // Manuel JSON indirme butonu
-            btnBackup.addEventListener('click', () => {
-                if (transactions.length === 0) {
-                    alert('Yedeklenecek hiç veri yok.');
-                    return;
-                }
-                const dataStr = JSON.stringify(transactions, null, 2);
-                const dataBlob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(dataBlob);
-                const prefix = appSettings.backupPrefix || 'nakit-akis';
-                const filename = `${prefix}-yedek-${new Date().toISOString().split('T')[0]}.json`;
-                
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                
-                resetBackupCounter();
-                alert('Veriler başarıyla manuel olarak yedeklendi!');
-            });
-            
-            // Yedekleme uyarısı modalından "Daha Sonra"
-            btnBackupLater.addEventListener('click', () => modalBackup.classList.remove('show'));
-            // Yedekleme uyarısı modalından "Şimdi Yedekle"
-            btnBackupNow.addEventListener('click', () => {
-                modalBackup.classList.remove('show');
-                btnBackup.click(); // Mevcut manuel indirme mekanizmasını tetikle
-                // btnBackup'ın click event'i içinde resetBackupCounter() zaten çağrılıyor.
-            });
-            
-            btnRestore.addEventListener('click', () => inputRestore.click());
-            
-            inputRestore.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (!file) return;
-                
-                if (!confirm('Geri yükleme işlemi mevcut tüm verilerinizin üzerine yazacaktır. Emin misiniz?')) {
-                    inputRestore.value = '';
-                    return;
-                }
-
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    try {
-                        const importedData = JSON.parse(event.target.result);
-                        if (Array.isArray(importedData)) {
-                            transactions = importedData;
-                            saveTransactions();
-                            resetBackupCounter();
-                            loadData(); // Veriyi yeni V5 yapısına uygun işle
-                            renderApp();
-                            alert('Veriler başarıyla geri yüklendi!');
-                            navigateToPage('page-dashboard');
-                        } else { throw new Error('Geçersiz dosya formatı.'); }
-                    } catch (err) {
-                        alert('Hata: Yedek dosyası okunamadı veya formatı hatalı.\n' + err.message);
-                    } finally {
-                        inputRestore.value = ''; // Dosya seçimi inputunu sıfırla
-                    }
-                };
-                reader.readAsText(file);
-            });
-            
-            btnDeleteAll.addEventListener('click', () => {
-                if (confirm('TÜM VERİLERİ SİLMEK istediğinizden emin misiniz?\nBu işlem geri alınamaz!')) {
-                    transactions = [];
-                    appSettings = { profitMargin: 0, backupPrefix: 'nakit-akis', autoBackupFreq: 10 };
-                    backupCounter = { sinceLastBackup: 0 };
-                    
-                    saveTransactions();
-                    saveSettings();
-                    saveCounter();
-                    
-                    loadData();
-                    renderApp();
-                    alert('Tüm veriler başarıyla silindi.');
-                    navigateToPage('page-dashboard');
-                }
-            });
-            
-            // Ayar Değişikliklerini Kaydetme
-            settingProfitMargin.addEventListener('change', () => {
-                appSettings.profitMargin = parseFloat(settingProfitMargin.value) || 0;
-                // Kar marjını 0-100 aralığında tut
-                if (appSettings.profitMargin < 0) appSettings.profitMargin = 0;
-                if (appSettings.profitMargin > 100) appSettings.profitMargin = 100;
-                settingProfitMargin.value = appSettings.profitMargin; // Değeri inputa geri yaz
-                marginDisplayEl.textContent = appSettings.profitMargin;
-                saveSettings();
-                renderDashboard();
-            });
-            settingBackupPrefix.addEventListener('change', () => {
-                appSettings.backupPrefix = settingBackupPrefix.value.trim() || 'nakit-akis';
-                saveSettings();
-            });
-            settingAutoBackupFreq.addEventListener('change', () => {
-                appSettings.autoBackupFreq = parseInt(settingAutoBackupFreq.value) || 0;
-                // Otomatik yedekleme sıklığını minimum 0 olarak tut
-                if (appSettings.autoBackupFreq < 0) appSettings.autoBackupFreq = 0;
-                settingAutoBackupFreq.value = appSettings.autoBackupFreq; // Değeri inputa geri yaz
-                saveSettings();
-            });
-
-            // === NAVİGASYON ===
-
-            function navigateToPage(pageId) {
-                console.log('Navigating to page:', pageId); // Teşhis amaçlı log
-                pages.forEach(page => page.classList.remove('active'));
-                document.getElementById(pageId)?.classList.add('active');
-                navButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.page === pageId));
-                fabAdd.style.display = (pageId === 'page-settings') ? 'none' : 'block';
-            }
-
-            navButtons.forEach(btn => {
-                btn.addEventListener('click', () => navigateToPage(btn.dataset.page));
-            });
-            
-            clickableCards.forEach(card => {
-                card.addEventListener('click', () => {
-                    const filter = card.dataset.filterType;
-                    if (!filter) return;
-                    filterType.value = filter;
-                    filterDateStart.value = '';
-                    filterDateEnd.value = '';
-                    renderTransactionList();
-                    navigateToPage('page-transactions');
-                });
-            });
-
-            // === UYGULAMAYI BAŞLATMA ===
-            // DOMContentLoaded içinde zaten loadData çağrılıyor.
-            // loadData'nın içinde de checkFSAAPI ve loadDirectoryHandleFromStorage çağrılacak.
-            loadData(); // Bu, FSA API yüklemesini de başlatacak
-            renderApp();
-            navigateToPage('page-dashboard');
+</div>
+
+<div id="modal-expense" class="modal-overlay" onclick="if(event.target===this) closeModal('modal-expense')">
+    <div class="modal">
+        <h3>📉 Gider Çıkışı</h3>
+        <label>Tutar (₺)</label>
+        <input type="number" id="inp-exp-amt" placeholder="0" style="font-size:1.8rem; text-align:center; font-weight:800; color:var(--danger); margin-bottom:20px;" inputmode="decimal">
+        
+        <label>Açıklama</label>
+        <!-- CHIPS CONTAINER -->
+        <div id="expense-chips" class="chips-container"></div>
+
+        <input type="text" id="inp-exp-desc" placeholder="Kira, Fatura, Yemek vb." list="expense-suggestions" autocomplete="off">
+        <!-- REALTIME SUGGESTIONS -->
+        <datalist id="expense-suggestions"></datalist>
+        
+        <button class="btn-main btn-danger" style="margin-top:24px;" onclick="saveExpense()">KAYDET</button>
+    </div>
+</div>
+
+<div id="modal-add-contact" class="modal-overlay" onclick="if(event.target===this) closeModal('modal-add-contact')">
+    <div class="modal">
+        <h3>Yeni Kişi / Firma</h3>
+        <label>Ad Soyad / Firma Ünvanı</label>
+        <input type="text" id="inp-c-name" placeholder="Örn: Toptancı Ahmet">
+        <button class="btn-main btn-primary" style="margin-top:24px;" onclick="addContact()">OLUŞTUR</button>
+    </div>
+</div>
+
+<div id="modal-contact-op" class="modal-overlay" onclick="if(event.target===this) closeModal('modal-contact-op')">
+    <div class="modal">
+        <h3 id="op-c-name" style="text-align:center; margin-bottom:5px;"></h3>
+        <div id="op-c-bal" style="text-align:center; font-weight:800; font-size:1.4rem; margin-bottom:24px;"></div>
+        
+        <button class="btn-action" style="width:100%; margin-bottom:24px; flex-direction:row; justify-content:center; padding:12px; background:#f8fafc;" onclick="showContactHistoryFromModal()">
+            <span>📜</span> Bu Kişinin Hesap Dökümü (Ekstre)
+        </button>
+
+        <div style="background:#f1f5f9; padding:15px; border-radius:16px; margin-bottom:20px;">
+            <label style="text-align:center;">İşlem Tutarı</label>
+            <input type="number" id="inp-op-amt" style="text-align:center; font-size:1.5rem;" inputmode="decimal">
+        </div>
+
+        <div class="grid-3" style="grid-template-columns:1fr 1fr; gap:15px;">
+            <button class="btn-main" style="background:#f59e0b; color:white;" onclick="doContactOp('give')">Borç Ver<br><small>(veya Ödeme Yap)</small></button>
+            <button class="btn-main btn-success" onclick="doContactOp('take')">Tahsilat<br><small>(veya Borç Al)</small></button>
+        </div>
+        
+        <button class="btn-main btn-danger" style="margin-top:20px; background:#fee2e2; color:#dc2626;" onclick="deleteContact()">Kişiyi Sil</button>
+    </div>
+</div>
+
+<div id="modal-stock-edit" class="modal-overlay" onclick="if(event.target===this) closeModal('modal-stock-edit')">
+    <div class="modal">
+        <h3>Stok Değeri Düzenle</h3>
+        <p style="font-size:0.9rem; color:#64748b; margin-bottom:15px;">Sayım yaptıysanız güncel stok değerini (Maliyet bazlı) buraya giriniz.</p>
+        <input type="number" id="inp-stock-val" inputmode="decimal" style="font-size:1.5rem; text-align:center; font-weight:bold;">
+        <button class="btn-main btn-primary" style="margin-top:24px;" onclick="updateStockVal()">GÜNCELLE</button>
+    </div>
+</div>
+
+<div id="modal-settings" class="modal-overlay" onclick="if(event.target===this) closeModal('modal-settings')">
+    <div class="modal">
+        <h3>Ayarlar</h3>
+        <div style="margin-bottom:20px;">
+            <label>Ortalama Kar Marjı (%)</label>
+            <input type="number" id="inp-settings-margin" placeholder="30">
+            <small style="color:var(--text-light);">Satış yapıldığında maliyet bu orana göre düşülür.</small>
+        </div>
+        <button class="btn-main btn-primary" onclick="saveSettings()">KAYDET</button>
+        
+        <hr style="margin:25px 0; border:0; border-top:1px solid #e2e8f0;">
+        
+        <h4 style="margin-bottom:10px;">Yedekleme</h4>
+        <button class="btn-main" style="background:#0ea5e9; color:white; margin-bottom:10px;" onclick="smartBackup()">📤 Yedeği Paylaş (WhatsApp)</button>
+        
+        <div style="position:relative; border:2px dashed #cbd5e1; padding:15px; border-radius:12px; text-align:center; color:#64748b; background:#f8fafc;">
+            <b>📥 Yedek Yükle</b> (Tıkla)
+            <input type="file" onchange="restoreBackup(this)" style="opacity:0; position:absolute; top:0; left:0; width:100%; height:100%;">
+        </div>
+
+        <button class="btn-main btn-danger" style="margin-top:30px;" onclick="hardReset()">UYGULAMAYI SIFIRLA</button>
+    </div>
+</div>
+
+<script>
+/* --- ÇEKİRDEK (CORE) --- */
+let db = { cash: 0, stock: 0, profitMargin: 30, contacts: [], history: [] };
+let tempIncomeType = 'ciro';
+let selectedCId = null;
+
+window.onload = () => {
+    const saved = localStorage.getItem('esnaf_v4_db') || localStorage.getItem('esnaf_v3_db') || localStorage.getItem('esnaf_v2_db');
+    if(saved) {
+        try { db = JSON.parse(saved); } catch(e) { console.error(e); }
+    }
+    // Migrate
+    if(!db.profitMargin) db.profitMargin = 30;
+    initApp();
+};
+
+function initApp() {
+    if(!Array.isArray(db.contacts)) db.contacts = [];
+    if(!Array.isArray(db.history)) db.history = [];
+    updateUI();
+}
+
+function saveDB() {
+    localStorage.setItem('esnaf_v4_db', JSON.stringify(db));
+    updateUI();
+}
+
+/* --- UI GÜNCELLEME --- */
+function updateUI() {
+    // 1. Dashboard Totals
+    const totalRec = db.contacts.reduce((acc, c) => acc + (c.balance > 0 ? c.balance : 0), 0);
+    const totalDebt = db.contacts.reduce((acc, c) => acc + (c.balance < 0 ? Math.abs(c.balance) : 0), 0);
+    const net = db.cash + db.stock + totalRec - totalDebt;
+
+    document.getElementById('dash-net').innerText = fmt(net);
+    document.getElementById('dash-cash').innerText = fmt(db.cash);
+    document.getElementById('dash-stock').innerText = fmt(db.stock);
+    document.getElementById('lbl-margin').innerText = db.profitMargin;
+    
+    // 2. Report Logic
+    const now = new Date();
+    const currentMonthStr = now.toISOString().slice(0,7);
+    
+    let mCiro = 0;
+    let mExp = 0;
+    let mCostOfGoods = 0;
+    
+    let chartDays = [];
+    for(let i=6; i>=0; i--) {
+        const d = new Date();
+        d.setDate(now.getDate() - i);
+        chartDays.push({ 
+            date: d.toISOString().slice(0,10), 
+            label: d.toLocaleDateString('tr-TR', {weekday:'short'}), 
+            val: 0 
         });
-    </script>
+    }
 
+    db.history.forEach(h => {
+        const hDateStr = h.date.slice(0,10);
+        
+        if(h.date.startsWith(currentMonthStr)) {
+            if(h.type === 'ciro' || h.type === 'veresiye_satis') {
+                mCiro += h.amount;
+                let cogs = h.cost !== undefined ? h.cost : (h.amount * ((100 - db.profitMargin)/100));
+                mCostOfGoods += cogs;
+            }
+            if(h.type === 'gider') mExp += h.amount;
+        }
+
+        if(h.type === 'ciro' || h.type === 'veresiye_satis') {
+            const dIndex = chartDays.findIndex(d => d.date === hDateStr);
+            if(dIndex > -1) chartDays[dIndex].val += h.amount;
+        }
+    });
+
+    document.getElementById('rep-ciro').innerText = fmt(mCiro);
+    document.getElementById('rep-exp').innerText = fmt(mExp);
+    
+    const grossProfit = mCiro - mCostOfGoods;
+    const netProfit = grossProfit - mExp;
+    
+    const netEl = document.getElementById('rep-net');
+    netEl.innerText = fmt(netProfit);
+    netEl.style.color = netProfit >= 0 ? 'var(--success)' : 'var(--danger)';
+    
+    document.getElementById('rep-rec').innerText = fmt(totalRec);
+    document.getElementById('rep-debt').innerText = fmt(totalDebt);
+
+    drawChart(chartDays);
+
+    // 3. Recent List
+    const recentDiv = document.getElementById('recent-list');
+    recentDiv.innerHTML = '';
+    if(db.history.length === 0) recentDiv.innerHTML = '<div class="empty-state">Henüz işlem yok.</div>';
+    db.history.slice(0, 5).forEach(h => recentDiv.innerHTML += createHistoryRow(h));
+
+    // 4. Select Options
+    const contactOpts = '<option value="">Seçiniz...</option>' + db.contacts.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+    document.getElementById('inp-inc-contact').innerHTML = contactOpts;
+    document.getElementById('inp-buy-contact').innerHTML = contactOpts;
+    document.getElementById('f-contact').innerHTML = '<option value="all">Herkes</option>' + db.contacts.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+
+    if(document.getElementById('view-history').classList.contains('active')) {
+        applyFilter();
+    }
+}
+
+function drawChart(days) {
+    const max = Math.max(...days.map(d => d.val), 1);
+    const container = document.getElementById('weekly-chart');
+    container.innerHTML = days.map(d => `
+        <div class="bar-col">
+            <div class="bar ${d.val>0?'filled':''}" style="height:${(d.val/max)*80}%;"></div>
+            <div class="bar-lbl">${d.label}</div>
+        </div>
+    `).join('');
+}
+
+/* --- EXPENSE SUGGESTIONS --- */
+function updateExpenseSuggestions() {
+    // 1. Gather all expense descriptions
+    const counts = {};
+    db.history.filter(h => h.type === 'gider').forEach(h => {
+        const txt = (h.desc || '').trim();
+        // Normalize slightly to count "Kira" and "kira" as same, but display Capitalized
+        const key = txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase();
+        if(key) counts[key] = (counts[key] || 0) + 1;
+    });
+
+    // 2. Sort by frequency
+    const sorted = Object.keys(counts).sort((a,b) => counts[b] - counts[a]);
+
+    // 3. Populate Chips (Top 5)
+    const chipContainer = document.getElementById('expense-chips');
+    chipContainer.innerHTML = '';
+    
+    const top5 = sorted.slice(0, 5);
+    if(top5.length === 0) {
+        // Defauts if history is empty
+        ['Yemek', 'Yol', 'Kira', 'Fatura'].forEach(item => {
+            chipContainer.innerHTML += `<div class="chip" onclick="fillExpense('${item}')">${item}</div>`;
+        });
+    } else {
+        top5.forEach(item => {
+             chipContainer.innerHTML += `<div class="chip" onclick="fillExpense('${item}')">${item}</div>`;
+        });
+    }
+
+    // 4. Populate Datalist (All unique for realtime typing)
+    const datalist = document.getElementById('expense-suggestions');
+    datalist.innerHTML = '';
+    sorted.forEach(item => {
+        datalist.innerHTML += `<option value="${item}">`;
+    });
+}
+
+function fillExpense(text) {
+    document.getElementById('inp-exp-desc').value = text;
+}
+
+
+/* --- TRANSACTION LOGIC --- */
+function saveIncome() {
+    const amt = getNum('inp-inc-amt');
+    if(amt <= 0) return alert('Lütfen tutar girin.');
+    
+    if(tempIncomeType === 'ciro') {
+        const method = document.getElementById('inp-inc-method').value;
+        const cost = amt * ((100 - db.profitMargin) / 100);
+        db.stock -= cost; 
+
+        if(method === 'pesin') {
+            db.cash += amt;
+            addHistory('ciro', amt, 'Peşin Satış', cost);
+        } else {
+            const cId = document.getElementById('inp-inc-contact').value;
+            if(!cId) return alert('Lütfen müşteri seçin.');
+            const c = db.contacts.find(x => x.id === cId);
+            if(c) {
+                c.balance += amt;
+                addHistory('veresiye_satis', amt, `Satış: ${c.name}`, cost, cId);
+            }
+        }
+    } else {
+        db.cash += amt;
+        addHistory('sermaye', amt, 'Sermaye Ekleme');
+    }
+    closeModal('modal-income'); saveDB();
+}
+
+function saveBuy() {
+    const amt = getNum('inp-buy-amt');
+    if(amt <= 0) return alert('Lütfen tutar girin.');
+    const method = document.getElementById('inp-buy-method').value;
+    db.stock += amt;
+
+    if(method === 'pesin') {
+        db.cash -= amt;
+        addHistory('mal', amt, 'Peşin Mal Alımı');
+    } else {
+        const cId = document.getElementById('inp-buy-contact').value;
+        if(!cId) return alert('Tedarikçi seçin.');
+        const c = db.contacts.find(x => x.id === cId);
+        if(c) {
+            c.balance -= amt;
+            addHistory('mal_cari', amt, `Mal Alımı: ${c.name}`, null, cId);
+        }
+    }
+    closeModal('modal-buy'); saveDB();
+}
+
+function saveExpense() {
+    const amt = getNum('inp-exp-amt');
+    if(amt <= 0) return alert('Tutar girin.');
+    const desc = document.getElementById('inp-exp-desc').value || 'Gider';
+    db.cash -= amt;
+    addHistory('gider', amt, desc);
+    closeModal('modal-expense'); saveDB();
+}
+
+/* --- CONTACTS LOGIC --- */
+function addContact() {
+    const name = document.getElementById('inp-c-name').value.trim();
+    if(!name) return alert('İsim yazın.');
+    db.contacts.push({ id: Date.now().toString(), name: name, balance: 0 });
+    closeModal('modal-add-contact'); saveDB(); 
+    renderContacts();
+}
+
+function renderContacts() {
+    const list = document.getElementById('contact-list');
+    const rawTerm = document.getElementById('contact-search').value || '';
+    const term = rawTerm.toLocaleLowerCase('tr-TR');
+    
+    list.innerHTML = '';
+
+    if(!db.contacts || db.contacts.length === 0) {
+        list.innerHTML = '<div class="empty-state">Kayıtlı kişi yok.<br>Yeni ekle butonunu kullanın.</div>';
+        return;
+    }
+
+    const sorted = [...db.contacts].sort((a,b) => Math.abs(b.balance) - Math.abs(a.balance));
+    let count = 0;
+
+    sorted.forEach(c => {
+        if(term && !c.name.toLocaleLowerCase('tr-TR').includes(term)) return;
+        count++;
+        let badge = '';
+        const bal = c.balance;
+        if(bal > 0) badge = `<span class="badge badge-green">ALACAK: ${fmt(bal)}</span>`;
+        else if(bal < 0) badge = `<span class="badge badge-red">BORÇ: ${fmt(Math.abs(bal))}</span>`;
+        else badge = `<span class="badge" style="background:#f1f5f9; color:#94a3b8">TEMİZ</span>`;
+
+        list.innerHTML += `
+            <div class="list-item" onclick="openContactModal('${c.id}')">
+                <div style="display:flex; align-items:center;">
+                    <div style="width:40px; height:40px; background:#e0e7ff; color:#4338ca; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-right:12px; font-weight:bold;">${c.name.charAt(0).toUpperCase()}</div>
+                    <span style="font-weight:600; font-size:1rem;">${c.name}</span>
+                </div>
+                ${badge}
+            </div>
+        `;
+    });
+
+    if(count === 0 && rawTerm) {
+        list.innerHTML = '<div class="empty-state">Aranan kişi bulunamadı.</div>';
+    }
+}
+
+function doContactOp(type) {
+    const amt = getNum('inp-op-amt');
+    if(amt <= 0) return alert('Tutar girin.');
+    const c = db.contacts.find(x => x.id === selectedCId);
+    
+    if(type === 'give') {
+        db.cash -= amt;
+        c.balance += amt;
+        addHistory('cari_cikis', amt, `${c.name} (Ödeme/Borç Verme)`, null, selectedCId);
+    } else {
+        db.cash += amt;
+        c.balance -= amt;
+        addHistory('cari_giris', amt, `${c.name} (Tahsilat/Borç Alma)`, null, selectedCId);
+    }
+    closeModal('modal-contact-op'); saveDB();
+}
+
+/* --- HISTORY & FILTER --- */
+function createHistoryRow(h, canDelete = false) {
+    const isPos = ['ciro','sermaye','cari_giris','veresiye_satis'].includes(h.type);
+    const isGreen = isPos || h.type === 'veresiye_satis';
+    
+    const iconMap = {
+        'ciro': '💰', 'sermaye': '🏦', 'gider': '📉', 
+        'mal': '📦', 'mal_cari': '🚛', 'veresiye_satis': '📝',
+        'cari_giris': '💵', 'cari_cikis': '💸'
+    };
+    
+    const color = isGreen ? 'var(--success)' : 'var(--danger)';
+    const bg = isGreen ? 'var(--success-bg)' : 'var(--danger-bg)';
+    const sign = ['gider','mal','cari_cikis'].includes(h.type) ? '-' : '+';
+    const delBtn = canDelete ? `<button onclick="deleteTx(${h.id})" style="background:#fee2e2; color:#dc2626; border:none; border-radius:8px; width:32px; height:32px; font-size:1rem; margin-left:10px; cursor:pointer; display:flex; align-items:center; justify-content:center;">🗑️</button>` : '';
+
+    const d = new Date(h.date);
+    const timeStr = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    const dateStr = d.toLocaleDateString();
+
+    return `
+        <div class="tx-row">
+            <div style="display:flex; align-items:center;">
+                <div class="tx-icon" style="background:${bg}; color:${color};">${iconMap[h.type]||'🔹'}</div>
+                <div>
+                    <div style="font-weight:600; font-size:0.95rem;">${h.desc}</div>
+                    <div style="font-size:0.75rem; color:var(--text-light);">${dateStr} &bull; ${timeStr}</div>
+                </div>
+            </div>
+            <div style="display:flex; align-items:center;">
+                <span style="font-weight:700; color:${color}; font-size:1.1rem; letter-spacing:-0.5px;">${sign}${fmt(h.amount)}</span>
+                ${delBtn}
+            </div>
+        </div>
+    `;
+}
+
+function toggleFilter() { 
+    const p = document.getElementById('filter-box'); 
+    p.classList.toggle('open'); 
+}
+
+function applyFilter() {
+    const fStart = document.getElementById('f-start').value;
+    const fEnd = document.getElementById('f-end').value;
+    const fType = document.getElementById('f-type').value;
+    const fContact = document.getElementById('f-contact').value;
+    
+    let list = [...db.history];
+    if(fStart) list = list.filter(h => h.date.slice(0,10) >= fStart);
+    if(fEnd) list = list.filter(h => h.date.slice(0,10) <= fEnd);
+    if(fType !== 'all') list = list.filter(h => h.type === fType);
+    if(fContact !== 'all') list = list.filter(h => h.contactId === fContact);
+
+    list.sort((a,b) => new Date(b.date) - new Date(a.date));
+
+    const container = document.getElementById('full-history-list');
+    container.innerHTML = '';
+    let sumIn = 0, sumOut = 0;
+
+    if(list.length === 0) container.innerHTML = '<div class="empty-state">Kayıt bulunamadı.</div>';
+
+    list.forEach(h => {
+        if(['ciro','sermaye','cari_giris','veresiye_satis'].includes(h.type)) sumIn += h.amount;
+        else sumOut += h.amount;
+        container.innerHTML += createHistoryRow(h, true);
+    });
+
+    document.getElementById('sum-in').innerText = fmt(sumIn);
+    document.getElementById('sum-out').innerText = fmt(sumOut);
+    document.getElementById('history-summary').style.display = 'block';
+}
+
+function clearFilter() {
+    document.getElementById('f-start').value = '';
+    document.getElementById('f-end').value = '';
+    document.getElementById('f-type').value = 'all';
+    document.getElementById('f-contact').value = 'all';
+    applyFilter();
+}
+
+function deleteTx(id) {
+    if(!confirm('Bu işlemi silmek ve bakiyeleri geri almak istiyor musunuz?')) return;
+    const idx = db.history.findIndex(h => h.id === id);
+    if(idx === -1) return;
+    const h = db.history[idx];
+
+    if(h.type === 'ciro') { db.cash -= h.amount; if(h.cost) db.stock += h.cost; }
+    else if(h.type === 'veresiye_satis') { if(h.contactId) { const c=db.contacts.find(x=>x.id===h.contactId); if(c) c.balance-=h.amount; } if(h.cost) db.stock+=h.cost; }
+    else if(h.type === 'sermaye') db.cash -= h.amount;
+    else if(h.type === 'gider') db.cash += h.amount;
+    else if(h.type === 'mal') { db.stock -= h.amount; db.cash += h.amount; }
+    else if(h.type === 'mal_cari') { db.stock -= h.amount; if(h.contactId) { const c=db.contacts.find(x=>x.id===h.contactId); if(c) c.balance+=h.amount; } }
+    else if(h.type === 'cari_giris') { db.cash -= h.amount; if(h.contactId) { const c=db.contacts.find(x=>x.id===h.contactId); if(c) c.balance+=h.amount; } }
+    else if(h.type === 'cari_cikis') { db.cash += h.amount; if(h.contactId) { const c=db.contacts.find(x=>x.id===h.contactId); if(c) c.balance-=h.amount; } }
+
+    db.history.splice(idx, 1);
+    saveDB();
+    if(document.getElementById('view-history').classList.contains('active')) applyFilter();
+}
+
+/* --- UTILS & HELPERS --- */
+function openModal(id) { 
+    document.querySelectorAll(`#${id} input`).forEach(i => i.value = '');
+    document.getElementById(id).classList.add('active'); 
+    
+    // Trigger suggestions when opening Expense modal
+    if(id === 'modal-expense') {
+        updateExpenseSuggestions();
+    }
+}
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+function switchTab(id, el) {
+    document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+    document.getElementById('view-'+id).classList.add('active');
+    
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    if(el) {
+        el.classList.add('active');
+    } else {
+        if(id === 'home') document.querySelector('.nav-item:nth-child(1)').classList.add('active');
+        if(id === 'contacts') document.querySelector('.nav-item:nth-child(2)').classList.add('active');
+        if(id === 'history') document.querySelector('.nav-item:nth-child(3)').classList.add('active');
+        if(id === 'report') document.querySelector('.nav-item:nth-child(4)').classList.add('active');
+    }
+
+    if(id === 'contacts') {
+        document.getElementById('contact-search').value = '';
+        renderContacts();
+    }
+    if(id === 'history') {
+        applyFilter();
+    }
+    window.scrollTo(0,0);
+}
+
+function setIncomeType(t, el) {
+    tempIncomeType = t;
+    document.querySelectorAll('.seg-opt').forEach(s => s.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('inc-details').style.display = t === 'ciro' ? 'block' : 'none';
+}
+
+function toggleContactSelect(ctx, val) {
+    document.getElementById(`div-${ctx}-contact`).style.display = val === 'veresiye' ? 'block' : 'none';
+}
+
+function openContactModal(id) {
+    selectedCId = id;
+    const c = db.contacts.find(x => x.id === id);
+    document.getElementById('op-c-name').innerText = c.name;
+    const bal = c.balance;
+    
+    let balText = 'BAKİYE: 0 ₺';
+    let balColor = 'var(--text)';
+    if(bal > 0) { balText = `ALACAK: ${fmt(bal)}`; balColor = 'var(--success)'; }
+    else if(bal < 0) { balText = `BORÇ: ${fmt(Math.abs(bal))}`; balColor = 'var(--danger)'; }
+
+    const balEl = document.getElementById('op-c-bal');
+    balEl.innerText = balText;
+    balEl.style.color = balColor;
+    openModal('modal-contact-op');
+}
+
+function showContactHistoryFromModal() {
+    closeModal('modal-contact-op');
+    switchTab('history');
+    clearFilter();
+    document.getElementById('f-contact').value = selectedCId;
+    document.getElementById('filter-box').classList.add('open');
+    applyFilter();
+}
+
+function deleteContact() {
+    if(confirm('Bu kişiyi SİLMEK istediğinize emin misiniz?')) {
+        db.contacts = db.contacts.filter(x => x.id !== selectedCId);
+        saveDB(); closeModal('modal-contact-op'); renderContacts();
+    }
+}
+
+function openEditStock() {
+    document.getElementById('inp-stock-val').value = db.stock;
+    openModal('modal-stock-edit');
+}
+function updateStockVal() {
+    db.stock = getNum('inp-stock-val');
+    saveDB(); closeModal('modal-stock-edit');
+}
+
+function openSettings() {
+    document.getElementById('inp-settings-margin').value = db.profitMargin;
+    openModal('modal-settings');
+}
+function saveSettings() {
+    db.profitMargin = getNum('inp-settings-margin');
+    saveDB(); closeModal('modal-settings');
+}
+function hardReset() {
+    if(confirm('DİKKAT: Tüm veriler kalıcı olarak silinecek!')) {
+        localStorage.removeItem('esnaf_v4_db');
+        localStorage.removeItem('esnaf_v3_db'); // Clean old
+        localStorage.removeItem('esnaf_v2_db');
+        location.reload();
+    }
+}
+
+async function smartBackup() {
+    const json = JSON.stringify(db, null, 2);
+    const file = new File([json], "esnaf_yedek.json", {type: "application/json"});
+    if(navigator.canShare && navigator.canShare({files:[file]})) {
+        try { await navigator.share({files:[file], title:'Esnaf Defteri Yedek'}); return; } catch(e){}
+    }
+    try {
+        await navigator.clipboard.writeText(json);
+        alert('Yedek KOPYALANDI! WhatsApp\'a yapıştırıp gönderebilirsiniz.');
+    } catch(e) {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(file);
+        a.download = "esnaf_yedek.json";
+        a.click();
+    }
+}
+
+function restoreBackup(input) {
+    const reader = new FileReader();
+    reader.onload = e => {
+        try {
+            const data = JSON.parse(e.target.result);
+            if(Array.isArray(data.contacts) && Array.isArray(data.history)) {
+                if(confirm('Yedek yüklensin mi? Mevcut veriler silinecek.')) {
+                    db = data; saveDB(); alert('Yedek başarıyla yüklendi!'); closeModal('modal-settings');
+                }
+            } else alert('Bu dosya geçersiz.');
+        } catch(e) { alert('Dosya okuma hatası!'); }
+    };
+    reader.readAsText(input.files[0]);
+}
+
+function getNum(id) { return parseFloat(document.getElementById(id).value) || 0; }
+function fmt(n) { return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(n); }
+
+function addHistory(type, amt, desc, cost=null, cId=null) {
+    db.history.unshift({ id: Date.now(), date: new Date().toISOString(), type, amount: amt, desc, cost, contactId: cId });
+}
+</script>
 </body>
 </html>
+
