@@ -17,7 +17,7 @@
     <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgZmlsbD0iIzQzMzhjYSIvPjxwYXRoIGQ9Ik0xNDAgMTMwaDIzMnYyNTJIMTQweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0zNzIgMTMwSDMyMHYyNTJoNTJ6IiBmaWxsPSIjZTBlN2ZmIi8+PHBhdGggZD0iTTE0MCAxMzBoNTJ2MjUyaC01MnoiIGZpbGw9IiMzNzMwYTMiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMTkwIiB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjIwIiByeD0iMTAiIGZpbGw9IiM0MzM4Y2EiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMjUwIiB3aWR0aD0iODAiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzQzMzhjYSIgb3BhY2l0eT0iMC4yIi8+PC9zdmc+">
 
     <!-- EMBEDDED MANIFEST -->
-    <link rel="manifest" id="my-manifest-placeholder" href="blob:https://eozalp.github.io/6c67262d-c73c-4a68-8140-c4bd0c25c1d4">
+    <link rel="manifest" id="my-manifest-placeholder" href="blob:https://eozalp.github.io/4b60835a-1326-49c2-8346-f29c147352bd">
 
     <script>
         const manifest = {
@@ -235,7 +235,7 @@
             <h3 style="margin:0; font-size:1.1rem;">Son Hareketler</h3>
             <span style="font-size:0.85rem; color:var(--primary); cursor:pointer; font-weight:600;" onclick="switchTab('history')">Tümü ›</span>
         </div>
-        <div id="recent-list"></div>
+        <div id="recent-list"><div class="empty-state">Henüz işlem yok.</div></div>
     </div>
     <div class="bottom-spacer"></div>
 </div>
@@ -302,7 +302,7 @@
     <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
             <h3 style="margin:0; font-size:1.1rem;">Bu Ayın Tahmini</h3>
-            <span style="font-size:0.75rem; background:#fef3c7; color:#b45309; padding:4px 8px; border-radius:6px;">Kar Marjı: %<span id="lbl-margin">30</span></span>
+            <span style="font-size:0.75rem; background:#fef3c7; color:#b45309; padding:4px 8px; border-radius:6px;">Kar Marjı: %<span id="lbl-margin">70</span></span>
         </div>
         
         <div class="grid-3" style="grid-template-columns:1fr 1fr; gap:15px;">
@@ -322,7 +322,42 @@
         </div>
         <div class="chart-wrapper">
              <h4 style="margin:0 0 10px 0; font-size:0.9rem; color:var(--text-light);">Son 7 Gün Satışları</h4>
-             <div class="bar-container" id="weekly-chart"></div>
+             <div class="bar-container" id="weekly-chart">
+        <div class="bar-col">
+            <div class="bar " style="height:0%;"></div>
+            <div class="bar-lbl">Per</div>
+        </div>
+    
+        <div class="bar-col">
+            <div class="bar " style="height:0%;"></div>
+            <div class="bar-lbl">Cum</div>
+        </div>
+    
+        <div class="bar-col">
+            <div class="bar " style="height:0%;"></div>
+            <div class="bar-lbl">Cmt</div>
+        </div>
+    
+        <div class="bar-col">
+            <div class="bar " style="height:0%;"></div>
+            <div class="bar-lbl">Paz</div>
+        </div>
+    
+        <div class="bar-col">
+            <div class="bar " style="height:0%;"></div>
+            <div class="bar-lbl">Pzt</div>
+        </div>
+    
+        <div class="bar-col">
+            <div class="bar " style="height:0%;"></div>
+            <div class="bar-lbl">Sal</div>
+        </div>
+    
+        <div class="bar-col">
+            <div class="bar " style="height:0%;"></div>
+            <div class="bar-lbl">Çar</div>
+        </div>
+    </div>
         </div>
     </div>
     <div class="card">
@@ -442,18 +477,18 @@
 </div>
 
 <!-- SETTINGS MODAL -->
-<div id="modal-settings" class="modal-overlay" onclick="if(event.target===this) closeModal('modal-settings')">
+<div id="modal-settings" class="modal-overlay active" onclick="if(event.target===this) closeModal('modal-settings')">
     <div class="modal">
         <h3>Ayarlar</h3>
         
         <div class="settings-tabs">
-            <div class="settings-tab-btn active" onclick="switchSettingsTab('genel', this)">Genel</div>
+            <div class="settings-tab-btn" onclick="switchSettingsTab('genel', this)">Genel</div>
             <div class="settings-tab-btn" onclick="switchSettingsTab('yedek', this)">Yedekleme</div>
-            <div class="settings-tab-btn" onclick="switchSettingsTab('sistem', this)">Sistem</div>
+            <div class="settings-tab-btn active" onclick="switchSettingsTab('sistem', this)">Sistem</div>
         </div>
 
         <!-- PANE 1: GENEL -->
-        <div id="pane-genel" class="settings-pane active">
+        <div id="pane-genel" class="settings-pane">
             <button class="btn-main" style="background:#334155; color:white; margin-bottom:20px; font-size:0.9rem;" onclick="showInstallHelp()">
                 📲 Ana Ekrana Nasıl Eklenir?
             </button>
@@ -514,7 +549,7 @@
         </div>
 
         <!-- PANE 3: SİSTEM -->
-        <div id="pane-sistem" class="settings-pane">
+        <div id="pane-sistem" class="settings-pane active">
             <button class="btn-main" style="background:#475569; color:white; margin-bottom:10px;" onclick="downloadAppSource()">
                 📥 Uygulamayı İndir (.html)
             </button>
@@ -1199,14 +1234,36 @@ function restoreBackup(input) {
     reader.onload = e => {
         try {
             const data = JSON.parse(e.target.result);
-            if(Array.isArray(data.contacts) && Array.isArray(data.history)) {
+            // Veri bir nesne (object) mi diye basitçe kontrol et
+            if (data && typeof data === 'object') {
                 if(confirm('Yedek yüklensin mi? Mevcut veriler silinecek.')) {
-                    db = data; saveDB(); alert('Yedek başarıyla yüklendi!'); closeModal('modal-settings');
+                    // EKSİK VERİLERİ ONAR (Hata vermek yerine boş liste ata)
+                    if (!Array.isArray(data.contacts)) data.contacts = [];
+                    if (!Array.isArray(data.history)) data.history = [];
+                    if (typeof data.cash !== 'number') data.cash = 0;
+                    if (typeof data.stock !== 'number') data.stock = 0;
+                    
+                    // Veriyi yükle ve kaydet
+                    db = data; 
+                    saveDB(); 
+                    alert('Yedek başarıyla yüklendi!'); 
+                    closeModal('modal-settings');
+                    
+                    // Sayfayı yenile ki her şey yerine otursun
+                    setTimeout(() => location.reload(), 500);
                 }
-            } else alert('Bu dosya geçersiz.');
-        } catch(e) { alert('Dosya okuma hatası!'); }
+            } else {
+                alert('Bu dosya geçerli bir yedek dosyası değil (JSON formatı hatalı).');
+            }
+        } catch(e) { 
+            console.error(e);
+            alert('Dosya okuma hatası! Dosya bozuk olabilir.'); 
+        }
     };
-    reader.readAsText(input.files[0]);
+    // Dosya seçildiyse okumayı başlat
+    if(input.files && input.files[0]) {
+        reader.readAsText(input.files[0]);
+    }
 }
 
 function getNum(id) { return parseFloat(document.getElementById(id).value) || 0; }
@@ -1217,6 +1274,6 @@ function addHistory(type, amt, desc, cost=null, cId=null) {
     db.txCount = (db.txCount || 0) + 1;
 }
 </script>
-</body></html>
 
+</body></html>
 
