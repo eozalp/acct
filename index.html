@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Esnaf Glass V3</title>
+    <title>Esnaf Glass Final</title>
     
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
         :root {
             --blue: #0A84FF; --green: #30D158; --red: #FF453A;
             --orange: #FF9F0A; --teal: #64D2FF; --yellow: #FFD60A;
-            --indigo: #5E5CE6;
+            --indigo: #5E5CE6; --gray: #8E8E93;
             
             --glass-thin: rgba(255, 255, 255, 0.08);
             --glass-border: rgba(255, 255, 255, 0.12);
@@ -32,7 +32,6 @@
             margin: 0; background-color: #000; color: var(--text-primary); 
             min-height: 100vh; padding-bottom: calc(100px + var(--safe-bottom)); 
             overflow-x: hidden; font-size: 16px; user-select: none;
-            /* Deep Mesh Gradient */
             background-image: 
                 radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
                 radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
@@ -40,7 +39,6 @@
             background-attachment: fixed;
         }
 
-        /* Subtle Drift Animation */
         body::before {
             content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
             background: radial-gradient(circle at 50% 50%, rgba(94, 92, 230, 0.15), transparent 60%),
@@ -63,7 +61,7 @@
             border-top: 1px solid rgba(255,255,255,0.15);
         }
 
-        /* --- LAYOUT --- */
+        /* --- HEADER --- */
         header { 
             height: calc(60px + env(safe-area-inset-top, 0)); 
             padding: env(safe-area-inset-top, 15px) 20px 10px 20px;
@@ -71,32 +69,32 @@
             position: sticky; top: 0; z-index: 50;
             background: rgba(0,0,0,0.01); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
         }
-        .brand { font-weight: 700; font-size: 1.5rem; letter-spacing: -0.5px; background: linear-gradient(135deg, #fff 0%, #a5f3fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .brand { font-weight: 800; font-size: 1.5rem; letter-spacing: -0.5px; background: linear-gradient(135deg, #fff 0%, #a5f3fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
         .btn-icon { 
             background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); 
             color: white; width: 40px; height: 40px; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; 
+            display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; position: relative;
         }
         .btn-icon:active { transform: scale(0.9); background: rgba(255,255,255,0.2); }
+        .notif-badge { position: absolute; top: -2px; right: -2px; width: 10px; height: 10px; background: var(--red); border-radius: 50%; display: block; border: 2px solid #000; }
 
         .container { padding: 20px; max-width: 600px; margin: 0 auto; display: none; animation: fadeIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
         .container.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 
-        /* --- CARDS & LISTS --- */
+        /* --- CARDS --- */
         .card { border-radius: var(--radius-lg); padding: 24px; margin-bottom: 20px; position: relative; overflow: hidden; transition: transform 0.2s; }
         .card:active { transform: scale(0.99); }
-        
         .card-hero { background: linear-gradient(135deg, rgba(94, 92, 230, 0.6) 0%, rgba(10, 132, 255, 0.3) 100%); border: 1px solid rgba(255,255,255,0.2); }
         .hero-lbl { font-size: 0.7rem; font-weight: 600; color: rgba(255,255,255,0.7); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
         .hero-val { font-size: 2.8rem; font-weight: 800; letter-spacing: -1.5px; text-shadow: 0 4px 20px rgba(0,0,0,0.3); margin-bottom: 20px; }
-        
         .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .stat-box { background: rgba(0,0,0,0.2); border-radius: 16px; padding: 12px; text-align: center; backdrop-filter: blur(10px); }
         .stat-lbl { font-size: 0.7rem; color: rgba(255,255,255,0.6); display: block; margin-bottom: 2px; }
         .stat-val { font-weight: 700; font-size: 1.1rem; }
 
+        /* --- GRID & BUTTONS --- */
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px; }
         .btn-action { 
             background: var(--glass-thin); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
@@ -108,7 +106,7 @@
         .btn-action i { font-size: 1.8rem; font-style: normal; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); }
 
         h3 { font-size: 1.2rem; font-weight: 700; margin: 0 0 15px 0; }
-        .list-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; padding: 0 4px; }
+        .list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 4px; }
         .link-btn { color: var(--blue); font-size: 0.9rem; font-weight: 600; cursor: pointer; }
 
         .tx-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -118,6 +116,7 @@
         .tx-meta { font-size: 0.75rem; color: var(--text-tertiary); }
         .tx-amt { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.5px; }
 
+        /* --- CONTACTS --- */
         #contact-search { background: rgba(255,255,255,0.1); border: none; padding: 14px 16px; border-radius: 12px; color: white; font-size: 1rem; width: 100%; backdrop-filter: blur(10px); margin-bottom: 20px; }
         .contact-item { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--glass-thin); border: 1px solid var(--glass-border); border-radius: 18px; margin-bottom: 10px; backdrop-filter: blur(10px); }
         .avatar { width: 42px; height: 42px; background: linear-gradient(135deg, #8E8E93, #636366); border-radius: 50%; display:flex; align-items:center; justify-content:center; font-weight:700; margin-right:12px; font-size:0.9rem; }
@@ -125,7 +124,7 @@
         .badge-green { background: rgba(48, 209, 88, 0.2); color: var(--green); border: 1px solid rgba(48, 209, 88, 0.3); }
         .badge-red { background: rgba(255, 69, 58, 0.2); color: var(--red); border: 1px solid rgba(255, 69, 58, 0.3); }
 
-        /* --- NAV DOCK --- */
+        /* --- DOCK NAV --- */
         .nav-wrapper { position: fixed; bottom: 25px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 100; pointer-events: none; }
         .nav-dock { pointer-events: auto; background: rgba(40, 40, 40, 0.75); backdrop-filter: blur(25px) saturate(150%); -webkit-backdrop-filter: blur(25px) saturate(150%); border: 1px solid rgba(255,255,255,0.15); border-radius: 32px; padding: 10px 20px; display: flex; gap: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
         .nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; color: var(--text-tertiary); transition: 0.3s; position: relative; width: 44px; }
@@ -137,7 +136,7 @@
         .fab { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--blue), var(--indigo)); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: white; box-shadow: 0 8px 20px rgba(10, 132, 255, 0.5); border: 2px solid rgba(255,255,255,0.2); cursor: pointer; transition: 0.2s; }
         .fab:active { transform: translateX(-50%) scale(0.9); }
 
-        /* --- DRAGGABLE MODAL SYSTEM --- */
+        /* --- MODALS --- */
         .modal-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 200; 
@@ -156,14 +155,12 @@
             transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         .modal.open { transform: translateY(0); }
-        /* While dragging, we disable CSS transition for instant follow */
         .modal.dragging { transition: none; }
 
-        /* The drag handle zone */
         .drag-handle-zone {
             width: 100%; padding: 20px 0 10px 0; flex-shrink: 0;
             display: flex; justify-content: center; align-items: flex-start;
-            cursor: grab; touch-action: none; /* Critical for reliable drag */
+            cursor: grab; touch-action: none;
         }
         .modal-grabber { width: 40px; height: 5px; background: rgba(255,255,255,0.3); border-radius: 3px; }
         
@@ -174,7 +171,7 @@
         }
         .modal-content-scroll::-webkit-scrollbar { display: none; }
 
-        /* --- CONTROLS --- */
+        /* --- FORMS & BUTTONS --- */
         input, select, textarea { width: 100%; padding: 18px; border-radius: 16px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); color: white; font-size: 16px; margin-bottom: 8px; transition: 0.2s; appearance: none; }
         input:focus, select:focus, textarea:focus { background: rgba(0,0,0,0.5); border-color: var(--blue); box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.15); }
         label { color: var(--text-secondary); font-size: 0.85rem; font-weight: 600; margin-left: 5px; margin-bottom: 6px; display: block; }
@@ -184,16 +181,16 @@
         .btn-primary { background: linear-gradient(135deg, #007AFF, #0055FF); color: white; }
         .btn-success { background: linear-gradient(135deg, #34C759, #30B753); color: white; }
         .btn-danger { background: linear-gradient(135deg, #FF3B30, #FF2D55); color: white; }
+        .btn-glass { background: rgba(255,255,255,0.1); color: white; border:1px solid rgba(255,255,255,0.1); }
 
         .seg-control { background: rgba(0,0,0,0.3); padding: 4px; border-radius: 16px; display: flex; margin-bottom: 24px; flex-shrink: 0; }
         .seg-opt { flex: 1; text-align: center; padding: 10px; font-size: 0.9rem; color: rgba(255,255,255,0.5); border-radius: 12px; transition: 0.2s; font-weight: 600; cursor: pointer; }
         .seg-opt.active { background: rgba(255,255,255,0.15); color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
 
         .chips-container { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; }
-        .chip { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); color: var(--text-secondary); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; }
-        .chip:active { background: var(--blue); color: white; }
+        .chip { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); color: var(--text-secondary); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition:0.2s; }
+        .chip:active, .chip.active { background: var(--blue); color: white; border-color: var(--blue); }
 
-        /* Chart */
         .chart-wrapper { margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
         .bar-container { display: flex; align-items: flex-end; justify-content: space-between; height: 120px; }
         .bar-col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; padding: 0 4px; }
@@ -210,12 +207,15 @@
         .settings-tab-btn.active { color: white; border-bottom-color: white; }
         .settings-pane { display: none; }
         .settings-pane.active { display: block; }
+        
+        /* Filter Active Indicator */
+        #filter-indicator { font-size:0.75rem; background:rgba(10,132,255,0.2); color:var(--blue); padding:4px 10px; border-radius:8px; display:none; align-items:center; gap:5px; border:1px solid rgba(10,132,255,0.3); margin-left: 10px; }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="brand">Esnaf Glass V3</div>
+    <div class="brand">Esnaf Glass</div>
     <button class="btn-icon" onclick="openSettings()">
         ⚙️
         <div id="settings-badge" class="notif-badge" style="display:none;"></div>
@@ -255,28 +255,14 @@
 </div>
 
 <div id="view-history" class="container">
-    <div class="list-header"><h3>İşlem Geçmişi</h3><button class="btn-icon" style="width:auto; padding:0 15px; font-size:0.8rem; border-radius:12px;" onclick="toggleFilter()">🔍 Filtre</button></div>
-    <div id="filter-box" class="card glass" style="display:none;">
-        <div class="grid-3" style="grid-template-columns:1fr 1fr; margin-bottom:12px;">
-            <div><label>Başlangıç</label><input type="date" id="f-start"></div>
-            <div><label>Bitiş</label><input type="date" id="f-end"></div>
+    <div class="list-header">
+        <div style="display:flex; align-items:center;">
+            <h3 style="margin:0;">İşlem Geçmişi</h3>
+            <div id="filter-indicator"><span>🔍</span> Filtreli</div>
         </div>
-        <div style="margin-bottom:12px;">
-            <label>İşlem Tipi</label>
-            <select id="f-type">
-                <option value="all">Tümü</option>
-                <option value="ciro">Satış (Peşin)</option>
-                <option value="veresiye_satis">Satış (Veresiye)</option>
-                <option value="gider">Gider</option>
-                <option value="mal">Mal Alımı</option>
-            </select>
-        </div>
-        <div style="margin-bottom:16px;"><label>Kişi / Firma</label><select id="f-contact"><option value="all">Herkes</option></select></div>
-        <div style="display:flex; gap:10px;">
-            <button class="btn-main btn-primary" onclick="applyFilter()" style="padding:12px;">Uygula</button>
-            <button class="btn-main" style="background:rgba(255,255,255,0.1); color:white; padding:12px;" onclick="clearFilter()">Temizle</button>
-        </div>
+        <button class="btn-icon" style="width:auto; height:32px; padding:0 12px; font-size:0.85rem; border-radius:12px; font-weight:600;" onclick="openModal('modal-filter')">Filtrele 🔽</button>
     </div>
+
     <div id="history-summary" style="display:none; background:rgba(10, 132, 255, 0.15); padding:15px; border-radius:16px; margin-bottom:15px; border:1px solid rgba(10, 132, 255, 0.3);">
         <div style="display:flex; justify-content:space-between; font-weight:700; font-size:1rem; color:var(--blue);">
             <span>Giriş: <span id="sum-in">0</span></span><span>Çıkış: <span id="sum-out">0</span></span>
@@ -321,7 +307,45 @@
     </div>
 </div>
 
-<!-- MODAL TEMPLATE STRUCTURE -->
+<!-- NEW FILTER MODAL -->
+<div id="modal-filter" class="modal-overlay">
+    <div class="modal glass-heavy">
+        <div class="drag-handle-zone"><div class="modal-grabber"></div></div>
+        <div class="modal-content-scroll">
+            <h3>🔍 Filtreleme Seçenekleri</h3>
+            
+            <div class="chips-container" style="margin-bottom:15px;">
+                <div class="chip" onclick="setQuickDate('today')">Bugün</div>
+                <div class="chip" onclick="setQuickDate('week')">Bu Hafta</div>
+                <div class="chip" onclick="setQuickDate('month')">Bu Ay</div>
+            </div>
+
+            <div class="grid-3" style="grid-template-columns:1fr 1fr; margin-bottom:12px;">
+                <div><label>Başlangıç</label><input type="date" id="f-start"></div>
+                <div><label>Bitiş</label><input type="date" id="f-end"></div>
+            </div>
+            
+            <div style="margin-bottom:12px;">
+                <label>İşlem Tipi</label>
+                <select id="f-type">
+                    <option value="all">Tümü</option>
+                    <option value="ciro">Satış (Peşin)</option>
+                    <option value="veresiye_satis">Satış (Veresiye)</option>
+                    <option value="gider">Gider</option>
+                    <option value="mal">Mal Alımı</option>
+                </select>
+            </div>
+            <div style="margin-bottom:20px;"><label>Kişi / Firma</label><select id="f-contact"><option value="all">Herkes</option></select></div>
+            
+            <div class="grid-3" style="grid-template-columns:1fr 1fr; gap:15px;">
+                <button class="btn-main btn-glass" onclick="clearFilter()">TEMİZLE</button>
+                <button class="btn-main btn-primary" onclick="applyFilter()">UYGULA</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- OTHER MODALS -->
 <div id="modal-income" class="modal-overlay">
     <div class="modal glass-heavy">
         <div class="drag-handle-zone"><div class="modal-grabber"></div></div>
@@ -336,13 +360,10 @@
             <div id="inc-details">
                 <label>Ödeme Tipi</label>
                 <select id="inp-inc-method" onchange="toggleContactSelect('inc', this.value)">
-                    <option value="pesin">Peşin (Nakit / Kredi Kartı)</option>
+                    <option value="pesin">Peşin</option>
                     <option value="veresiye">Veresiye (Kişi Seç)</option>
                 </select>
-                <div id="div-inc-contact" style="display:none; margin-top:15px;">
-                    <label>Müşteri Seçiniz</label>
-                    <select id="inp-inc-contact"><option value="">Seçiniz...</option></select>
-                </div>
+                <div id="div-inc-contact" style="display:none; margin-top:15px;"><label>Müşteri Seçiniz</label><select id="inp-inc-contact"><option value="">Seçiniz...</option></select></div>
             </div>
             <button class="btn-main btn-success" style="margin-top:24px;" onclick="saveIncome()">GİRİŞİ KAYDET</button>
         </div>
@@ -420,7 +441,6 @@
         <div class="drag-handle-zone"><div class="modal-grabber"></div></div>
         <div class="modal-content-scroll">
             <h3>Stok Değeri Düzenle</h3>
-            <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:15px;">Güncel stok maliyet değerini giriniz.</p>
             <input type="number" id="inp-stock-val" inputmode="decimal" style="font-size:1.5rem; text-align:center; font-weight:bold;">
             <button class="btn-main btn-primary" style="margin-top:24px;" onclick="updateStockVal()">GÜNCELLE</button>
         </div>
@@ -438,23 +458,23 @@
                 <div class="settings-tab-btn" onclick="switchSettingsTab('sistem', this)">Sistem</div>
             </div>
             <div id="pane-genel" class="settings-pane active">
-                <button class="btn-main" style="background:rgba(255,255,255,0.1); font-size:0.9rem; margin-bottom:20px;" onclick="showInstallHelp()">📲 Ana Ekrana Nasıl Eklenir?</button>
+                <button class="btn-main btn-glass" style="font-size:0.9rem; margin-bottom:20px;" onclick="showInstallHelp()">📲 Ana Ekrana Ekle</button>
                 <div style="margin-bottom:20px;"><label>Ortalama Kar Marjı (%)</label><input type="number" id="inp-settings-margin" placeholder="30"></div>
-                <div style="margin-bottom:10px;"><label>⚠️ Yedekleme Hatırlatıcısı</label><select id="inp-settings-reminder"><option value="0">Kapalı</option><option value="10">Her 10 İşlemde Bir</option><option value="20">Her 20 İşlemde Bir</option></select></div>
-                <button class="btn-main btn-primary" style="margin-top:15px;" onclick="saveSettings()">AYARLARI KAYDET</button>
+                <div style="margin-bottom:10px;"><label>⚠️ Yedekleme Hatırlatıcısı</label><select id="inp-settings-reminder"><option value="0">Kapalı</option><option value="10">Her 10 İşlemde Bir</option></select></div>
+                <button class="btn-main btn-primary" style="margin-top:15px;" onclick="saveSettings()">KAYDET</button>
             </div>
             <div id="pane-yedek" class="settings-pane">
-                 <div id="backup-warning" class="warning-box"><span>⚠️</span><div><b>Yedek Almalısın!</b><br>Son yedekten beri <span id="backup-count-lbl">0</span> işlem.</div></div>
+                 <div id="backup-warning" class="warning-box"><span>⚠️</span><div><b>Yedek Almalısın!</b><br><span id="backup-count-lbl">0</span> işlem oldu.</div></div>
                 <button class="btn-action" style="width:100%; margin-bottom:15px; flex-direction:row; justify-content:center;" onclick="backupToClipboard()">📋 Tüm Veriyi Kopyala</button>
                 <div class="grid-3" style="grid-template-columns:1fr 1fr; gap:10px;">
                     <button class="btn-action" onclick="backupDownload()">💾 İndir</button>
                     <div style="position:relative;" class="btn-action"><span>📂 Yükle</span><input type="file" onchange="restoreBackup(this)" accept=".json,.txt" style="opacity:0; position:absolute; top:0; left:0; width:100%; height:100%;"></div>
                 </div>
-                <textarea id="restore-text-area" rows="3" placeholder="Yedekleme metnini buraya yapıştır..." style="width:100%; padding:10px; font-size:0.8rem; margin-top:10px;"></textarea>
-                <button class="btn-main btn-success" style="margin-top:10px;" onclick="restoreFromText()">📥 Metni Yükle</button>
+                <textarea id="restore-text-area" rows="3" placeholder="Yedek kodunu buraya yapıştır..." style="width:100%; padding:10px; font-size:0.8rem; margin-top:10px;"></textarea>
+                <button class="btn-main btn-success" style="margin-top:10px;" onclick="restoreFromText()">📥 Yükle</button>
             </div>
             <div id="pane-sistem" class="settings-pane">
-                <button class="btn-main" style="background:rgba(255,255,255,0.1); margin-bottom:20px;" onclick="downloadAppSource()">📥 Uygulamayı İndir (.html)</button>
+                <button class="btn-main btn-glass" style="margin-bottom:20px;" onclick="downloadAppSource()">📥 Uygulamayı İndir (.html)</button>
                 <button class="btn-main btn-danger" onclick="hardReset()">VERİLERİ SIFIRLA</button>
             </div>
         </div>
@@ -462,8 +482,9 @@
 </div>
 
 <script>
-/* --- CORE LOGIC --- */
 let db={cash:0,stock:0,profitMargin:30,contacts:[],history:[],txCount:0,backupLimit:10},tempIncomeType='ciro',selectedCId=null;
+let activeFilter = false;
+
 window.onload=()=>{const s=localStorage.getItem('esnaf_v4_db');if(s)try{db=JSON.parse(s)}catch(e){}if(!db.profitMargin)db.profitMargin=30;if(db.txCount===undefined)db.txCount=0;initApp();initSwipeGestures();};
 function initApp(){if(!Array.isArray(db.contacts))db.contacts=[];if(!Array.isArray(db.history))db.history=[];updateUI();}
 function saveDB(){localStorage.setItem('esnaf_v4_db',JSON.stringify(db));updateUI();}
@@ -481,7 +502,7 @@ function addContact(){const n=document.getElementById('inp-c-name').value.trim()
 function renderContacts(){const l=document.getElementById('contact-list'),t=(document.getElementById('contact-search').value||'').toLowerCase();l.innerHTML='';[...db.contacts].sort((a,b)=>Math.abs(b.balance)-Math.abs(a.balance)).forEach(c=>{if(t&&!c.name.toLowerCase().includes(t))return;let b=c.balance>0?`<span class="badge badge-green">ALACAK: ${fmt(c.balance)}</span>`:(c.balance<0?`<span class="badge badge-red">BORÇ: ${fmt(Math.abs(c.balance))}</span>`:`<span class="badge" style="background:rgba(255,255,255,0.1)">TEMİZ</span>`);l.innerHTML+=`<div class="contact-item" onclick="openContactModal('${c.id}')"><div style="display:flex; align-items:center;"><div class="avatar">${c.name.charAt(0).toUpperCase()}</div><span style="font-weight:600;">${c.name}</span></div>${b}</div>`;});}
 function doContactOp(t){const a=getNum('inp-op-amt');if(a<=0)return;const c=db.contacts.find(x=>x.id===selectedCId);if(t==='give'){db.cash-=a;c.balance+=a;addHistory('cari_cikis',a,`${c.name} (Ödeme)`,null,c.id);}else{db.cash+=a;c.balance-=a;addHistory('cari_giris',a,`${c.name} (Tahsilat)`,null,c.id);}closeModal('modal-contact-op');saveDB();}
 function createHistoryRow(h,d=false){const p=['ciro','sermaye','cari_giris','veresiye_satis'].includes(h.type),c=p?'var(--green)':'var(--red)',i={'ciro':'💰','sermaye':'🏦','gider':'📉','mal':'📦','mal_cari':'🚛','veresiye_satis':'📝','cari_giris':'💵','cari_cikis':'💸'}[h.type]||'🔹',b=d?`<button onclick="deleteTx(${h.id})" style="margin-left:10px; background:rgba(255,69,58,0.2); border:none; border-radius:8px; width:30px; height:30px;">🗑️</button>`:'';return `<div class="tx-row"><div style="display:flex; align-items:center;"><div class="tx-icon">${i}</div><div><div class="tx-desc">${h.desc}</div><div class="tx-meta">${new Date(h.date).toLocaleDateString()}</div></div></div><div style="display:flex; align-items:center;"><span class="tx-amt" style="color:${c}">${p?'+':'-'}${fmt(h.amount)}</span>${b}</div></div>`;}
-function openModal(id){document.querySelectorAll(`#${id} input`).forEach(e=>e.value='');if(document.querySelector(`#${id} select`))document.querySelector(`#${id} select`).selectedIndex=0;['div-inc-contact','div-buy-contact'].forEach(d=>{if(document.getElementById(d))document.getElementById(d).style.display='none'});document.getElementById(id).classList.add('active');setTimeout(()=>document.querySelector(`#${id} .modal`).classList.add('open'),10);if(id==='modal-expense')updateExpenseSuggestions();if(id==='modal-settings'){document.getElementById('inp-settings-margin').value=db.profitMargin;document.getElementById('inp-settings-reminder').value=db.backupLimit||10;}}
+function openModal(id){document.querySelectorAll(`#${id} input`).forEach(e=>e.value='');if(document.querySelector(`#${id} select`))document.querySelector(`#${id} select`).selectedIndex=0;['div-inc-contact','div-buy-contact'].forEach(d=>{if(document.getElementById(d))document.getElementById(d).style.display='none'});document.getElementById(id).classList.add('active');setTimeout(()=>document.querySelector(`#${id} .modal`).classList.add('open'),10);if(id==='modal-expense')updateExpenseSuggestions();if(id==='modal-settings'){document.getElementById('inp-settings-margin').value=db.profitMargin;document.getElementById('inp-settings-reminder').value=db.backupLimit||10;} if(id==='modal-filter' && activeFilter){/*Keep existing filter values*/}}
 function closeModal(id){document.querySelector(`#${id} .modal`).classList.remove('open');document.querySelector(`#${id}`).style.opacity='0';setTimeout(()=>{document.getElementById(id).classList.remove('active');document.getElementById(id).style.opacity='';},300);}
 function getNum(id){return parseFloat(document.getElementById(id).value)||0;}
 function fmt(n){return new Intl.NumberFormat('tr-TR',{style:'currency',currency:'TRY',maximumFractionDigits:0}).format(n);}
@@ -490,7 +511,7 @@ function updateExpenseSuggestions(){const c=document.getElementById('expense-chi
 function switchTab(i,e){document.querySelectorAll('.container').forEach(c=>c.classList.remove('active'));document.getElementById('view-'+i).classList.add('active');document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));if(e)e.classList.add('active');if(i==='contacts'){document.getElementById('contact-search').value='';renderContacts();}if(i==='history')applyFilter();window.scrollTo(0,0);}
 function switchSettingsTab(p,b){document.querySelectorAll('.settings-pane').forEach(x=>x.classList.remove('active'));document.getElementById('pane-'+p).classList.add('active');document.querySelectorAll('.settings-tab-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');}
 function openContactModal(i){selectedCId=i;const c=db.contacts.find(x=>x.id===i);document.getElementById('op-c-name').innerText=c.name;const e=document.getElementById('op-c-bal');e.innerText=fmt(c.balance);e.style.color=c.balance>0?'var(--green)':(c.balance<0?'var(--red)':'white');openModal('modal-contact-op');}
-function showContactHistoryFromModal(){closeModal('modal-contact-op');document.getElementById('f-contact').value=selectedCId;document.getElementById('filter-box').style.display='block';switchTab('history');}
+function showContactHistoryFromModal(){closeModal('modal-contact-op');document.getElementById('f-contact').value=selectedCId;switchTab('history');activeFilter=true;applyFilter();}
 function deleteContact(){if(confirm('Silinsin mi?')){db.contacts=db.contacts.filter(x=>x.id!==selectedCId);saveDB();closeModal('modal-contact-op');renderContacts();}}
 function openEditStock(){document.getElementById('inp-stock-val').value=db.stock;openModal('modal-stock-edit');}
 function updateStockVal(){db.stock=getNum('inp-stock-val');saveDB();closeModal('modal-stock-edit');}
@@ -503,66 +524,33 @@ function backupDownload(){const a=document.createElement('a');a.href=URL.createO
 function restoreBackup(i){const r=new FileReader();r.onload=e=>{try{db=JSON.parse(e.target.result);saveDB();alert('Yüklendi!');location.reload();}catch(x){alert('Hata');}};r.readAsText(i.files[0]);}
 function restoreFromText(){try{db=JSON.parse(document.getElementById('restore-text-area').value);saveDB();alert('Yüklendi!');location.reload();}catch(x){alert('Hata');}}
 function showInstallHelp(){alert('IOS: Paylaş -> Ana Ekrana Ekle\nAndroid: Menü -> Ana Ekrana Ekle');}
-function downloadAppSource(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(["<!DOCTYPE html>\n"+document.documentElement.outerHTML],{type:"text/html"}));a.download="esnaf_glass_v3.html";a.click();}
+function downloadAppSource(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(["<!DOCTYPE html>\n"+document.documentElement.outerHTML],{type:"text/html"}));a.download="esnaf_glass_final.html";a.click();}
 function setIncomeType(t,e){tempIncomeType=t;document.querySelectorAll('.seg-opt').forEach(s=>s.classList.remove('active'));e.classList.add('active');document.getElementById('inc-details').style.display=t==='ciro'?'block':'none';}
 function toggleContactSelect(c,v){document.getElementById(`div-${c}-contact`).style.display=v==='veresiye'?'block':'none';}
-function toggleFilter(){const f=document.getElementById('filter-box');f.style.display=f.style.display==='none'?'block':'none';}
-function applyFilter(){const s=document.getElementById('f-start').value,e=document.getElementById('f-end').value,t=document.getElementById('f-type').value,c=document.getElementById('f-contact').value;let l=[...db.history];if(s)l=l.filter(h=>h.date.slice(0,10)>=s);if(e)l=l.filter(h=>h.date.slice(0,10)<=e);if(t!=='all')l=l.filter(h=>h.type===t);if(c!=='all')l=l.filter(h=>h.contactId===c);l.sort((a,b)=>new Date(b.date)-new Date(a.date));const o=document.getElementById('full-history-list');o.innerHTML=l.length?'':'<div class="empty-state">Kayıt yok.</div>';let i=0,ot=0;l.forEach(h=>{if(['ciro','sermaye','cari_giris','veresiye_satis'].includes(h.type))i+=h.amount;else ot+=h.amount;o.innerHTML+=createHistoryRow(h,true);});document.getElementById('sum-in').innerText=fmt(i);document.getElementById('sum-out').innerText=fmt(ot);document.getElementById('history-summary').style.display='block';}
+
+/* FILTER LOGIC */
+function applyFilter(){const s=document.getElementById('f-start').value,e=document.getElementById('f-end').value,t=document.getElementById('f-type').value,c=document.getElementById('f-contact').value;let l=[...db.history];if(s)l=l.filter(h=>h.date.slice(0,10)>=s);if(e)l=l.filter(h=>h.date.slice(0,10)<=e);if(t!=='all')l=l.filter(h=>h.type===t);if(c!=='all')l=l.filter(h=>h.contactId===c);l.sort((a,b)=>new Date(b.date)-new Date(a.date));const o=document.getElementById('full-history-list');o.innerHTML=l.length?'':'<div class="empty-state">Kayıt yok.</div>';let i=0,ot=0;l.forEach(h=>{if(['ciro','sermaye','cari_giris','veresiye_satis'].includes(h.type))i+=h.amount;else ot+=h.amount;o.innerHTML+=createHistoryRow(h,true);});document.getElementById('sum-in').innerText=fmt(i);document.getElementById('sum-out').innerText=fmt(ot);document.getElementById('history-summary').style.display='block';
+activeFilter = (s || e || t!=='all' || c!=='all'); document.getElementById('filter-indicator').style.display = activeFilter ? 'flex' : 'none'; closeModal('modal-filter');}
 function clearFilter(){document.getElementById('f-start').value='';document.getElementById('f-end').value='';document.getElementById('f-type').value='all';document.getElementById('f-contact').value='all';applyFilter();}
+function setQuickDate(r) {
+    const n = new Date(); const y = n.getFullYear(), m = String(n.getMonth()+1).padStart(2,'0'), d = String(n.getDate()).padStart(2,'0');
+    if(r === 'today') { const s = `${y}-${m}-${d}`; document.getElementById('f-start').value = s; document.getElementById('f-end').value = s; }
+    if(r === 'month') { document.getElementById('f-start').value = `${y}-${m}-01`; document.getElementById('f-end').value = `${y}-${m}-${new Date(y, n.getMonth()+1, 0).getDate()}`; }
+    if(r === 'week') { const f = new Date(n.setDate(n.getDate() - n.getDay() + 1)); const l = new Date(n.setDate(n.getDate() - n.getDay() + 7));
+        document.getElementById('f-start').value = f.toISOString().slice(0,10); document.getElementById('f-end').value = l.toISOString().slice(0,10); }
+}
+
 function deleteTx(id){if(!confirm('Silinsin mi?'))return;const x=db.history.findIndex(h=>h.id===id);if(x===-1)return;const h=db.history[x];if(h.type==='ciro'){db.cash-=h.amount;if(h.cost)db.stock+=h.cost;}else if(h.type==='veresiye_satis'&&h.contactId){const c=db.contacts.find(k=>k.id===h.contactId);if(c)c.balance-=h.amount;if(h.cost)db.stock+=h.cost;}else if(h.type==='gider')db.cash+=h.amount;else if(h.type==='mal'){db.stock-=h.amount;db.cash+=h.amount;}else if(h.type==='mal_cari'&&h.contactId){db.stock-=h.amount;const c=db.contacts.find(k=>k.id===h.contactId);if(c)c.balance+=h.amount;}else if(h.type==='cari_giris'&&h.contactId){db.cash-=h.amount;const c=db.contacts.find(k=>k.id===h.contactId);if(c)c.balance+=h.amount;}else if(h.type==='cari_cikis'&&h.contactId){db.cash+=h.amount;const c=db.contacts.find(k=>k.id===h.contactId);if(c)c.balance-=h.amount;}db.history.splice(x,1);saveDB();if(document.getElementById('view-history').classList.contains('active'))applyFilter();}
 
-/* --- NEW SWIPE LOGIC --- */
 function initSwipeGestures() {
     const handles = document.querySelectorAll('.drag-handle-zone');
     handles.forEach(h => {
-        let startY = 0;
-        let currentModal = null;
-        let overlay = null;
-
-        h.addEventListener('touchstart', (e) => {
-            startY = e.touches[0].clientY;
-            currentModal = h.closest('.modal');
-            overlay = h.closest('.modal-overlay');
-            currentModal.classList.add('dragging');
-        }, {passive: true});
-
-        h.addEventListener('touchmove', (e) => {
-            if(!currentModal) return;
-            const deltaY = e.touches[0].clientY - startY;
-            if(deltaY > 0) {
-                // Move modal
-                currentModal.style.transform = `translateY(${deltaY}px)`;
-                // Fade overlay based on distance (max 300px)
-                const opacity = Math.max(0, 1 - (deltaY / 400));
-                overlay.style.backgroundColor = `rgba(0,0,0,${0.5 * opacity})`;
-            }
-        }, {passive: true});
-
-        h.addEventListener('touchend', (e) => {
-            if(!currentModal) return;
-            const deltaY = e.changedTouches[0].clientY - startY;
-            currentModal.classList.remove('dragging');
-            currentModal.style.transform = ''; // allow CSS transition to take over
-            overlay.style.backgroundColor = '';
-
-            if(deltaY > 120) {
-                // Close it
-                closeModal(overlay.id);
-            } else {
-                // Snap back
-                currentModal.classList.add('open'); // Ensure class stays
-            }
-            currentModal = null;
-            overlay = null;
-        });
+        let startY = 0; let currentModal = null; let overlay = null;
+        h.addEventListener('touchstart', (e) => { startY = e.touches[0].clientY; currentModal = h.closest('.modal'); overlay = h.closest('.modal-overlay'); currentModal.classList.add('dragging'); }, {passive: true});
+        h.addEventListener('touchmove', (e) => { if(!currentModal) return; const deltaY = e.touches[0].clientY - startY; if(deltaY > 0) { currentModal.style.transform = `translateY(${deltaY}px)`; const opacity = Math.max(0, 1 - (deltaY / 400)); overlay.style.backgroundColor = `rgba(0,0,0,${0.5 * opacity})`; } }, {passive: true});
+        h.addEventListener('touchend', (e) => { if(!currentModal) return; const deltaY = e.changedTouches[0].clientY - startY; currentModal.classList.remove('dragging'); currentModal.style.transform = ''; overlay.style.backgroundColor = ''; if(deltaY > 120) { closeModal(overlay.id); } else { currentModal.classList.add('open'); } currentModal = null; overlay = null; });
     });
-    
-    // Close on overlay click
-    document.querySelectorAll('.modal-overlay').forEach(o => {
-        o.addEventListener('click', (e) => {
-            if(e.target === o) closeModal(o.id);
-        });
-    });
+    document.querySelectorAll('.modal-overlay').forEach(o => { o.addEventListener('click', (e) => { if(e.target === o) closeModal(o.id); }); });
 }
 </script>
 </body>
