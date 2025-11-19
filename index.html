@@ -6,7 +6,7 @@
     <title>Esnaf Defteri V4</title>
     
     <!-- PWA META TAGS -->
-    <meta name="theme-color" content="#1e293b"> <!-- Changed to match Nav Bar for seamless bottom look -->
+    <meta name="theme-color" content="#1e293b">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -21,7 +21,6 @@
     <link rel="manifest" id="my-manifest-placeholder">
 
     <script>
-        // Dynamically create Manifest to keep it single-file
         const manifest = {
             "name": "Esnaf Defteri",
             "short_name": "Esnaf V4",
@@ -58,9 +57,19 @@
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         
-        html, body { height: 100%; overscroll-behavior-y: none; /* Prevents pull-to-refresh effect on mobile app mode */ }
+        /* FIX: Removed height:100% to allow natural scrolling at bottom */
+        html { overscroll-behavior-y: none; }
         
-        body { margin: 0; background: var(--bg); padding-bottom: calc(100px + var(--safe-bottom)); color: var(--text); font-size: 16px; line-height: 1.5; }
+        /* FIX: Increased bottom padding to 130px to clear the Nav Bar completely */
+        body { 
+            margin: 0; 
+            background: var(--bg); 
+            min-height: 100vh;
+            padding-bottom: calc(130px + var(--safe-bottom)); 
+            color: var(--text); 
+            font-size: 16px; 
+            line-height: 1.5; 
+        }
 
         /* --- HEADER --- */
         header { height: var(--header-h); background: var(--card); padding: 0 20px; padding-top: env(safe-area-inset-top, 0); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
@@ -138,11 +147,10 @@
             left: 0; 
             width: 100%; 
             background: var(--nav-bg); 
-            border-radius: 24px 24px 0 0; /* Rounded top corners only */
+            border-radius: 24px 24px 0 0; 
             display: flex; 
             justify-content: space-between; 
             padding: 12px 20px; 
-            /* Important: Add safe area padding for iPhone home bar */
             padding-bottom: calc(12px + env(safe-area-inset-bottom, 20px));
             z-index: 40; 
             box-shadow: 0 -5px 25px rgba(0,0,0,0.1); 
@@ -173,7 +181,6 @@
         /* --- FAB (EMBEDDED IN NAV) --- */
         .fab { 
             position: fixed; 
-            /* Positioning relative to bottom + Safe Area to align with Nav */
             bottom: calc(35px + env(safe-area-inset-bottom, 20px)); 
             left: 50%; 
             transform: translateX(-50%);
@@ -189,7 +196,6 @@
             box-shadow: 0 8px 20px rgba(67, 56, 202, 0.5); 
             cursor: pointer; 
             z-index: 60; 
-            /* Border matches NAV BG to look like a cutout */
             border: 5px solid var(--nav-bg); 
             transition: transform 0.15s; 
             user-select: none;
@@ -267,7 +273,9 @@
         <input type="text" id="contact-search" placeholder="Müşteri / Firma ara..." onkeyup="renderContacts()">
     </div>
     <div id="contact-list"></div>
-    <div style="margin-top: 20px; margin-bottom: 110px;">
+    
+    <!-- FIX: Removed manual margin-bottom, relying on global body padding now -->
+    <div style="margin-top: 20px;">
         <button class="btn-main btn-primary" onclick="openModal('modal-add-contact')">
             + Yeni Kişi Ekle
         </button>
@@ -314,8 +322,9 @@
             <span>Çıkış: <span id="sum-out">0</span></span>
         </div>
     </div>
-
-    <div id="full-history-list" style="padding-bottom:80px;"></div>
+    
+    <!-- FIX: Removed manual padding-bottom -->
+    <div id="full-history-list"></div>
 </div>
 
 <!-- REPORT VIEW -->
