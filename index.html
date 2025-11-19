@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
-<head>
+<html lang="tr"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Esnaf Defteri V4</title>
@@ -18,7 +17,7 @@
     <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgZmlsbD0iIzQzMzhjYSIvPjxwYXRoIGQ9Ik0xNDAgMTMwaDIzMnYyNTJIMTQweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0zNzIgMTMwSDMyMHYyNTJoNTJ6IiBmaWxsPSIjZTBlN2ZmIi8+PHBhdGggZD0iTTE0MCAxMzBoNTJ2MjUyaC01MnoiIGZpbGw9IiMzNzMwYTMiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMTkwIiB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjIwIiByeD0iMTAiIGZpbGw9IiM0MzM4Y2EiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMjUwIiB3aWR0aD0iODAiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzQzMzhjYSIgb3BhY2l0eT0iMC4yIi8+PC9zdmc+">
 
     <!-- EMBEDDED MANIFEST -->
-    <link rel="manifest" id="my-manifest-placeholder">
+    <link rel="manifest" id="my-manifest-placeholder" href="blob:https://eozalp.github.io/6c67262d-c73c-4a68-8140-c4bd0c25c1d4">
 
     <script>
         const manifest = {
@@ -57,15 +56,14 @@
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         
-        /* FIX: Removed height:100% to allow natural scrolling at bottom */
         html { overscroll-behavior-y: none; }
         
-        /* FIX: Increased bottom padding to 130px to clear the Nav Bar completely */
+        /* FIX: Increased bottom padding significantly to clear floating nav */
         body { 
             margin: 0; 
             background: var(--bg); 
             min-height: 100vh;
-            padding-bottom: calc(130px + var(--safe-bottom)); 
+            padding-bottom: calc(150px + var(--safe-bottom)); 
             color: var(--text); 
             font-size: 16px; 
             line-height: 1.5; 
@@ -82,6 +80,10 @@
         /* --- GENERAL LAYOUT --- */
         .container { padding: 20px; max-width: 600px; margin: 0 auto; display: none; animation: fade 0.2s ease-out; }
         .container.active { display: block; }
+        
+        /* Force spacer at bottom of containers */
+        .bottom-spacer { height: 80px; width: 100%; }
+        
         @keyframes fade { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- CARDS --- */
@@ -139,6 +141,13 @@
         .modal-overlay.active { display: flex; opacity: 1; }
         .modal { background: #fff; width: 100%; max-width: 600px; margin: 0 auto; border-radius: 28px 28px 0 0; padding: 30px 25px; animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); max-height: 90vh; overflow-y: auto; padding-bottom: 50px; }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+        /* --- SETTINGS TABS --- */
+        .settings-tabs { display: flex; border-bottom: 1px solid #e2e8f0; margin-bottom: 20px; }
+        .settings-tab-btn { flex: 1; text-align: center; padding: 12px; font-weight: 600; color: var(--text-light); cursor: pointer; border-bottom: 2px solid transparent; transition: 0.2s; }
+        .settings-tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+        .settings-pane { display: none; animation: fade 0.2s; }
+        .settings-pane.active { display: block; }
 
         /* --- NAV BAR (DOCKED & APP-LIKE) --- */
         .nav { 
@@ -236,18 +245,18 @@
 <div class="fab" onclick="openModal('modal-income')">+</div>
 
 <!-- HOME VIEW -->
-<div id="view-home" class="container active">
+<div id="view-home" class="container">
     <div class="card card-hero">
         <div class="hero-lbl">NET VARLIK (KASA + STOK + ALACAK)</div>
-        <div class="hero-val" id="dash-net">0 ₺</div>
+        <div class="hero-val" id="dash-net">₺0</div>
         <div class="hero-stats">
             <div class="stat-item">
                 <span class="stat-lbl">KASA</span>
-                <span class="stat-val" id="dash-cash">0 ₺</span>
+                <span class="stat-val" id="dash-cash">₺0</span>
             </div>
             <div class="stat-item" style="position:relative; cursor:pointer;" onclick="openEditStock()">
                 <span class="stat-lbl">STOK DEĞERİ <small>✏️</small></span>
-                <span class="stat-val" id="dash-stock">0 ₺</span>
+                <span class="stat-val" id="dash-stock">₺0</span>
             </div>
         </div>
     </div>
@@ -265,6 +274,7 @@
         </div>
         <div id="recent-list"></div>
     </div>
+    <div class="bottom-spacer"></div>
 </div>
 
 <!-- CONTACTS VIEW -->
@@ -274,12 +284,12 @@
     </div>
     <div id="contact-list"></div>
     
-    <!-- FIX: Removed manual margin-bottom, relying on global body padding now -->
     <div style="margin-top: 20px;">
         <button class="btn-main btn-primary" onclick="openModal('modal-add-contact')">
             + Yeni Kişi Ekle
         </button>
     </div>
+    <div class="bottom-spacer"></div>
 </div>
 
 <!-- HISTORY VIEW -->
@@ -323,12 +333,12 @@
         </div>
     </div>
     
-    <!-- FIX: Removed manual padding-bottom -->
     <div id="full-history-list"></div>
+    <div class="bottom-spacer"></div>
 </div>
 
 <!-- REPORT VIEW -->
-<div id="view-report" class="container">
+<div id="view-report" class="container active">
     <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
             <h3 style="margin:0; font-size:1.1rem;">Bu Ayın Tahmini</h3>
@@ -338,17 +348,17 @@
         <div class="grid-3" style="grid-template-columns:1fr 1fr; gap:15px;">
             <div style="background:var(--success-bg); padding:15px; border-radius:14px; text-align:center;">
                 <div style="font-size:0.75rem; font-weight:700; color:var(--success); margin-bottom:5px; text-transform:uppercase;">Toplam Ciro</div>
-                <div style="font-size:1.2rem; font-weight:800; color:var(--success);" id="rep-ciro">0</div>
+                <div style="font-size:1.2rem; font-weight:800; color:var(--success);" id="rep-ciro">₺0</div>
             </div>
             <div style="background:var(--danger-bg); padding:15px; border-radius:14px; text-align:center;">
                 <div style="font-size:0.75rem; font-weight:700; color:var(--danger); margin-bottom:5px; text-transform:uppercase;">Toplam Gider</div>
-                <div style="font-size:1.2rem; font-weight:800; color:var(--danger);" id="rep-exp">0</div>
+                <div style="font-size:1.2rem; font-weight:800; color:var(--danger);" id="rep-exp">₺0</div>
             </div>
         </div>
         <div style="text-align:center; margin-top:20px; padding-top:20px; border-top:1px solid #f1f5f9;">
             <div style="font-size:0.85rem; color:var(--text-light); font-weight:600;">NET KAR (Tahmini)</div>
             <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:5px;">(Ciro - Ürün Maliyeti) - Giderler</div>
-            <div style="font-size:2.4rem; font-weight:900; letter-spacing:-1px;" id="rep-net">0 ₺</div>
+            <div style="font-size: 2.4rem; font-weight: 900; letter-spacing: -1px; color: var(--success);" id="rep-net">₺0</div>
         </div>
         
         <div class="chart-wrapper">
@@ -361,18 +371,19 @@
         <h3 style="margin:0 0 15px 0; font-size:1.1rem;">Piyasa Durumu</h3>
         <div class="list-item">
             <span>Alacaklar (Piyasadaki)</span>
-            <span class="text-green" style="font-size:1.1rem; font-weight:700;" id="rep-rec">0</span>
+            <span class="text-green" style="font-size:1.1rem; font-weight:700;" id="rep-rec">₺0</span>
         </div>
         <div class="list-item">
             <span>Borçlar (Tedarikçiye)</span>
-            <span class="text-red" style="font-size:1.1rem; font-weight:700;" id="rep-debt">0</span>
+            <span class="text-red" style="font-size:1.1rem; font-weight:700;" id="rep-debt">₺0</span>
         </div>
     </div>
+    <div class="bottom-spacer"></div>
 </div>
 
 <!-- NAV BAR (DOCKED BOTTOM) -->
 <div class="nav">
-    <div class="nav-item active" onclick="switchTab('home', this)">
+    <div class="nav-item" onclick="switchTab('home', this)">
         <span>🏠</span><span class="nav-lbl">Özet</span>
     </div>
     <div class="nav-item" onclick="switchTab('contacts', this)">
@@ -385,7 +396,7 @@
     <div class="nav-item" onclick="switchTab('history', this)">
         <span>📜</span><span class="nav-lbl">Geçmiş</span>
     </div>
-    <div class="nav-item" onclick="switchTab('report', this)">
+    <div class="nav-item active" onclick="switchTab('report', this)">
         <span>📊</span><span class="nav-lbl">Analiz</span>
     </div>
 </div>
@@ -408,7 +419,7 @@
             </select>
             <div id="div-inc-contact" style="display:none; margin-top:15px;">
                 <label>Müşteri Seçiniz</label>
-                <select id="inp-inc-contact"></select>
+                <select id="inp-inc-contact"><option value="">Seçiniz...</option></select>
             </div>
         </div>
         <button class="btn-main btn-success" style="margin-top:24px;" onclick="saveIncome()">KAYDET</button>
@@ -427,7 +438,7 @@
         </select>
         <div id="div-buy-contact" style="display:none; margin-top:15px;">
             <label>Tedarikçi Seçiniz</label>
-            <select id="inp-buy-contact"></select>
+            <select id="inp-buy-contact"><option value="">Seçiniz...</option></select>
         </div>
         <button class="btn-main btn-primary" style="margin-top:24px;" onclick="saveBuy()">STOK EKLE</button>
     </div>
@@ -492,42 +503,61 @@
     </div>
 </div>
 
+<!-- UPDATED SETTINGS MODAL -->
 <div id="modal-settings" class="modal-overlay" onclick="if(event.target===this) closeModal('modal-settings')">
     <div class="modal">
         <h3>Ayarlar</h3>
         
-        <button class="btn-main" style="background:#334155; color:white; margin-bottom:20px; font-size:0.9rem;" onclick="showInstallHelp()">
-            📲 Ana Ekrana Nasıl Eklenir?
-        </button>
-
-        <div style="margin-bottom:20px;">
-            <label>Ortalama Kar Marjı (%)</label>
-            <input type="number" id="inp-settings-margin" placeholder="30">
-            <small style="color:var(--text-light);">Satış yapıldığında maliyet bu orana göre düşülür.</small>
+        <div class="settings-tabs">
+            <div class="settings-tab-btn active" onclick="switchSettingsTab('genel', this)">Genel</div>
+            <div class="settings-tab-btn" onclick="switchSettingsTab('yedek', this)">Yedekleme</div>
+            <div class="settings-tab-btn" onclick="switchSettingsTab('sistem', this)">Sistem</div>
         </div>
-        <button class="btn-main btn-primary" onclick="saveSettings()">KAYDET</button>
-        
-        <hr style="margin:25px 0; border:0; border-top:1px solid #e2e8f0;">
-        
-        <h4 style="margin-bottom:10px;">Yedekleme</h4>
-        <button class="btn-main" style="background:#0ea5e9; color:white; margin-bottom:10px;" onclick="smartBackup()">📤 Yedeği Paylaş (WhatsApp)</button>
-        
-        <div style="position:relative; border:2px dashed #cbd5e1; padding:15px; border-radius:12px; text-align:center; color:#64748b; background:#f8fafc;">
-            <b>📥 Yedek Yükle</b> (Tıkla)
-            <input type="file" onchange="restoreBackup(this)" style="opacity:0; position:absolute; top:0; left:0; width:100%; height:100%;">
+
+        <!-- PANE 1: GENEL -->
+        <div id="pane-genel" class="settings-pane active">
+            <button class="btn-main" style="background:#334155; color:white; margin-bottom:20px; font-size:0.9rem;" onclick="showInstallHelp()">
+                📲 Ana Ekrana Nasıl Eklenir?
+            </button>
+            
+            <div style="margin-bottom:20px;">
+                <label>Ortalama Kar Marjı (%)</label>
+                <input type="number" id="inp-settings-margin" placeholder="30">
+                <small style="color:var(--text-light);">Satış yapıldığında maliyet bu orana göre düşülür.</small>
+            </div>
+            
+            <button class="btn-main btn-primary" onclick="saveSettings()">AYARLARI KAYDET</button>
         </div>
-        
-        <hr style="margin:25px 0; border:0; border-top:1px solid #e2e8f0;">
 
-        <h4 style="margin-bottom:10px;">Uygulama Yönetimi</h4>
-        <button class="btn-main" style="background:#475569; color:white; margin-bottom:10px;" onclick="downloadAppSource()">
-            📥 Uygulamayı İndir (.html)
-        </button>
-        <small style="display:block; color:#94a3b8; margin-bottom:20px; font-size:0.8rem; line-height:1.4;">
-            Uygulamanın kaynak kodunu (dosyasını) indirir. İnternetsiz çalışır. <br><b>Not:</b> Verileriniz bu dosyada DEĞİL, tarayıcıdadır.
-        </small>
+        <!-- PANE 2: YEDEKLEME -->
+        <div id="pane-yedek" class="settings-pane">
+             <p style="font-size:0.85rem; color:#64748b; margin-bottom:15px;">
+                Verilerinizi kaybetmemek için düzenli olarak yedeği WhatsApp veya E-posta yoluyla kendinize gönderin.
+            </p>
+            <button class="btn-main" style="background:#0ea5e9; color:white; margin-bottom:20px;" onclick="smartBackup()">📤 Yedeği Paylaş</button>
+            
+            <div style="position:relative; border:2px dashed #cbd5e1; padding:25px; border-radius:12px; text-align:center; color:#64748b; background:#f8fafc;">
+                <b style="color:var(--primary)">📥 Yedek Yükle</b><br>
+                <span style="font-size:0.8rem">(Dosya seçmek için tıklayın)</span>
+                <input type="file" onchange="restoreBackup(this)" style="opacity:0; position:absolute; top:0; left:0; width:100%; height:100%;">
+            </div>
+        </div>
 
-        <button class="btn-main btn-danger" style="margin-top:30px;" onclick="hardReset()">UYGULAMAYI SIFIRLA</button>
+        <!-- PANE 3: SİSTEM -->
+        <div id="pane-sistem" class="settings-pane">
+            <button class="btn-main" style="background:#475569; color:white; margin-bottom:10px;" onclick="downloadAppSource()">
+                📥 Uygulamayı İndir (.html)
+            </button>
+            <small style="display:block; color:#94a3b8; margin-bottom:30px; font-size:0.8rem; line-height:1.4;">
+                Uygulamanın kaynak kodunu (HTML dosyasını) indirir. İnternetsiz çalışır.
+            </small>
+
+            <hr style="margin:20px 0; border:0; border-top:1px solid #e2e8f0;">
+
+            <h4 style="color:var(--danger); margin-bottom:10px;">Tehlikeli Bölge</h4>
+            <button class="btn-main btn-danger" onclick="hardReset()">UYGULAMAYI SIFIRLA (HER ŞEYİ SİL)</button>
+        </div>
+
     </div>
 </div>
 
@@ -544,10 +574,7 @@ function showInstallHelp() {
 
 /* --- DOWNLOAD APP SOURCE --- */
 function downloadAppSource() {
-    // Capture full HTML
     let html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
-    html = html.replace(/class="modal-overlay active"/g, 'class="modal-overlay"');
-    
     const blob = new Blob([html], {type: "text/html"});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -569,16 +596,14 @@ window.onload = () => {
     if(saved) {
         try { db = JSON.parse(saved); } catch(e) { console.error(e); }
     }
-    // Migrate
     if(!db.profitMargin) db.profitMargin = 30;
     initApp();
     
-    // Try to register service worker if supported (For strict Installability checks)
     if ('serviceWorker' in navigator) {
         const swCode = "self.addEventListener('install', e=>self.skipWaiting());self.addEventListener('fetch',e=>e.respondWith(fetch(e.request)));";
         const blob = new Blob([swCode], {type: 'text/javascript'});
         const swUrl = URL.createObjectURL(blob);
-        navigator.serviceWorker.register(swUrl).catch(() => console.log('SW Skipped (Single File Mode)'));
+        navigator.serviceWorker.register(swUrl).catch(() => console.log('SW Skipped'));
     }
 };
 
@@ -595,7 +620,6 @@ function saveDB() {
 
 /* --- UI GÜNCELLEME --- */
 function updateUI() {
-    // 1. Dashboard Totals
     const totalRec = db.contacts.reduce((acc, c) => acc + (c.balance > 0 ? c.balance : 0), 0);
     const totalDebt = db.contacts.reduce((acc, c) => acc + (c.balance < 0 ? Math.abs(c.balance) : 0), 0);
     const net = db.cash + db.stock + totalRec - totalDebt;
@@ -605,7 +629,6 @@ function updateUI() {
     document.getElementById('dash-stock').innerText = fmt(db.stock);
     document.getElementById('lbl-margin').innerText = db.profitMargin;
     
-    // 2. Report Logic
     const now = new Date();
     const currentMonthStr = now.toISOString().slice(0,7);
     
@@ -657,13 +680,11 @@ function updateUI() {
 
     drawChart(chartDays);
 
-    // 3. Recent List
     const recentDiv = document.getElementById('recent-list');
     recentDiv.innerHTML = '';
     if(db.history.length === 0) recentDiv.innerHTML = '<div class="empty-state">Henüz işlem yok.</div>';
     db.history.slice(0, 5).forEach(h => recentDiv.innerHTML += createHistoryRow(h));
 
-    // 4. Select Options
     const contactOpts = '<option value="">Seçiniz...</option>' + db.contacts.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
     document.getElementById('inp-inc-contact').innerHTML = contactOpts;
     document.getElementById('inp-buy-contact').innerHTML = contactOpts;
@@ -955,6 +976,10 @@ function openModal(id) {
     if(id === 'modal-expense') {
         updateExpenseSuggestions();
     }
+    if(id === 'modal-settings') {
+        // Always open First tab
+        switchSettingsTab('genel', document.querySelector('.settings-tab-btn'));
+    }
 }
 function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
@@ -980,6 +1005,17 @@ function switchTab(id, el) {
         applyFilter();
     }
     window.scrollTo(0,0);
+}
+
+function switchSettingsTab(paneId, btnEl) {
+    // Hide all panes
+    document.querySelectorAll('.settings-pane').forEach(p => p.classList.remove('active'));
+    // Show target pane
+    document.getElementById('pane-'+paneId).classList.add('active');
+    
+    // Update buttons
+    document.querySelectorAll('.settings-tab-btn').forEach(b => b.classList.remove('active'));
+    btnEl.classList.add('active');
 }
 
 function setIncomeType(t, el) {
@@ -1091,6 +1127,6 @@ function addHistory(type, amt, desc, cost=null, cId=null) {
     db.history.unshift({ id: Date.now(), date: new Date().toISOString(), type, amount: amt, desc, cost, contactId: cId });
 }
 </script>
-</body>
-</html>
+
+</body></html>
 
