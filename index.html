@@ -58,7 +58,6 @@
         
         html { overscroll-behavior-y: none; }
         
-        /* FIX: Increased bottom padding significantly to clear floating nav */
         body { 
             margin: 0; 
             background: var(--bg); 
@@ -74,16 +73,16 @@
         .brand { font-weight: 800; font-size: 1.3rem; color: var(--primary); letter-spacing: -0.5px; display:flex; align-items:center; gap:8px; }
         .brand::before { content:''; display:inline-block; width:24px; height:24px; background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgZmlsbD0iIzQzMzhjYSIvPjxwYXRoIGQ9Ik0xNDAgMTMwaDIzMnYyNTJIMTQweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0zNzIgMTMwSDMyMHYyNTJoNTJ6IiBmaWxsPSIjZTBlN2ZmIi8+PC9zdmc+"); background-size:contain; }
         
-        .btn-icon { background: var(--primary-light); color: var(--primary); width: 42px; height: 42px; border-radius: 12px; border: none; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .btn-icon { position:relative; background: var(--primary-light); color: var(--primary); width: 42px; height: 42px; border-radius: 12px; border: none; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
         .btn-icon:active { transform: scale(0.95); }
+        
+        .notif-badge { position: absolute; top: -5px; right: -5px; width: 18px; height: 18px; background: var(--danger); color: white; font-size: 0.7rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; font-weight: bold; animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes pop { from{transform:scale(0)} to{transform:scale(1)} }
 
         /* --- GENERAL LAYOUT --- */
         .container { padding: 20px; max-width: 600px; margin: 0 auto; display: none; animation: fade 0.2s ease-out; }
         .container.active { display: block; }
-        
-        /* Force spacer at bottom of containers */
         .bottom-spacer { height: 80px; width: 100%; }
-        
         @keyframes fade { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- CARDS --- */
@@ -149,65 +148,28 @@
         .settings-pane { display: none; animation: fade 0.2s; }
         .settings-pane.active { display: block; }
 
-        /* --- NAV BAR (DOCKED & APP-LIKE) --- */
+        /* --- NAV BAR --- */
         .nav { 
-            position: fixed; 
-            bottom: 0; 
-            left: 0; 
-            width: 100%; 
-            background: var(--nav-bg); 
-            border-radius: 24px 24px 0 0; 
-            display: flex; 
-            justify-content: space-between; 
-            padding: 12px 20px; 
-            padding-bottom: calc(12px + env(safe-area-inset-bottom, 20px));
-            z-index: 40; 
-            box-shadow: 0 -5px 25px rgba(0,0,0,0.1); 
+            position: fixed; bottom: 0; left: 0; width: 100%; 
+            background: var(--nav-bg); border-radius: 24px 24px 0 0; 
+            display: flex; justify-content: space-between; 
+            padding: 12px 20px; padding-bottom: calc(12px + env(safe-area-inset-bottom, 20px));
+            z-index: 40; box-shadow: 0 -5px 25px rgba(0,0,0,0.1); 
         }
-        
-        .nav-item { 
-            color: #64748b; 
-            font-size: 1.5rem; 
-            padding: 5px 8px; 
-            border-radius: 10px; 
-            cursor: pointer; 
-            transition: 0.25s; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            position: relative; 
-            flex: 1; 
-            -webkit-tap-highlight-color: transparent; 
-        }
-        
-        .nav-item.active { 
-            color: white; 
-            transform: translateY(-3px); 
-        }
+        .nav-item { color: #64748b; font-size: 1.5rem; padding: 5px 8px; border-radius: 10px; cursor: pointer; transition: 0.25s; display: flex; flex-direction: column; align-items: center; position: relative; flex: 1; -webkit-tap-highlight-color: transparent; }
+        .nav-item.active { color: white; transform: translateY(-3px); }
         .nav-item.active::after { content:''; position:absolute; bottom:-4px; width: 4px; height: 4px; background: var(--primary); border-radius: 50%; }
         .nav-lbl { font-size: 0.65rem; margin-top: 4px; font-weight: 600; letter-spacing: 0.3px; }
 
-        /* --- FAB (EMBEDDED IN NAV) --- */
+        /* --- FAB --- */
         .fab { 
-            position: fixed; 
-            bottom: calc(35px + env(safe-area-inset-bottom, 20px)); 
-            left: 50%; 
-            transform: translateX(-50%);
-            width: 60px; 
-            height: 60px; 
-            background: var(--primary); 
-            color: white; 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 2rem; 
-            box-shadow: 0 8px 20px rgba(67, 56, 202, 0.5); 
-            cursor: pointer; 
-            z-index: 60; 
-            border: 5px solid var(--nav-bg); 
-            transition: transform 0.15s; 
-            user-select: none;
+            position: fixed; bottom: calc(35px + env(safe-area-inset-bottom, 20px)); 
+            left: 50%; transform: translateX(-50%);
+            width: 60px; height: 60px; background: var(--primary); color: white; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            font-size: 2rem; box-shadow: 0 8px 20px rgba(67, 56, 202, 0.5); 
+            cursor: pointer; z-index: 60; border: 5px solid var(--nav-bg); 
+            transition: transform 0.15s; user-select: none;
         }
         .fab:active { transform: translateX(-50%) scale(0.90); }
 
@@ -227,21 +189,22 @@
         .text-green { color: var(--success); }
         .text-red { color: var(--danger); }
         .empty-state { text-align:center; color:#94a3b8; padding:30px 10px; font-style:italic; }
+        .warning-box { background: #fff7ed; border: 1px solid #fdba74; color: #c2410c; padding: 12px; border-radius: 8px; font-size: 0.9rem; display: none; margin-bottom: 20px; align-items: center; gap: 10px; }
+        .warning-box.active { display: flex; }
 
-        /* IOS NOTCH FIX */
-        @supports (-webkit-touch-callout: none) {
-            body { -webkit-text-size-adjust: none; }
-        }
+        @supports (-webkit-touch-callout: none) { body { -webkit-text-size-adjust: none; } }
     </style>
 </head>
 <body>
 
 <header>
     <div class="brand">Esnaf Defteri</div>
-    <button class="btn-icon" onclick="openSettings()">⚙️</button>
+    <button class="btn-icon" onclick="openSettings()">
+        ⚙️
+        <div id="settings-badge" class="notif-badge" style="display:none;">!</div>
+    </button>
 </header>
 
-<!-- FAB is now CENTERED and EMBEDDED in Nav -->
 <div class="fab" onclick="openModal('modal-income')">+</div>
 
 <!-- HOME VIEW -->
@@ -283,11 +246,8 @@
         <input type="text" id="contact-search" placeholder="Müşteri / Firma ara..." onkeyup="renderContacts()">
     </div>
     <div id="contact-list"></div>
-    
     <div style="margin-top: 20px;">
-        <button class="btn-main btn-primary" onclick="openModal('modal-add-contact')">
-            + Yeni Kişi Ekle
-        </button>
+        <button class="btn-main btn-primary" onclick="openModal('modal-add-contact')">+ Yeni Kişi Ekle</button>
     </div>
     <div class="bottom-spacer"></div>
 </div>
@@ -360,13 +320,11 @@
             <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:5px;">(Ciro - Ürün Maliyeti) - Giderler</div>
             <div style="font-size: 2.4rem; font-weight: 900; letter-spacing: -1px; color: var(--success);" id="rep-net">₺0</div>
         </div>
-        
         <div class="chart-wrapper">
              <h4 style="margin:0 0 10px 0; font-size:0.9rem; color:var(--text-light);">Son 7 Gün Satışları</h4>
              <div class="bar-container" id="weekly-chart"></div>
         </div>
     </div>
-
     <div class="card">
         <h3 style="margin:0 0 15px 0; font-size:1.1rem;">Piyasa Durumu</h3>
         <div class="list-item">
@@ -381,24 +339,13 @@
     <div class="bottom-spacer"></div>
 </div>
 
-<!-- NAV BAR (DOCKED BOTTOM) -->
+<!-- NAV BAR -->
 <div class="nav">
-    <div class="nav-item" onclick="switchTab('home', this)">
-        <span>🏠</span><span class="nav-lbl">Özet</span>
-    </div>
-    <div class="nav-item" onclick="switchTab('contacts', this)">
-        <span>👥</span><span class="nav-lbl">Kişiler</span>
-    </div>
-    
-    <!-- SPACER DIV for the Center FAB -->
+    <div class="nav-item" onclick="switchTab('home', this)"><span>🏠</span><span class="nav-lbl">Özet</span></div>
+    <div class="nav-item" onclick="switchTab('contacts', this)"><span>👥</span><span class="nav-lbl">Kişiler</span></div>
     <div style="width:60px;"></div>
-
-    <div class="nav-item" onclick="switchTab('history', this)">
-        <span>📜</span><span class="nav-lbl">Geçmiş</span>
-    </div>
-    <div class="nav-item active" onclick="switchTab('report', this)">
-        <span>📊</span><span class="nav-lbl">Analiz</span>
-    </div>
+    <div class="nav-item" onclick="switchTab('history', this)"><span>📜</span><span class="nav-lbl">Geçmiş</span></div>
+    <div class="nav-item active" onclick="switchTab('report', this)"><span>📊</span><span class="nav-lbl">Analiz</span></div>
 </div>
 
 <!-- MODALS -->
@@ -449,15 +396,10 @@
         <h3>📉 Gider Çıkışı</h3>
         <label>Tutar (₺)</label>
         <input type="number" id="inp-exp-amt" placeholder="0" style="font-size:1.8rem; text-align:center; font-weight:800; color:var(--danger); margin-bottom:20px;" inputmode="decimal">
-        
         <label>Açıklama</label>
-        <!-- CHIPS CONTAINER -->
         <div id="expense-chips" class="chips-container"></div>
-
         <input type="text" id="inp-exp-desc" placeholder="Kira, Fatura, Yemek vb." list="expense-suggestions" autocomplete="off">
-        <!-- REALTIME SUGGESTIONS -->
         <datalist id="expense-suggestions"></datalist>
-        
         <button class="btn-main btn-danger" style="margin-top:24px;" onclick="saveExpense()">KAYDET</button>
     </div>
 </div>
@@ -475,21 +417,17 @@
     <div class="modal">
         <h3 id="op-c-name" style="text-align:center; margin-bottom:5px;"></h3>
         <div id="op-c-bal" style="text-align:center; font-weight:800; font-size:1.4rem; margin-bottom:24px;"></div>
-        
         <button class="btn-action" style="width:100%; margin-bottom:24px; flex-direction:row; justify-content:center; padding:12px; background:#f8fafc;" onclick="showContactHistoryFromModal()">
             <span>📜</span> Bu Kişinin Hesap Dökümü (Ekstre)
         </button>
-
         <div style="background:#f1f5f9; padding:15px; border-radius:16px; margin-bottom:20px;">
             <label style="text-align:center;">İşlem Tutarı</label>
             <input type="number" id="inp-op-amt" style="text-align:center; font-size:1.5rem;" inputmode="decimal">
         </div>
-
         <div class="grid-3" style="grid-template-columns:1fr 1fr; gap:15px;">
             <button class="btn-main" style="background:#f59e0b; color:white;" onclick="doContactOp('give')">Borç Ver<br><small>(veya Ödeme Yap)</small></button>
             <button class="btn-main btn-success" onclick="doContactOp('take')">Tahsilat<br><small>(veya Borç Al)</small></button>
         </div>
-        
         <button class="btn-main btn-danger" style="margin-top:20px; background:#fee2e2; color:#dc2626;" onclick="deleteContact()">Kişiyi Sil</button>
     </div>
 </div>
@@ -503,7 +441,7 @@
     </div>
 </div>
 
-<!-- UPDATED SETTINGS MODAL -->
+<!-- SETTINGS MODAL -->
 <div id="modal-settings" class="modal-overlay" onclick="if(event.target===this) closeModal('modal-settings')">
     <div class="modal">
         <h3>Ayarlar</h3>
@@ -519,22 +457,54 @@
             <button class="btn-main" style="background:#334155; color:white; margin-bottom:20px; font-size:0.9rem;" onclick="showInstallHelp()">
                 📲 Ana Ekrana Nasıl Eklenir?
             </button>
-            
             <div style="margin-bottom:20px;">
                 <label>Ortalama Kar Marjı (%)</label>
                 <input type="number" id="inp-settings-margin" placeholder="30">
                 <small style="color:var(--text-light);">Satış yapıldığında maliyet bu orana göre düşülür.</small>
             </div>
             
-            <button class="btn-main btn-primary" onclick="saveSettings()">AYARLARI KAYDET</button>
+            <hr style="margin:20px 0; border:0; border-top:1px solid #e2e8f0;">
+            
+            <div style="margin-bottom:10px;">
+                <label>⚠️ Yedekleme Hatırlatıcısı</label>
+                <select id="inp-settings-reminder" style="background:#fef3c7; border-color:#f59e0b; color:#b45309; font-weight:600;">
+                    <option value="0">Kapalı (Hatırlatma)</option>
+                    <option value="5">Her 5 İşlemde Bir</option>
+                    <option value="10">Her 10 İşlemde Bir</option>
+                    <option value="20">Her 20 İşlemde Bir</option>
+                    <option value="50">Her 50 İşlemde Bir</option>
+                </select>
+                <small style="color:var(--text-light);">Belirlenen işlem sayısına ulaşıldığında yedekleme yapmanız hatırlatılır.</small>
+            </div>
+            
+            <button class="btn-main btn-primary" style="margin-top:15px;" onclick="saveSettings()">AYARLARI KAYDET</button>
         </div>
 
         <!-- PANE 2: YEDEKLEME -->
         <div id="pane-yedek" class="settings-pane">
+             <div id="backup-warning" class="warning-box">
+                 <span style="font-size:1.2rem">⚠️</span>
+                 <div>
+                     <b>Yedekleme Tavsiye Edilir!</b><br>
+                     Son yedekten beri <span id="backup-count-lbl">0</span> işlem yapıldı.
+                 </div>
+             </div>
+
              <p style="font-size:0.85rem; color:#64748b; margin-bottom:15px;">
-                Verilerinizi kaybetmemek için düzenli olarak yedeği WhatsApp veya E-posta yoluyla kendinize gönderin.
+                Aşağıdaki yöntemlerden biriyle verilerinizi güvenceye alın.
             </p>
-            <button class="btn-main" style="background:#0ea5e9; color:white; margin-bottom:20px;" onclick="smartBackup()">📤 Yedeği Paylaş</button>
+            
+            <div class="grid-3" style="margin-bottom:25px;">
+                <button class="btn-action" onclick="backupToClipboard()">
+                    <span>📋</span> Kopyala
+                </button>
+                <button class="btn-action" onclick="backupDownload()">
+                    <span>💾</span> İndir
+                </button>
+                <button class="btn-action" onclick="backupShare()">
+                    <span>📤</span> Paylaş
+                </button>
+            </div>
             
             <div style="position:relative; border:2px dashed #cbd5e1; padding:25px; border-radius:12px; text-align:center; color:#64748b; background:#f8fafc;">
                 <b style="color:var(--primary)">📥 Yedek Yükle</b><br>
@@ -553,11 +523,9 @@
             </small>
 
             <hr style="margin:20px 0; border:0; border-top:1px solid #e2e8f0;">
-
             <h4 style="color:var(--danger); margin-bottom:10px;">Tehlikeli Bölge</h4>
             <button class="btn-main btn-danger" onclick="hardReset()">UYGULAMAYI SIFIRLA (HER ŞEYİ SİL)</button>
         </div>
-
     </div>
 </div>
 
@@ -587,7 +555,11 @@ function downloadAppSource() {
 }
 
 /* --- CORE APP --- */
-let db = { cash: 0, stock: 0, profitMargin: 30, contacts: [], history: [] };
+let db = { 
+    cash: 0, stock: 0, profitMargin: 30, 
+    contacts: [], history: [],
+    txCount: 0, backupLimit: 10 // New Fields
+};
 let tempIncomeType = 'ciro';
 let selectedCId = null;
 
@@ -596,7 +568,11 @@ window.onload = () => {
     if(saved) {
         try { db = JSON.parse(saved); } catch(e) { console.error(e); }
     }
+    // Migrations
     if(!db.profitMargin) db.profitMargin = 30;
+    if(db.txCount === undefined) db.txCount = 0;
+    if(db.backupLimit === undefined) db.backupLimit = 10;
+
     initApp();
     
     if ('serviceWorker' in navigator) {
@@ -618,8 +594,27 @@ function saveDB() {
     updateUI();
 }
 
+function checkBackupStatus() {
+    const badge = document.getElementById('settings-badge');
+    const warningBox = document.getElementById('backup-warning');
+    const countLbl = document.getElementById('backup-count-lbl');
+    const limit = parseInt(db.backupLimit);
+
+    countLbl.innerText = db.txCount;
+
+    if (limit > 0 && db.txCount >= limit) {
+        badge.style.display = 'flex';
+        warningBox.classList.add('active');
+    } else {
+        badge.style.display = 'none';
+        warningBox.classList.remove('active');
+    }
+}
+
 /* --- UI GÜNCELLEME --- */
 function updateUI() {
+    checkBackupStatus();
+
     const totalRec = db.contacts.reduce((acc, c) => acc + (c.balance > 0 ? c.balance : 0), 0);
     const totalDebt = db.contacts.reduce((acc, c) => acc + (c.balance < 0 ? Math.abs(c.balance) : 0), 0);
     const net = db.cash + db.stock + totalRec - totalDebt;
@@ -970,15 +965,16 @@ function deleteTx(id) {
 
 /* --- UTILS & HELPERS --- */
 function openModal(id) { 
-    document.querySelectorAll(`#${id} input`).forEach(i => i.value = '');
+    if (id !== 'modal-settings') document.querySelectorAll(`#${id} input`).forEach(i => i.value = '');
     document.getElementById(id).classList.add('active'); 
     
     if(id === 'modal-expense') {
         updateExpenseSuggestions();
     }
     if(id === 'modal-settings') {
-        // Always open First tab
-        switchSettingsTab('genel', document.querySelector('.settings-tab-btn'));
+        document.getElementById('inp-settings-margin').value = db.profitMargin;
+        document.getElementById('inp-settings-reminder').value = db.backupLimit || 10;
+        // Default to first tab? optional, keeps state if not reset
     }
 }
 function closeModal(id) { document.getElementById(id).classList.remove('active'); }
@@ -1008,12 +1004,8 @@ function switchTab(id, el) {
 }
 
 function switchSettingsTab(paneId, btnEl) {
-    // Hide all panes
     document.querySelectorAll('.settings-pane').forEach(p => p.classList.remove('active'));
-    // Show target pane
     document.getElementById('pane-'+paneId).classList.add('active');
-    
-    // Update buttons
     document.querySelectorAll('.settings-tab-btn').forEach(b => b.classList.remove('active'));
     btnEl.classList.add('active');
 }
@@ -1072,11 +1064,11 @@ function updateStockVal() {
 }
 
 function openSettings() {
-    document.getElementById('inp-settings-margin').value = db.profitMargin;
     openModal('modal-settings');
 }
 function saveSettings() {
     db.profitMargin = getNum('inp-settings-margin');
+    db.backupLimit = parseInt(document.getElementById('inp-settings-reminder').value);
     saveDB(); closeModal('modal-settings');
 }
 function hardReset() {
@@ -1088,21 +1080,67 @@ function hardReset() {
     }
 }
 
-async function smartBackup() {
+/* --- BACKUP FUNCTIONS --- */
+function resetBackupCounter() {
+    db.txCount = 0;
+    saveDB();
+    alert('Yedekleme başarılı işaretlendi. Sayaç sıfırlandı.');
+}
+
+async function backupToClipboard() {
+    const json = JSON.stringify(db, null, 2);
+    try {
+        await navigator.clipboard.writeText(json);
+        resetBackupCounter();
+    } catch(e) { alert('Kopyalama başarısız.'); }
+}
+
+async function backupShare() {
     const json = JSON.stringify(db, null, 2);
     const file = new File([json], "esnaf_yedek.json", {type: "application/json"});
     if(navigator.canShare && navigator.canShare({files:[file]})) {
-        try { await navigator.share({files:[file], title:'Esnaf Defteri Yedek'}); return; } catch(e){}
+        try { 
+            await navigator.share({files:[file], title:'Esnaf Defteri Yedek'}); 
+            resetBackupCounter();
+        } catch(e){}
+    } else {
+        alert('Paylaşım bu cihazda desteklenmiyor. İndirme veya kopyalamayı deneyin.');
     }
-    try {
-        await navigator.clipboard.writeText(json);
-        alert('Yedek KOPYALANDI! WhatsApp\'a yapıştırıp gönderebilirsiniz.');
-    } catch(e) {
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(file);
-        a.download = "esnaf_yedek.json";
-        a.click();
+}
+
+async function backupDownload() {
+    const json = JSON.stringify(db, null, 2);
+    
+    // 1. Try Modern File System API (Chrome Desktop / Edge)
+    if ('showSaveFilePicker' in window) {
+        try {
+            const handle = await window.showSaveFilePicker({
+                suggestedName: 'esnaf_yedek.json',
+                types: [{ description: 'JSON Yedek Dosyası', accept: {'application/json': ['.json']} }],
+            });
+            const writable = await handle.createWritable();
+            await writable.write(json);
+            await writable.close();
+            resetBackupCounter();
+            return;
+        } catch (err) {
+             // User cancelled or error, fall through to legacy download
+             if(err.name !== 'AbortError') console.log('FS API Error, falling back');
+             else return; // If user cancelled picker, do nothing
+        }
     }
+
+    // 2. Legacy Download (Mobile / Safari)
+    const blob = new Blob([json], {type: "application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = "esnaf_yedek.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    resetBackupCounter();
 }
 
 function restoreBackup(input) {
@@ -1125,8 +1163,10 @@ function fmt(n) { return new Intl.NumberFormat('tr-TR', { style: 'currency', cur
 
 function addHistory(type, amt, desc, cost=null, cId=null) {
     db.history.unshift({ id: Date.now(), date: new Date().toISOString(), type, amount: amt, desc, cost, contactId: cId });
+    // Increment backup counter
+    db.txCount = (db.txCount || 0) + 1;
 }
 </script>
-
 </body></html>
+
 
