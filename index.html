@@ -71,7 +71,7 @@
         /* --- HEADER --- */
         header { height: var(--header-h); background: var(--card); padding: 0 20px; padding-top: env(safe-area-inset-top, 0); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
         .brand { font-weight: 800; font-size: 1.3rem; color: var(--primary); letter-spacing: -0.5px; display:flex; align-items:center; gap:8px; }
-        .brand::before { content:''; display:inline-block; width:24px; height:24px; background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgZmlsbD0iIzQzMzhjYSIvPjxwYXRoIGQ9Ik0xNDAgMTMwaDIzMnYyNTJIMTQweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0zNzIgMTMwSDMyMHYyNTJoNTJ6IiBmaWxsPSIjZTBlN2ZmIi8+PC9zdmc+"); background-size:contain; }
+        .brand::before { content:''; display:inline-block; width:24px; height:24px; background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgZmlsbD0iIzQzMzhjYSIvPjxwYXRoIGQ9Ik0xNDAgMTMwaDIzMnYyNTJIMTQweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0zNzIgMTMwSDMyMHYyNTJoNTJ6IiBmaWxsPSIjZTBlN2ZmIi8+PHBhdGggZD0iTTE0MCAxMzBoNTJ2MjUyaC01MnoiIGZpbGw9IiMzNzMwYTMiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMTkwIiB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjIwIiByeD0iMTAiIGZpbGw9IiM0MzM4Y2EiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMjUwIiB3aWR0aD0iODAiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzQzMzhjYSIgb3BhY2l0eT0iMC4yIi8+PC9zdmc+"); background-size:contain; }
         
         .btn-icon { position:relative; background: var(--primary-light); color: var(--primary); width: 42px; height: 42px; border-radius: 12px; border: none; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
         .btn-icon:active { transform: scale(0.95); }
@@ -993,11 +993,10 @@ function switchTab(id, el) {
         document.getElementById('contact-search').value = '';
         renderContacts();
     }
-    // Only apply filter if we are NOT coming from the special contact history function
-    // because that function handles its own filtering logic
+    
     if(id === 'history') {
-        // We rely on current state of inputs, which is fine.
-        // BUT if we just switched tabs, we might want to ensure we see everything unless filter is set.
+        // If we switch to history, we run applyFilter.
+        // If we came from showContactHistoryFromModal, the inputs are already set, so this works perfectly.
         applyFilter();
     }
     window.scrollTo(0,0);
@@ -1041,36 +1040,25 @@ function openContactModal(id) {
 function showContactHistoryFromModal() {
     if(!selectedCId) return;
     
+    // 1. Close Modal
     closeModal('modal-contact-op');
     
-    // 1. Switch Tab
-    switchTab('history');
-    
-    // 2. Manually set filters (Avoid clearFilter() side effects)
+    // 2. Prepare Filters BEFORE switching tab
     document.getElementById('f-start').value = '';
     document.getElementById('f-end').value = '';
     document.getElementById('f-type').value = 'all';
     
-    // 3. Set Contact
     const contactSelect = document.getElementById('f-contact');
+    // Safety check: update UI if select is empty
+    if(contactSelect.options.length <= 1) updateUI(); 
+    
     contactSelect.value = selectedCId;
-    
-    // Fallback: Ensure value is set even if types mismatch slightly
-    if(contactSelect.value !== selectedCId) {
-        for(let i=0; i<contactSelect.options.length; i++) {
-            if(contactSelect.options[i].value == selectedCId) {
-                contactSelect.selectedIndex = i;
-                break;
-            }
-        }
-    }
 
-    // 4. Open Filter Pane & Apply
+    // 3. Show Filter Box visually so user knows it's filtered
     document.getElementById('filter-box').classList.add('open');
-    applyFilter();
-    
-    // 5. Scroll to top
-    window.scrollTo(0,0);
+
+    // 4. Switch Tab (which triggers applyFilter with the new values we just set)
+    switchTab('history');
 }
 
 function deleteContact() {
