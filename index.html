@@ -4,18 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Esnaf Glass</title>
+    <meta name="description" content="Esnaf Glass - Hızlı, Güvenli, Çevrimdışı Kasa Defteri">
     
+    <!-- PWA CONFIGURATION -->
     <meta name="theme-color" content="#000000">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Esnaf Glass">
 
-    <!-- ICON -->
+    <!-- DYNAMIC MANIFEST (Essential for Installability) -->
+    <link rel="manifest" id="my-manifest">
+    <script>
+        const manifest = {
+            "name": "Esnaf Glass",
+            "short_name": "Esnaf Glass",
+            "start_url": ".",
+            "display": "standalone",
+            "background_color": "#000000",
+            "theme_color": "#000000",
+            "orientation": "portrait",
+            "scope": "/",
+            "icons": [{
+                "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgZmlsbD0iIzQzMzhjYSIvPjxwYXRoIGQ9Ik0xNDAgMTMwaDIzMnYyNTJIMTQweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0zNzIgMTMwSDMyMHYyNTJoNTJ6IiBmaWxsPSIjZTBlN2ZmIi8+PHBhdGggZD0iTTE0MCAxMzBoNTJ2MjUyaC01MnoiIGZpbGw9IiMzNzMwYTMiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMTkwIiB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjIwIiByeD0iMTAiIGZpbGw9IiM0MzM4Y2EiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMjUwIiB3aWR0aD0iODAiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzQzMzhjYSIgb3BhY2l0eT0iMC4yIi8+PC9zdmc+",
+                "sizes": "512x512",
+                "type": "image/svg+xml"
+            }]
+        };
+        document.getElementById('my-manifest').setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(manifest)));
+    </script>
+
+    <!-- ICONS -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgZmlsbD0iIzQzMzhjYSIvPjxwYXRoIGQ9Ik0xNDAgMTMwaDIzMnYyNTJIMTQweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0zNzIgMTMwSDMyMHYyNTJoNTJ6IiBmaWxsPSIjZTBlN2ZmIi8+PHBhdGggZD0iTTE0MCAxMzBoNTJ2MjUyaC01MnoiIGZpbGw9IiMzNzMwYTMiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMTkwIiB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjIwIiByeD0iMTAiIGZpbGw9IiM0MzM4Y2EiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMjUwIiB3aWR0aD0iODAiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzQzMzhjYSIgb3BhY2l0eT0iMC4yIi8+PC9zdmc+">
     <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgZmlsbD0iIzQzMzhjYSIvPjxwYXRoIGQ9Ik0xNDAgMTMwaDIzMnYyNTJIMTQweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0zNzIgMTMwSDMyMHYyNTJoNTJ6IiBmaWxsPSIjZTBlN2ZmIi8+PHBhdGggZD0iTTE0MCAxMzBoNTJ2MjUyaC01MnoiIGZpbGw9IiMzNzMwYTMiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMTkwIiB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjIwIiByeD0iMTAiIGZpbGw9IiM0MzM4Y2EiIG9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjE4NCIgeT0iMjUwIiB3aWR0aD0iODAiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzQzMzhjYSIgb3BhY2l0eT0iMC4yIi8+PC9zdmc+">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-        
+        /* SYSTEM FONTS ONLY - NO EXTERNAL REQUESTS */
         :root {
             --blue: #0A84FF; --green: #32D74B; --red: #FF453A;
             --orange: #FF9F0A; --teal: #64D2FF; --yellow: #FFD60A;
@@ -23,7 +46,7 @@
             
             --bg-body: #000000;
             --glass-bg: rgba(30, 30, 32, 0.70);
-            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.15);
             
             --text-main: #FFFFFF;
             --text-muted: rgba(235, 235, 245, 0.6);
@@ -35,7 +58,7 @@
             --safe-bottom: env(safe-area-inset-bottom, 20px);
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", sans-serif; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         
         body { 
             margin: 0; background-color: var(--bg-body); color: var(--text-main); 
@@ -45,6 +68,9 @@
                               radial-gradient(circle at 90% 80%, rgba(48,209,88,0.1), transparent 40%);
             background-attachment: fixed;
         }
+
+        /* OFFLINE INDICATOR */
+        body.offline { border-top: 4px solid var(--red); }
 
         /* --- TYPOGRAPHY & UTILS --- */
         h3 { font-size: 1.15rem; font-weight: 700; letter-spacing: 0.3px; margin: 0; color: var(--text-main); }
@@ -89,7 +115,7 @@
         .stat-lbl { display: block; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 4px; font-weight: 500; }
         .stat-val { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.5px; }
 
-        /* --- GRID BUTTONS (Fixed) --- */
+        /* --- GRID BUTTONS --- */
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
         .btn-action { 
             background: var(--glass-bg); border: 1px solid var(--glass-border);
@@ -254,6 +280,10 @@
         .settings-tab-btn { flex: 1; text-align: center; padding: 14px; color: var(--text-muted); font-weight: 600; border-bottom: 2px solid transparent; cursor: pointer; }
         .settings-tab-btn.active { color: #fff; border-bottom-color: #fff; }
         .settings-pane { display: none; } .settings-pane.active { display: block; }
+        
+        /* Install PWA Button */
+        #install-btn-area { display: none; margin-bottom: 20px; }
+        #install-btn-area.visible { display: block; }
     </style>
 </head>
 <body>
@@ -425,7 +455,12 @@
     <h3>Ayarlar</h3>
     <div class="settings-tabs"><div class="settings-tab-btn active" onclick="switchSettingsTab('genel', this)">Genel</div><div class="settings-tab-btn" onclick="switchSettingsTab('yedek', this)">Yedek</div><div class="settings-tab-btn" onclick="switchSettingsTab('sistem', this)">Sistem</div></div>
     <div id="pane-genel" class="settings-pane active">
-        <button class="btn-main btn-glass" style="font-size:0.9rem; margin-bottom:20px;" onclick="showInstallHelp()">📲 Ana Ekrana Ekle</button>
+        
+        <div id="install-btn-area">
+            <button class="btn-main btn-glass" style="font-size:0.9rem; margin-bottom:20px; background: var(--blue);" onclick="installPWA()">📲 Uygulamayı Yükle (Ana Ekran)</button>
+        </div>
+        <button class="btn-main btn-glass" style="font-size:0.9rem; margin-bottom:20px;" onclick="showInstallHelp()">📲 Yükleme Yardım</button>
+
         <label>Ortalama Kar Marjı (%)</label><input type="number" id="inp-settings-margin" placeholder="30" inputmode="decimal">
         <label>⚠️ Yedekleme Hatırlatıcısı</label><select id="inp-settings-reminder"><option value="0">Kapalı</option><option value="10">Her 10 İşlemde Bir</option><option value="20">Her 20 İşlemde Bir</option></select>
         <button class="btn-main btn-primary" style="margin-top:20px;" onclick="saveSettings()">KAYDET</button>
@@ -451,6 +486,60 @@
 let db = { cash:0, stock:0, profitMargin:30, contacts:[], history:[], txCount:0, backupLimit:10 };
 let tempIncomeType = 'ciro';
 let selectedCId = null;
+let deferredPrompt;
+
+/* --- SERVICE WORKER & PWA (ROCK SOLID OFFLINE) --- */
+if ('serviceWorker' in navigator) {
+    const swCode = `
+        const CACHE_NAME = 'esnaf-glass-v11';
+        self.addEventListener('install', (e) => {
+            self.skipWaiting();
+        });
+        self.addEventListener('activate', (e) => {
+            e.waitUntil(self.clients.claim());
+        });
+        self.addEventListener('fetch', (e) => {
+            e.respondWith(
+                fetch(e.request)
+                    .then(res => {
+                        const clone = res.clone();
+                        caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
+                        return res;
+                    })
+                    .catch(() => caches.match(e.request))
+            );
+        });
+    `;
+    const blob = new Blob([swCode], {type: 'application/javascript'});
+    navigator.serviceWorker.register(URL.createObjectURL(blob))
+        .then(() => console.log('Offline Ready'))
+        .catch(err => console.log('SW Fail', err));
+}
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('install-btn-area').classList.add('visible');
+});
+
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+
+function updateOnlineStatus() {
+    if (!navigator.onLine) document.body.classList.add('offline');
+    else document.body.classList.remove('offline');
+}
+
+async function installPWA() {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+            deferredPrompt = null;
+            document.getElementById('install-btn-area').classList.remove('visible');
+        }
+    }
+}
 
 /* --- UTILS --- */
 function round(n) { return Math.round((n + Number.EPSILON) * 100) / 100; }
@@ -459,14 +548,15 @@ function getNum(id) { return parseFloat(document.getElementById(id).value) || 0;
 function getLocalDateStr(d) { const z = new Date(d); z.setMinutes(z.getMinutes() - z.getTimezoneOffset()); return z.toISOString().slice(0,10); }
 
 window.onload = () => {
-    const s = localStorage.getItem('esnaf_v10_db');
+    const s = localStorage.getItem('esnaf_v11_db');
     if (s) { try { db = { ...db, ...JSON.parse(s) }; } catch (e) { console.error(e); } }
     if (!Array.isArray(db.contacts)) db.contacts = [];
     if (!Array.isArray(db.history)) db.history = [];
     updateUI();
     initGestures();
+    updateOnlineStatus();
 };
-function saveDB() { localStorage.setItem('esnaf_v10_db', JSON.stringify(db)); updateUI(); }
+function saveDB() { localStorage.setItem('esnaf_v11_db', JSON.stringify(db)); updateUI(); }
 
 /* --- UI ENGINE --- */
 function updateUI() {
@@ -612,7 +702,7 @@ function openContactModal(id) {
     selectedCId = id; const c = db.contacts.find(x=>x.id===id);
     document.getElementById('op-c-name').innerText = c.name;
     const b = document.getElementById('op-c-bal'); b.innerText = fmt(c.balance);
-    b.style.color = c.balance > 0 ? 'var(--green)' : (c.balance < 0 ? 'var(--red)' : 'white');
+    b.style.color = c.balance>0?'var(--green)':(c.balance<0?'var(--red)':'white');
     openModal('modal-contact-op');
 }
 
@@ -757,7 +847,7 @@ function saveSettings() { db.profitMargin=getNum('inp-settings-margin'); db.back
 function hardReset() { if(confirm('Tüm veriler silinecek?')) { localStorage.clear(); location.reload(); } }
 function showContactHistoryFromModal() { closeModal('modal-contact-op'); document.getElementById('f-contact').value=selectedCId; switchTab('history'); }
 function showInstallHelp() { alert('iOS: Paylaş -> Ana Ekrana Ekle\nAndroid: Menü -> Uygulamayı Yükle'); }
-function downloadAppSource() { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(["<!DOCTYPE html>\n" + document.documentElement.outerHTML], { type: "text/html" })); a.download = "esnaf_app_v10.html"; a.click(); }
+function downloadAppSource() { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(["<!DOCTYPE html>\n" + document.documentElement.outerHTML], { type: "text/html" })); a.download = "esnaf_app_v11.html"; a.click(); }
 
 /* --- BACKUP & GESTURES --- */
 async function backupToClipboard() { try { await navigator.clipboard.writeText(JSON.stringify(db)); alert('Kopyalandı'); db.txCount=0; saveDB(); } catch { prompt("Kopyala:", JSON.stringify(db)); } }
