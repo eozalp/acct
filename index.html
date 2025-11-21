@@ -1,11 +1,12 @@
+<!-- START OF FILE esnaf_glass_v4.4_pwa.html -->
 <!DOCTYPE html>
 <html lang="tr"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Esnaf Glass v4.3</title>
+    <title>Esnaf Glass v4.4</title>
     
     <!-- PWA MANIFEST (Embedded) -->
-    <link rel="manifest" href='data:application/json;base64,ewogICJuYW1lIjogIkVzbmFmIEdsYXNzIiwKICAic2hvcnRfbmFtZSI6ICJFc25hZiIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMDAwMDAwIiwKICAidGhlbWVfY29sb3IiOiAiIzAwMDAwMCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vdmlhLnBsYWNlaG9sZGVyLmNvbS8xOTIveGZmZi94MDAwP3RleHQ9RTQiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly92aWEucGxhY2Vob2xkZXIuY29tLzUxMi94ZmZmL3gwMDA/dGV4dD1FNCIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0KfQ=='>
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkVzbmFmIEdsYXNzIiwKICAic2hvcnRfbmFtZSI6ICJFc25hZiIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMDAwMDAwIiwKICAidGhlbWVfY29sb3IiOiAiIzAwMDAwMCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vdmlhLnBsYWNlaG9sZGVyLmNvbS8xOTIveGZmZi94MDAwP3RleHQ9RTQiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly92aWEucGxhY2Vob2xkZXIuY29tLzUxMi94ZmZmL3gwMDA/dGV4dD1FNCIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0KfQ==">
 
     <!-- PWA META TAGS -->
     <meta name="theme-color" content="#000000">
@@ -307,16 +308,33 @@
         .cli-chip:active { background: var(--cli-green); color: #000; }
         
         #cli-input-wrapper {
-            display: flex; align-items: center; padding: 15px;
+            display: flex; align-items: center; padding: 10px 15px;
             background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.1);
             padding-bottom: max(15px, env(safe-area-inset-bottom)); flex-shrink: 0;
+            gap: 10px;
         }
-        #cli-prompt { margin-right: 10px; color: #fff; font-weight: bold; font-size: 16px; }
+        #cli-controls { display: flex; flex-direction: column; gap: 4px; }
+        .cli-btn {
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+            color: var(--cli-green); border-radius: 6px; width: 36px; height: 24px;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            font-size: 12px;
+        }
+        .cli-btn:active { background: rgba(255,255,255,0.2); }
+
+        #cli-prompt { color: #fff; font-weight: bold; font-size: 16px; margin-right: 5px;}
         #cli-input {
             flex: 1; background: transparent; border: none; color: #fff;
-            font-family: var(--cli-font); font-size: 16px; padding: 0; margin: 0;
+            font-family: var(--cli-font); font-size: 16px; padding: 12px 0; margin: 0;
             outline: none; border-radius: 0;
         }
+        #cli-send {
+            background: var(--cli-green); border: none; color: #000;
+            width: 44px; height: 44px; border-radius: 12px; display: flex;
+            align-items: center; justify-content: center; font-size: 1.2rem;
+            cursor: pointer; font-weight: bold;
+        }
+        #cli-send:active { opacity: 0.8; }
         
         .cli-table { width: 100%; border-collapse: collapse; margin-top: 5px; font-size: 12px; }
         .cli-table th { text-align: left; border-bottom: 1px dashed var(--cli-green); color: #fff; padding: 4px; }
@@ -334,43 +352,51 @@
         </button>
         <button class="btn-icon" onclick="openSettings()">
             ⚙️
-            <div id="settings-badge" class="notif-badge" style="display:none;"></div>
+            <div id="settings-badge" class="notif-badge" style="display: flex;"></div>
         </button>
     </div>
 </header>
 
 <!-- CLI OVERLAY -->
-<div id="cli-layer">
+<div id="cli-layer" class="">
     <div id="cli-header">
-        <span class="cli-title">TERMINAL v1.9</span>
+        <span class="cli-title">TERMINAL v2.0</span>
         <button class="cli-close" onclick="toggleCLI()">KAPAT</button>
     </div>
     <div id="cli-output">
-        <div class="cli-log info">Esnaf Glass CLI v1.9</div>
-        <div class="cli-log info">Type 'help' for commands. Use UP/DOWN arrows for history.</div>
+        <div class="cli-log info">Esnaf Glass CLI v2.0</div>
+        <div class="cli-log info">Type 'help' for commands.</div>
     </div>
     
     <!-- Suggestion Chips for Mobile -->
     <div id="cli-suggestions"></div>
     
     <div id="cli-input-wrapper">
+        <div id="cli-controls">
+            <button class="cli-btn" onclick="cliHistory(-1)">▲</button>
+            <button class="cli-btn" onclick="cliHistory(1)">▼</button>
+        </div>
         <span id="cli-prompt">➜</span>
-        <input type="text" id="cli-input" placeholder="Komut..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        <!-- Form wrapper to handle mobile keyboard ENTER key correctly -->
+        <form id="cli-form" onsubmit="submitCli(event)" style="flex:1; display:flex;">
+            <input type="text" id="cli-input" placeholder="Komut..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="send">
+        </form>
+        <button id="cli-send" onclick="submitCli(event)">➤</button>
     </div>
 </div>
 
-<div id="view-home" class="container active">
+<div id="view-home" class="container">
     <div class="card card-hero glass">
         <div class="hero-lbl">NET VARLIK</div>
-        <div class="hero-val" id="dash-net">₺0</div>
+        <div class="hero-val" id="dash-net">₺280</div>
         <div class="hero-stats">
             <div class="stat-box">
                 <span class="stat-lbl">KASA</span>
-                <span class="stat-val text-green" id="dash-cash">₺0</span>
+                <span class="stat-val text-green" id="dash-cash">₺200</span>
             </div>
             <div class="stat-box" onclick="openEditStock()">
                 <span class="stat-lbl">STOK ✏️</span>
-                <span class="stat-val" style="color:var(--teal)" id="dash-stock">₺0</span>
+                <span class="stat-val" style="color:var(--teal)" id="dash-stock">₺180</span>
             </div>
         </div>
     </div>
@@ -395,20 +421,20 @@
     <div class="list-header">
         <div style="display:flex; align-items:center;">
             <h3 style="margin:0;">İşlem Geçmişi</h3>
-            <div id="filter-indicator"><span>🔍</span> Filtreli</div>
+            <div id="filter-indicator" style="display: none;"><span>🔍</span> Filtreli</div>
         </div>
         <button class="btn-icon" style="width:auto; height:32px; padding:0 12px; font-size:0.85rem; border-radius:12px; font-weight:600;" onclick="openModal('modal-filter')">Filtrele 🔽</button>
     </div>
 
-    <div id="history-summary" style="display:none; background:rgba(10, 132, 255, 0.15); padding:15px; border-radius:16px; margin-bottom:15px; border:1px solid rgba(10, 132, 255, 0.3);">
+    <div id="history-summary" style="display: block; background: rgba(10, 132, 255, 0.15); padding: 15px; border-radius: 16px; margin-bottom: 15px; border: 1px solid rgba(10, 132, 255, 0.3);">
         <div style="display:flex; justify-content:space-between; font-weight:700; font-size:1rem; color:var(--blue);">
-            <span>Giriş: <span id="sum-in">0</span></span><span>Çıkış: <span id="sum-out">0</span></span>
+            <span>Giriş: <span id="sum-in">₺0</span></span><span>Çıkış: <span id="sum-out">₺0</span></span>
         </div>
     </div>
     <div id="full-history-list"></div>
 </div>
 
-<div id="view-report" class="container">
+<div id="view-report" class="container active">
     <div class="card glass">
         <div class="list-header"><h3>Bu Ayın Tahmini</h3><span style="font-size:0.75rem; background:rgba(255, 214, 10, 0.2); color:var(--yellow); padding:4px 8px; border-radius:6px;">Kar Marjı: %<span id="lbl-margin">30</span></span></div>
         <div class="grid-3" style="grid-template-columns:1fr 1fr; gap:15px;">
@@ -425,7 +451,7 @@
             <div style="font-size:0.85rem; color:var(--text-secondary); font-weight:600;">TAHMİNİ NET KAR</div>
             <div style="font-size: 2.4rem; font-weight: 900; letter-spacing: -1px; color: var(--green); text-shadow: rgba(255, 255, 255, 0.3) 0px 0px 20px;" id="rep-net">₺0</div>
         </div>
-        <div class="chart-wrapper"><div class="bar-container" id="weekly-chart"><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Cmt</div></div><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Paz</div></div><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Pzt</div></div><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Sal</div></div><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Çar</div></div><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Per</div></div><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Cum</div></div></div></div>
+        <div class="chart-wrapper"><div class="bar-container" id="weekly-chart"></div></div>
     </div>
     <div class="card glass">
         <h3 style="margin:0 0 15px 0; font-size:1.1rem;">Piyasa Durumu</h3>
@@ -436,37 +462,37 @@
 
 <div class="nav-wrapper">
     <div class="nav-dock glass-heavy">
-        <div class="nav-item active" onclick="switchTab('home', this)"><span>🏠</span><span class="nav-lbl">Özet</span></div>
+        <div class="nav-item" onclick="switchTab('home', this)"><span>🏠</span><span class="nav-lbl">Özet</span></div>
         <div class="nav-item" onclick="switchTab('contacts', this)"><span>👥</span><span class="nav-lbl">Kişiler</span></div>
         <div style="width:20px; position:relative;"><div class="fab" onclick="openModal('modal-income')"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></div></div>
         <div class="nav-item" onclick="switchTab('history', this)"><span>📜</span><span class="nav-lbl">Geçmiş</span></div>
-        <div class="nav-item" onclick="switchTab('report', this)"><span>📊</span><span class="nav-lbl">Analiz</span></div>
+        <div class="nav-item active" onclick="switchTab('report', this)"><span>📊</span><span class="nav-lbl">Analiz</span></div>
     </div>
 </div>
 
 <!-- NEW TX DETAIL MODAL -->
-<div id="modal-tx-detail" class="modal-overlay">
+<div id="modal-tx-detail" class="modal-overlay" style="">
     <div class="modal glass-heavy">
         <div class="drag-handle-zone"><div class="modal-grabber"></div></div>
         <div class="modal-content-scroll">
             <h3>İşlem Detayı</h3>
             <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; text-align:center; margin-bottom:20px;">
                 <div style="font-size:0.8rem; color:var(--text-tertiary); margin-bottom:5px;">TUTAR</div>
-                <div id="dt-amt" style="font-size:2.5rem; font-weight:800;"></div>
-                <div id="dt-type" style="font-size:0.9rem; font-weight:600; opacity:0.8; margin-top:5px;"></div>
+                <div id="dt-amt" style="font-size:2.5rem; font-weight:800;">₺100</div>
+                <div id="dt-type" style="font-size:0.9rem; font-weight:600; opacity:0.8; margin-top:5px;">CARI_GIRIS</div>
             </div>
-            <div class="tx-row"><span>Tarih</span><span id="dt-date"></span></div>
-            <div class="tx-row"><span>Açıklama</span><span id="dt-desc" style="max-width:200px; text-align:right;"></span></div>
-            <div class="tx-row"><span>İlgili Kişi</span><span id="dt-contact">--</span></div>
-            <div class="tx-row"><span>ID</span><span id="dt-id" style="font-family:monospace;"></span></div>
+            <div class="tx-row"><span>Tarih</span><span id="dt-date">...</span></div>
+            <div class="tx-row"><span>Açıklama</span><span id="dt-desc" style="max-width:200px; text-align:right;">...</span></div>
+            <div class="tx-row"><span>İlgili Kişi</span><span id="dt-contact">...</span></div>
+            <div class="tx-row"><span>ID</span><span id="dt-id" style="font-family:monospace;">...</span></div>
             
-            <div id="dt-actions" style="margin-top:25px;"></div>
+            <div id="dt-actions" style="margin-top:25px;"><button class="btn-main btn-danger" onclick="reverseTx('1763733644052')">↩️ İşlemi İptal Et / İade</button></div>
         </div>
     </div>
 </div>
 
-<!-- OTHER MODALS (Kept same structure) -->
-<div id="modal-filter" class="modal-overlay">
+<!-- OTHER MODALS -->
+<div id="modal-filter" class="modal-overlay" style="">
     <div class="modal glass-heavy">
         <div class="drag-handle-zone"><div class="modal-grabber"></div></div>
         <div class="modal-content-scroll">
@@ -557,7 +583,7 @@
     </div>
 </div>
 
-<div id="modal-add-contact" class="modal-overlay">
+<div id="modal-add-contact" class="modal-overlay" style="">
     <div class="modal glass-heavy">
         <div class="drag-handle-zone"><div class="modal-grabber"></div></div>
         <div class="modal-content-scroll">
@@ -628,7 +654,7 @@
                 <button class="btn-main btn-primary" style="margin-top:15px;" onclick="saveSettings()">KAYDET</button>
             </div>
             <div id="pane-yedek" class="settings-pane">
-                 <div id="backup-warning" class="warning-box"><span>⚠️</span><div><b>Yedek Almalısın!</b><br><span id="backup-count-lbl">0</span> işlem oldu.</div></div>
+                 <div id="backup-warning" class="warning-box active"><span>⚠️</span><div><b>Yedek Almalısın!</b><br><span id="backup-count-lbl">11</span> işlem oldu.</div></div>
                 <button class="btn-action" style="width:100%; margin-bottom:15px; flex-direction:row; justify-content:center;" onclick="backupToClipboard()">📋 Tüm Veriyi Kopyala</button>
                 <div class="grid-3" style="grid-template-columns:1fr 1fr; gap:10px;">
                     <button class="btn-action" onclick="backupDownload()">💾 İndir (JSON)</button>
@@ -657,7 +683,7 @@ window.onload=()=>{
     // PWA SERVICE WORKER REGISTRATION (Cache-First/Network-Fallback)
     if('serviceWorker' in navigator){
         const swCode = `
-        const CACHE_NAME = 'esnaf-glass-v4.3';
+        const CACHE_NAME = 'esnaf-glass-v4.4';
         self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.add('.'))); self.skipWaiting(); });
         self.addEventListener('activate', e => self.clients.claim());
         self.addEventListener('fetch', e => {
@@ -881,7 +907,7 @@ function restoreBackup(i){ const r=new FileReader(); r.onload=e=>{ processRestor
 function restoreFromText(){ const txt = document.getElementById('restore-text-area').value; if(!txt) return alert('Metin kutusu boş!'); processRestoreData(txt); }
 function processRestoreData(rawString) { try { let cleanString = rawString.trim(); if (cleanString.charCodeAt(0) === 0xFEFF) cleanString = cleanString.slice(1); const data = JSON.parse(cleanString); if (data && typeof data === 'object') { if(confirm('Mevcut veriler silinip yedek yüklensin mi?')) { if (!Array.isArray(data.contacts)) data.contacts = []; if (!Array.isArray(data.history)) data.history = []; if (typeof data.cash !== 'number') data.cash = 0; if (typeof data.stock !== 'number') data.stock = 0; db = data; saveDB(); alert('Başarıyla yüklendi! Sayfa yenileniyor...'); setTimeout(() => location.reload(), 1000); } } else { alert('Geçersiz veri!'); } } catch(e) { alert('Hata! Veri bozuk veya hatalı kopyalanmış.'); } }
 function showInstallHelp(){alert('IOS: Paylaş -> Ana Ekrana Ekle\nAndroid: Menü -> Uygulamayı Yükle / Ana Ekrana Ekle');}
-function downloadAppSource(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(["<!DOCTYPE html>\n"+document.documentElement.outerHTML],{type:"text/html"}));a.download="esnaf_glass_v4.3_pwa.html";a.click();}
+function downloadAppSource(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(["<!DOCTYPE html>\n"+document.documentElement.outerHTML],{type:"text/html"}));a.download="esnaf_glass_v4.4_pwa.html";a.click();}
 function setIncomeType(t,e){tempIncomeType=t;document.querySelectorAll('.seg-opt').forEach(s=>s.classList.remove('active'));e.classList.add('active');document.getElementById('inc-details').style.display=t==='ciro'?'block':'none';}
 function toggleContactSelect(c,v){document.getElementById(`div-${c}-contact`).style.display=v==='veresiye'?'block':'none';}
 
@@ -892,7 +918,7 @@ function setQuickDate(r) { const n = new Date(); const y = n.getFullYear(), m = 
 function initSwipeGestures() { const handles = document.querySelectorAll('.drag-handle-zone'); handles.forEach(h => { let startY = 0; let currentModal = null; let overlay = null; h.addEventListener('touchstart', (e) => { startY = e.touches[0].clientY; currentModal = h.closest('.modal'); overlay = h.closest('.modal-overlay'); currentModal.classList.add('dragging'); }, {passive: true}); h.addEventListener('touchmove', (e) => { if(!currentModal) return; const deltaY = e.touches[0].clientY - startY; if(deltaY > 0) { currentModal.style.transform = `translateY(${deltaY}px)`; const opacity = Math.max(0, 1 - (deltaY / 400)); overlay.style.backgroundColor = `rgba(0,0,0,${0.5 * opacity})`; } }, {passive: true}); h.addEventListener('touchend', (e) => { if(!currentModal) return; const deltaY = e.changedTouches[0].clientY - startY; currentModal.classList.remove('dragging'); currentModal.style.transform = ''; overlay.style.backgroundColor = ''; if(deltaY > 120) { closeModal(overlay.id); } else { currentModal.classList.add('open'); } currentModal = null; overlay = null; }); }); document.querySelectorAll('.modal-overlay').forEach(o => { o.addEventListener('click', (e) => { if(e.target === o) closeModal(o.id); }); }); }
 
 /* ---------------------------------------------------------
-   STRICT CLI IMPLEMENTATION (MOBILE OPTIMIZED)
+   STRICT CLI IMPLEMENTATION (MOBILE OPTIMIZED v2.0)
    --------------------------------------------------------- */
 const CLI = {
     isOpen: false,
@@ -974,7 +1000,6 @@ const CLI = {
     }
 };
 
-// CLI Logic Hooks
 function toggleCLI() {
     const el = document.getElementById('cli-layer');
     const inp = document.getElementById('cli-input');
@@ -991,107 +1016,142 @@ function initCLIListener() {
     const inp = document.getElementById('cli-input');
     
     document.addEventListener('keydown', (e) => {
-        if (e.key === '~' || e.key === '"') { e.preventDefault(); toggleCLI(); }
+        if ((e.key === '~' || e.key === '"') && !CLI.isOpen) { e.preventDefault(); toggleCLI(); }
     });
 
-    inp.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            const val = inp.value.trim();
-            if (val) {
-                cliLog(`➜ ${val}`, 'user');
-                CLI.history.push(val);
-                CLI.histPtr = CLI.history.length; // Reset pointer to end
-                cliExecute(val);
-                inp.value = '';
-                renderSuggestions('');
-            }
-        }
-        else if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            if (CLI.history.length > 0 && CLI.histPtr > 0) {
-                CLI.histPtr--;
-                inp.value = CLI.history[CLI.histPtr];
-            }
-        }
-        else if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            if (CLI.histPtr < CLI.history.length - 1) {
-                CLI.histPtr++;
-                inp.value = CLI.history[CLI.histPtr];
-            } else {
-                CLI.histPtr = CLI.history.length;
-                inp.value = '';
-            }
-        }
-        else if (e.key === 'Tab') {
-             e.preventDefault();
-             // Simple tab completion based on suggestions
-             const suggestions = document.querySelectorAll('.cli-chip');
-             if(suggestions.length > 0) {
-                 suggestions[0].click();
-             }
-        }
-    });
-
-    // Autosuggest Logic
+    // Autocomplete logic
     inp.addEventListener('input', (e) => {
         renderSuggestions(e.target.value);
     });
 }
 
+/* NEW: Explicit submit handler for button & form */
+function submitCli(e) {
+    if(e) e.preventDefault();
+    const inp = document.getElementById('cli-input');
+    const val = inp.value.trim();
+    if (val) {
+        cliLog(`➜ ${val}`, 'user');
+        CLI.history.push(val);
+        CLI.histPtr = CLI.history.length;
+        cliExecute(val);
+        inp.value = '';
+        renderSuggestions('');
+        inp.focus();
+    }
+}
+
+/* NEW: History Navigation */
+function cliHistory(dir) {
+    const inp = document.getElementById('cli-input');
+    if (dir === -1) { // Up
+        if (CLI.history.length > 0 && CLI.histPtr > 0) {
+            CLI.histPtr--;
+            inp.value = CLI.history[CLI.histPtr];
+        }
+    } else { // Down
+        if (CLI.histPtr < CLI.history.length - 1) {
+            CLI.histPtr++;
+            inp.value = CLI.history[CLI.histPtr];
+        } else {
+            CLI.histPtr = CLI.history.length;
+            inp.value = '';
+        }
+    }
+}
+
+/* NEW: Intelligent Autocomplete */
 function renderSuggestions(val) {
     const cont = document.getElementById('cli-suggestions');
     cont.innerHTML = '';
     
-    const parts = val.trim().split(' ');
+    // Tokenize honoring quotes? Simple split for suggestion is usually enough, 
+    // but let's handle basics.
+    const parts = val.trimEnd().split(' ');
+    const lastToken = parts[parts.length - 1];
     const main = parts[0];
-    const sub = parts[1];
     
     let suggestions = [];
 
-    // 1. Base Commands
-    if (parts.length <= 1) {
+    // Case 0: Empty or Start
+    if (parts.length <= 1 && !val.endsWith(' ')) {
         suggestions = Object.keys(CLI.commands).filter(k => k.startsWith(main));
-        // Add aliases to suggestions
         if(db.aliases) {
             Object.keys(db.aliases).forEach(a => {
                 if(a.startsWith(main)) suggestions.push(a + " (alias)");
             });
         }
     } 
-    // 2. Sub Commands
-    else if (parts.length === 2 && CLI.commands[main] && CLI.commands[main].sub) {
-        suggestions = Object.keys(CLI.commands[main].sub).filter(s => s.startsWith(sub));
+    // Case 1: Subcommands
+    else if (CLI.commands[main] && CLI.commands[main].sub && (parts.length === 2 && !val.endsWith(' '))) {
+         const sub = parts[1];
+         suggestions = Object.keys(CLI.commands[main].sub).filter(s => s.startsWith(sub));
+    }
+    // Case 2: Prediction - Next Step (Val ends with space)
+    else if (val.endsWith(' ')) {
+        if (CLI.commands[main] && CLI.commands[main].sub && parts.length === 1) {
+            // Suggest all subcommands
+            suggestions = Object.keys(CLI.commands[main].sub);
+        }
+        
+        // PREDICT CONTACTS context
+        // Commands: pay give, pay take, stock give, stock take
+        const twoWords = parts.slice(0,2).join(' ');
+        const contactContexts = ['pay give', 'pay take', 'stock give', 'stock take'];
+        
+        if (contactContexts.includes(twoWords) && parts.length === 2) {
+            suggestions = db.contacts.map(c => `"${c.name}"`);
+        }
+        
+        // PREDICT FLAGS for ADD
+        if (main === 'add' && (parts[1] === 'income' || parts[1] === 'buy') && parts.length > 2) {
+             // Suggest flags if not present
+             if(!val.includes('-p') && !val.includes('-v')) {
+                 suggestions = ['-p', '-v'];
+             }
+             // If last token was -v, suggest contacts
+             if(parts[parts.length-1] === '-v') {
+                 suggestions = db.contacts.map(c => `"${c.name}"`);
+             }
+        }
+    }
+    // Case 3: Partial Typing of Contacts or Flags
+    else {
+        const prev = parts[parts.length-2];
+        if (prev === '-v' || ['pay give', 'pay take', 'stock give', 'stock take'].includes(parts.slice(0,2).join(' ')) && parts.length === 3) {
+            const cleanLast = lastToken.replace(/"/g,'');
+            suggestions = db.contacts
+                .filter(c => c.name.toLowerCase().startsWith(cleanLast.toLowerCase()))
+                .map(c => `"${c.name}"`);
+        }
     }
     
     // Generate Chips
-    if (suggestions.length > 0) {
-        suggestions.forEach(s => {
-            const isAlias = s.includes('(alias)');
-            const cleanS = s.replace(' (alias)','');
-            const chip = document.createElement('div');
-            chip.className = 'cli-chip';
-            chip.innerText = s;
-            chip.onclick = () => {
-                // Auto-fill logic
-                if (parts.length <= 1) {
-                    document.getElementById('cli-input').value = cleanS + ' ';
-                } else {
-                    document.getElementById('cli-input').value = main + ' ' + cleanS + ' ';
-                }
-                document.getElementById('cli-input').focus();
-                renderSuggestions(document.getElementById('cli-input').value);
-            };
-            cont.appendChild(chip);
-        });
-    } else if (parts.length >= 2 && CLI.commands[main] && CLI.commands[main].sub && CLI.commands[main].sub[parts[1]]) {
-        // Show args hint if command is complete
-        const hint = document.createElement('div');
-        hint.className = 'cli-hint';
-        hint.innerText = `Args: ${CLI.commands[main].sub[parts[1]].args.join(' ')}`;
-        cont.appendChild(hint);
-    }
+    suggestions.forEach(s => {
+        const cleanS = s.replace(' (alias)','');
+        const chip = document.createElement('div');
+        chip.className = 'cli-chip';
+        chip.innerText = s;
+        chip.onclick = () => {
+            const inp = document.getElementById('cli-input');
+            
+            // Logic to replace last token or append
+            let currentVal = inp.value;
+            
+            if (currentVal.endsWith(' ')) {
+                inp.value = currentVal + cleanS + ' ';
+            } else {
+                // Replace last word
+                const lastIndex = currentVal.lastIndexOf(' ');
+                if(lastIndex === -1) inp.value = cleanS + ' ';
+                else inp.value = currentVal.substring(0, lastIndex + 1) + cleanS + ' ';
+            }
+            
+            inp.focus();
+            renderSuggestions(inp.value);
+        };
+        cont.appendChild(chip);
+    });
 }
 
 function cliLog(msg, type='success') {
@@ -1484,4 +1544,5 @@ async function cliExecute(line) {
     }
 }
 </script>
+
 </body></html>
