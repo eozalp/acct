@@ -2,6 +2,8 @@
 ```markdown
 # 💎 Esnaf Glass v4.3 (PWA Sürümü)
 
+Yüklemek için : [https://eozalp.github.io/acct/](https://eozalp.github.io/acct/)
+
 **Küçük İşletmeler ve Freelancerlar için Tek Dosyalı, İnternetsiz Finans Yöneticisi.**
 
 ![Lisans](https://img.shields.io/badge/lisans-MIT-blue.svg)
