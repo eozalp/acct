@@ -1,5 +1,5 @@
 
-```markdown
+
 # 💎 Esnaf Glass v4.3 (PWA Sürümü)
 
 Yüklemek için : [https://eozalp.github.io/acct/](https://eozalp.github.io/acct/)
@@ -137,4 +137,4 @@ Bu uygulama verilerinizi sunucuya göndermez. Veriler tarayıcınızın **Önbel
 ## 📄 Lisans
 
 Bu proje **MIT Lisansı** ile sunulmuştur. Kişisel veya ticari amaçlarla özgürce kullanabilir, değiştirebilir ve dağıtabilirsiniz.
-```
+
