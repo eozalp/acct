@@ -1,4 +1,3 @@
-Aşağıdaki kod bloğunu kopyalayıp GitHub deponuzda `README.md` dosyası olarak kaydedebilirsiniz.
 
 ```markdown
 # 💎 Esnaf Glass v4.3 (PWA Sürümü)
