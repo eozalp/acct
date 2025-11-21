@@ -2,8 +2,11 @@
 <html lang="tr"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Esnaf Glass v4.2</title>
+    <title>Esnaf Glass v4.3</title>
     
+    <!-- PWA MANIFEST (Embedded) -->
+    <link rel="manifest" href='data:application/json;base64,ewogICJuYW1lIjogIkVzbmFmIEdsYXNzIiwKICAic2hvcnRfbmFtZSI6ICJFc25hZiIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMDAwMDAwIiwKICAidGhlbWVfY29sb3IiOiAiIzAwMDAwMCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vdmlhLnBsYWNlaG9sZGVyLmNvbS8xOTIveGZmZi94MDAwP3RleHQ9RTQiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly92aWEucGxhY2Vob2xkZXIuY29tLzUxMi94ZmZmL3gwMDA/dGV4dD1FNCIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0KfQ=='>
+
     <!-- PWA META TAGS -->
     <meta name="theme-color" content="#000000">
     <meta name="mobile-web-app-capable" content="yes">
@@ -271,13 +274,18 @@
             font-family: inherit; font-weight: bold; cursor: pointer;
         }
 
-        /* Output Area - Standard Flow, Scroll Managed by JS */
+        /* Output Area - Flow from Bottom */
         #cli-output {
             flex: 1; overflow-y: auto; padding: 15px;
-            display: block; /* standard block layout */
+            display: flex; flex-direction: column; 
             white-space: pre-wrap; word-break: break-word;
             font-size: 13px; -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
         }
+        
+        /* Push content to bottom if few items */
+        #cli-output::before { content: ''; flex: 1; } 
+
         .cli-log { margin-bottom: 8px; line-height: 1.4; border-left: 2px solid transparent; padding-left: 8px; }
         .cli-log.user { color: #fff; font-weight: bold; border-left-color: #fff; background: rgba(255,255,255,0.05); padding: 5px 8px; border-radius: 0 4px 4px 0; margin-top:15px; }
         .cli-log.success { color: var(--cli-green); border-left-color: var(--cli-green); }
@@ -320,7 +328,10 @@
 <header>
     <div class="brand">Esnaf Glass</div>
     <div style="display:flex; gap:15px;">
-        <button class="btn-icon" onclick="toggleCLI()">💻</button>
+        <button class="btn-icon" onclick="toggleCLI()">
+            <!-- TERMINAL ICON -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+        </button>
         <button class="btn-icon" onclick="openSettings()">
             ⚙️
             <div id="settings-badge" class="notif-badge" style="display:none;"></div>
@@ -592,7 +603,7 @@
     </div>
 </div>
 
-<div id="modal-settings" class="modal-overlay active">
+<div id="modal-settings" class="modal-overlay active" style="">
     <div class="modal glass-heavy open">
         <div class="drag-handle-zone"><div class="modal-grabber"></div></div>
         <div class="modal-content-scroll">
@@ -642,9 +653,26 @@ let activeFilter = false;
 
 window.onload=()=>{
     const s=localStorage.getItem('esnaf_v4_db');if(s)try{db=JSON.parse(s)}catch(e){}if(!db.profitMargin)db.profitMargin=30;if(db.txCount===undefined)db.txCount=0;if(!db.aliases)db.aliases={};initApp();initSwipeGestures();
-    if('serviceWorker' in navigator){navigator.serviceWorker.register(URL.createObjectURL(new Blob(["self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('fetch',e=>e.respondWith(fetch(e.request)));"],{type:'application/javascript'}))).catch(()=>console.log('SW Skipped'));}
+    
+    // PWA SERVICE WORKER REGISTRATION (Cache-First/Network-Fallback)
+    if('serviceWorker' in navigator){
+        const swCode = `
+        const CACHE_NAME = 'esnaf-glass-v4.3';
+        self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.add('.'))); self.skipWaiting(); });
+        self.addEventListener('activate', e => self.clients.claim());
+        self.addEventListener('fetch', e => {
+            e.respondWith(
+                fetch(e.request)
+                .then(res => { const c = res.clone(); caches.open(CACHE_NAME).then(cache => cache.put(e.request, c)); return res; })
+                .catch(() => caches.match(e.request))
+            );
+        });`;
+        const blob = new Blob([swCode], {type: 'text/javascript'});
+        navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>console.log('SW Error'));
+    }
     initCLIListener();
 };
+
 function initApp(){if(!Array.isArray(db.contacts))db.contacts=[];if(!Array.isArray(db.history))db.history=[];updateUI();}
 function saveDB(){localStorage.setItem('esnaf_v4_db',JSON.stringify(db));updateUI();}
 function updateUI(){
@@ -796,7 +824,27 @@ function getNum(id){return parseFloat(document.getElementById(id).value)||0;}
 function fmt(n){return new Intl.NumberFormat('tr-TR',{style:'currency',currency:'TRY',maximumFractionDigits:0}).format(n);}
 function addHistory(t,a,d,c=null,i=null){db.history.unshift({id:Date.now(),date:new Date().toISOString(),type:t,amount:a,desc:d,cost:c,contactId:i,isReversed:false});db.txCount=(db.txCount||0)+1;}
 function updateExpenseSuggestions(){const c=document.getElementById('expense-chips');c.innerHTML='';['Kira','Fatura','Yemek','Yol','Malzeme'].forEach(t=>c.innerHTML+=`<div class="chip" onclick="document.getElementById('inp-exp-desc').value='${t}'">${t}</div>`);}
-function switchTab(i,e){document.querySelectorAll('.container').forEach(c=>c.classList.remove('active'));document.getElementById('view-'+i).classList.add('active');document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));if(e)e.classList.add('active');if(i==='contacts'){document.getElementById('contact-search').value='';renderContacts();}if(i==='history')applyFilter();window.scrollTo(0,0);}
+
+// Updated switchTab to reset filters
+function switchTab(i,e){
+    if(i !== 'history') {
+        // Reset Filter Inputs silently
+        document.getElementById('f-start').value = '';
+        document.getElementById('f-end').value = '';
+        document.getElementById('f-type').value = 'all';
+        document.getElementById('f-contact').value = 'all';
+        activeFilter = false;
+        document.getElementById('filter-indicator').style.display = 'none';
+    }
+    document.querySelectorAll('.container').forEach(c=>c.classList.remove('active'));
+    document.getElementById('view-'+i).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    if(e)e.classList.add('active');
+    if(i==='contacts'){document.getElementById('contact-search').value='';renderContacts();}
+    if(i==='history')applyFilter();
+    window.scrollTo(0,0);
+}
+
 function switchSettingsTab(p,b){document.querySelectorAll('.settings-pane').forEach(x=>x.classList.remove('active'));document.getElementById('pane-'+p).classList.add('active');document.querySelectorAll('.settings-tab-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');}
 function openContactModal(i){selectedCId=i;const c=db.contacts.find(x=>x.id===i);document.getElementById('op-c-name').innerText=c.name;const e=document.getElementById('op-c-bal');e.innerText=fmt(c.balance);e.style.color=c.balance>0?'var(--green)':(c.balance<0?'var(--red)':'white');openModal('modal-contact-op');}
 function showContactHistoryFromModal(){closeModal('modal-contact-op');document.getElementById('f-contact').value=selectedCId;switchTab('history');activeFilter=true;applyFilter();}
@@ -833,7 +881,7 @@ function restoreBackup(i){ const r=new FileReader(); r.onload=e=>{ processRestor
 function restoreFromText(){ const txt = document.getElementById('restore-text-area').value; if(!txt) return alert('Metin kutusu boş!'); processRestoreData(txt); }
 function processRestoreData(rawString) { try { let cleanString = rawString.trim(); if (cleanString.charCodeAt(0) === 0xFEFF) cleanString = cleanString.slice(1); const data = JSON.parse(cleanString); if (data && typeof data === 'object') { if(confirm('Mevcut veriler silinip yedek yüklensin mi?')) { if (!Array.isArray(data.contacts)) data.contacts = []; if (!Array.isArray(data.history)) data.history = []; if (typeof data.cash !== 'number') data.cash = 0; if (typeof data.stock !== 'number') data.stock = 0; db = data; saveDB(); alert('Başarıyla yüklendi! Sayfa yenileniyor...'); setTimeout(() => location.reload(), 1000); } } else { alert('Geçersiz veri!'); } } catch(e) { alert('Hata! Veri bozuk veya hatalı kopyalanmış.'); } }
 function showInstallHelp(){alert('IOS: Paylaş -> Ana Ekrana Ekle\nAndroid: Menü -> Uygulamayı Yükle / Ana Ekrana Ekle');}
-function downloadAppSource(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(["<!DOCTYPE html>\n"+document.documentElement.outerHTML],{type:"text/html"}));a.download="esnaf_glass_v2_mobile_cli.html";a.click();}
+function downloadAppSource(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(["<!DOCTYPE html>\n"+document.documentElement.outerHTML],{type:"text/html"}));a.download="esnaf_glass_v4.3_pwa.html";a.click();}
 function setIncomeType(t,e){tempIncomeType=t;document.querySelectorAll('.seg-opt').forEach(s=>s.classList.remove('active'));e.classList.add('active');document.getElementById('inc-details').style.display=t==='ciro'?'block':'none';}
 function toggleContactSelect(c,v){document.getElementById(`div-${c}-contact`).style.display=v==='veresiye'?'block':'none';}
 
@@ -1436,6 +1484,4 @@ async function cliExecute(line) {
     }
 }
 </script>
-
-
 </body></html>
