@@ -2,7 +2,7 @@
 <html lang="tr"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Esnaf Glass v4.1</title>
+    <title>Esnaf Glass v4.2</title>
     
     <!-- PWA META TAGS -->
     <meta name="theme-color" content="#000000">
@@ -414,7 +414,7 @@
             <div style="font-size:0.85rem; color:var(--text-secondary); font-weight:600;">TAHMİNİ NET KAR</div>
             <div style="font-size: 2.4rem; font-weight: 900; letter-spacing: -1px; color: var(--green); text-shadow: rgba(255, 255, 255, 0.3) 0px 0px 20px;" id="rep-net">₺0</div>
         </div>
-        <div class="chart-wrapper"><div class="bar-container" id="weekly-chart"><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Cum</div></div><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Cmt</div></div><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Paz</div></div><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Pzt</div></div><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Sal</div></div><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Çar</div></div><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Per</div></div></div></div>
+        <div class="chart-wrapper"><div class="bar-container" id="weekly-chart"><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Cmt</div></div><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Paz</div></div><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Pzt</div></div><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Sal</div></div><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Çar</div></div><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Per</div></div><div class="bar-col"><div class="bar " style="height:0%;"></div><div class="bar-lbl">Cum</div></div></div></div>
     </div>
     <div class="card glass">
         <h3 style="margin:0 0 15px 0; font-size:1.1rem;">Piyasa Durumu</h3>
@@ -558,11 +558,14 @@
     </div>
 </div>
 
+<!-- FIXED MODAL CONTACT OP -->
 <div id="modal-contact-op" class="modal-overlay">
     <div class="modal glass-heavy">
         <div class="drag-handle-zone"><div class="modal-grabber"></div></div>
         <div class="modal-content-scroll">
-            <h3>İşlem Detayı</h3>
+            <h3 id="op-c-name" style="text-align:center; margin: 0 0 5px 0;">Kişi Adı</h3>
+            <div id="op-c-bal" style="text-align:center; margin-bottom:20px; font-weight:800; font-size:1.2rem;">₺0</div>
+
             <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:16px; margin-bottom:20px;">
                 <label style="text-align:center;">İşlem Tutarı</label>
                 <input type="number" id="inp-op-amt" style="text-align:center; font-size:1.5rem; background:transparent; border:none;" inputmode="decimal" placeholder="0">
@@ -571,6 +574,8 @@
                 <button class="btn-main" style="background:var(--orange); color:white;" onclick="doContactOp('give')">Borç Ver<br><small>(Ödeme)</small></button>
                 <button class="btn-main btn-success" onclick="doContactOp('take')">Tahsilat<br><small>(Borç Al)</small></button>
             </div>
+            
+            <button class="btn-main btn-glass" style="margin-top:15px;" onclick="showContactHistoryFromModal()">📜 Kişi Geçmişini Gör</button>
             <button class="btn-main" style="margin-top:20px; background:rgba(255,59,48,0.2); color:var(--red);" onclick="deleteContact()">Kişiyi Sil</button>
         </div>
     </div>
@@ -1431,5 +1436,6 @@ async function cliExecute(line) {
     }
 }
 </script>
+
 
 </body></html>
