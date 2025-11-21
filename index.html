@@ -2,7 +2,7 @@
 <html lang="tr"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Esnaf Glass v3.1</title>
+    <title>Esnaf Glass v3.3</title>
     
     <!-- PWA META TAGS -->
     <meta name="theme-color" content="#000000">
@@ -32,11 +32,23 @@
             --radius-lg: 24px;
             --safe-bottom: env(safe-area-inset-bottom, 20px);
 
-            /* CLI Colors */
+            /* CLI Colors (Default) */
             --cli-bg: rgba(18, 18, 22, 0.98);
             --cli-green: #00FF41;
             --cli-font: 'Courier New', Courier, monospace;
         }
+
+        /* THEME VARIABLES */
+        body.theme-light { background-image: none; background-color: #f2f2f7; color: #000; }
+        body.theme-light .glass, body.theme-light .glass-heavy { background: rgba(255,255,255,0.8); border-color: rgba(0,0,0,0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        body.theme-light .brand { -webkit-text-fill-color: #000; }
+        body.theme-light input, body.theme-light select, body.theme-light textarea { background: rgba(0,0,0,0.05); color: #000; border-color: rgba(0,0,0,0.1); }
+        body.theme-light .nav-dock { background: rgba(255,255,255,0.9); border-color: rgba(0,0,0,0.1); }
+        body.theme-light .nav-item { color: #999; }
+        body.theme-light .nav-item.active { color: #000; }
+        
+        body.theme-matrix { --cli-green: #0f0; }
+        body.theme-blue { --cli-green: #00e5ff; --cli-bg: rgba(5, 10, 30, 0.98); }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", sans-serif; }
         
@@ -49,6 +61,7 @@
                 radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
                 radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
             background-attachment: fixed;
+            transition: background 0.3s, color 0.3s;
         }
 
         body::before {
@@ -249,17 +262,19 @@
         .cli-title { font-weight: bold; letter-spacing: 1px; color: #fff; }
         .cli-close { 
             background: transparent; border: 1px solid var(--cli-green); 
-            color: var(--cli-green); padding: 6px 12px; border-radius: 6px; 
+            color: var(--cli-green); padding: 8px 16px; border-radius: 8px; 
             font-family: inherit; font-weight: bold; cursor: pointer;
         }
 
-        /* Output Area */
+        /* Output Area - Improved Flow */
         #cli-output {
             flex: 1; overflow-y: auto; padding: 15px;
+            display: flex; flex-direction: column; justify-content: flex-end;
             white-space: pre-wrap; word-break: break-word;
             scroll-behavior: smooth; font-size: 13px;
+            overscroll-behavior: contain;
         }
-        .cli-log { margin-bottom: 8px; line-height: 1.4; border-left: 2px solid transparent; padding-left: 8px; }
+        .cli-log { margin-bottom: 8px; line-height: 1.4; border-left: 2px solid transparent; padding-left: 8px; flex-shrink: 0; }
         .cli-log.user { color: #fff; font-weight: bold; border-left-color: #fff; background: rgba(255,255,255,0.05); padding: 5px 8px; border-radius: 0 4px 4px 0; }
         .cli-log.success { color: var(--cli-green); border-left-color: var(--cli-green); }
         .cli-log.error { color: var(--red); border-left-color: var(--red); }
@@ -275,7 +290,7 @@
         }
         .cli-chip {
             background: rgba(0, 255, 65, 0.1); border: 1px solid var(--cli-green);
-            color: var(--cli-green); padding: 8px 16px; border-radius: 8px;
+            color: var(--cli-green); padding: 10px 18px; border-radius: 12px;
             font-size: 14px; cursor: pointer; font-weight: bold; user-select: none;
         }
         .cli-chip:active { background: var(--cli-green); color: #000; }
@@ -317,12 +332,12 @@
 <!-- CLI OVERLAY -->
 <div id="cli-layer">
     <div id="cli-header">
-        <span class="cli-title">TERMINAL v1.3</span>
+        <span class="cli-title">TERMINAL v1.5</span>
         <button class="cli-close" onclick="toggleCLI()">KAPAT</button>
     </div>
     <div id="cli-output">
-        <div class="cli-log info">Esnaf Glass CLI v1.3</div>
-        <div class="cli-log info">Type 'help' for commands. Use UP/DOWN arrows for history.</div>
+        <div class="cli-log info">Esnaf Glass CLI v1.5</div>
+        <div class="cli-log info">Logs will appear here at the bottom.</div>
     </div>
     
     <!-- Suggestion Chips for Mobile -->
@@ -623,7 +638,6 @@ function updateUI(){
     document.getElementById('dash-stock').innerText=fmt(db.stock);
     document.getElementById('lbl-margin').innerText=db.profitMargin;
     
-    // Profit & Chart Logic - Now handles reversals
     const now=new Date(),days=[];
     for(let i=6;i>=0;i--){const d=new Date();d.setDate(now.getDate()-i);days.push({date:d.toISOString().slice(0,10),label:d.toLocaleDateString('tr-TR',{weekday:'short'}),val:0});}
     
@@ -640,9 +654,8 @@ function updateUI(){
         else if(h.type==='gider'){
             if(isCurrentMonth) me+=h.amount;
         }
-        // Handle Reversals (Subtract from aggregates)
         else if(h.type==='iade_satis' || h.type==='iade_veresiye'){
-            if(isCurrentMonth) { mc-=h.amount; mg-=h.cost||0; } // Deduct sales and cost of goods
+            if(isCurrentMonth) { mc-=h.amount; mg-=h.cost||0; }
             const dx=days.findIndex(d=>d.date===h.date.slice(0,10)); if(dx>-1) days[dx].val-=h.amount;
         }
         else if(h.type==='iade_gider'){
@@ -678,7 +691,6 @@ function doContactOp(t){const a=getNum('inp-op-amt');if(a<=0)return;const c=db.c
 
 /* --- NEW HISTORY ROW & REVERSE LOGIC --- */
 function createHistoryRow(h,d=false){
-    // Determine visuals
     const p=['ciro','sermaye','cari_giris','veresiye_satis','iade_mal','iade_gider'].includes(h.type);
     const c=p?'var(--green)':'var(--red)';
     let i='🔹';
@@ -687,10 +699,8 @@ function createHistoryRow(h,d=false){
     if(h.type.includes('mal')) i='📦';
     if(h.type.includes('iade')||h.type.includes('iptal')) i='↩️';
 
-    // Reverse Button (Only in full history view, if not already reversed, and not a reversal itself)
     let b='';
     if(d && !h.isReversed && !h.type.includes('iade') && !h.type.includes('iptal')){
-        // Safe string passing for ID
         b=`<button onclick="reverseTx('${h.id}')" style="margin-left:10px; background:rgba(255,255,255,0.1); color:#fff; border:none; border-radius:8px; width:36px; height:36px; font-size:1.2rem;">↩️</button>`;
     }
 
@@ -702,63 +712,22 @@ function createHistoryRow(h,d=false){
 
 function reverseTx(id){
     if(!confirm('Bu işlem geri alınarak ters kayıt oluşturulacak. Onaylıyor musun?')) return;
-    
-    // Convert to string to ensure matching if ID was passed as int
     const tx = db.history.find(h=> String(h.id) === String(id));
-    
     if(!tx) { alert("İşlem bulunamadı."); return; }
     if(tx.isReversed) return;
 
-    // 1. Mark original as reversed
     tx.isReversed = true;
-
-    // 2. Perform Counter Transaction based on type
     const amt = tx.amount;
     const cost = tx.cost || 0;
     
-    // Logic: Invert the mathematical effect of the original transaction
-    if(tx.type === 'ciro') {
-        db.cash -= amt;
-        db.stock += cost;
-        addHistory('iade_satis', amt, `İade/İptal: ${tx.desc}`, cost);
-    }
-    else if(tx.type === 'veresiye_satis') {
-        const c = db.contacts.find(x=>x.id === tx.contactId);
-        if(c) c.balance -= amt;
-        db.stock += cost;
-        addHistory('iade_veresiye', amt, `İade/İptal: ${tx.desc}`, cost, tx.contactId);
-    }
-    else if(tx.type === 'gider') {
-        db.cash += amt;
-        addHistory('iade_gider', amt, `İptal: ${tx.desc}`);
-    }
-    else if(tx.type === 'mal') {
-        db.cash += amt;
-        db.stock -= amt;
-        addHistory('iade_mal', amt, `İade: ${tx.desc}`);
-    }
-    else if(tx.type === 'mal_cari') {
-        const c = db.contacts.find(x=>x.id === tx.contactId);
-        if(c) c.balance += amt;
-        db.stock -= amt;
-        addHistory('iade_mal_cari', amt, `İade: ${tx.desc}`, null, tx.contactId);
-    }
-    else if(tx.type === 'cari_giris') { // Collection
-        const c = db.contacts.find(x=>x.id === tx.contactId);
-        if(c) c.balance += amt;
-        db.cash -= amt;
-        addHistory('iptal_tahsilat', amt, `İptal: ${tx.desc}`, null, tx.contactId);
-    }
-    else if(tx.type === 'cari_cikis') { // Payment
-        const c = db.contacts.find(x=>x.id === tx.contactId);
-        if(c) c.balance -= amt;
-        db.cash += amt;
-        addHistory('iptal_odeme', amt, `İptal: ${tx.desc}`, null, tx.contactId);
-    }
-    else if(tx.type === 'sermaye') {
-        db.cash -= amt;
-        addHistory('iptal_sermaye', amt, `İptal: ${tx.desc}`);
-    }
+    if(tx.type === 'ciro') { db.cash -= amt; db.stock += cost; addHistory('iade_satis', amt, `İade/İptal: ${tx.desc}`, cost); }
+    else if(tx.type === 'veresiye_satis') { const c = db.contacts.find(x=>x.id === tx.contactId); if(c) c.balance -= amt; db.stock += cost; addHistory('iade_veresiye', amt, `İade/İptal: ${tx.desc}`, cost, tx.contactId); }
+    else if(tx.type === 'gider') { db.cash += amt; addHistory('iade_gider', amt, `İptal: ${tx.desc}`); }
+    else if(tx.type === 'mal') { db.cash += amt; db.stock -= amt; addHistory('iade_mal', amt, `İade: ${tx.desc}`); }
+    else if(tx.type === 'mal_cari') { const c = db.contacts.find(x=>x.id === tx.contactId); if(c) c.balance += amt; db.stock -= amt; addHistory('iade_mal_cari', amt, `İade: ${tx.desc}`, null, tx.contactId); }
+    else if(tx.type === 'cari_giris') { const c = db.contacts.find(x=>x.id === tx.contactId); if(c) c.balance += amt; db.cash -= amt; addHistory('iptal_tahsilat', amt, `İptal: ${tx.desc}`, null, tx.contactId); }
+    else if(tx.type === 'cari_cikis') { const c = db.contacts.find(x=>x.id === tx.contactId); if(c) c.balance -= amt; db.cash += amt; addHistory('iptal_odeme', amt, `İptal: ${tx.desc}`, null, tx.contactId); }
+    else if(tx.type === 'sermaye') { db.cash -= amt; addHistory('iptal_sermaye', amt, `İptal: ${tx.desc}`); }
 
     saveDB();
     if(document.getElementById('view-history').classList.contains('active')) applyFilter();
@@ -830,20 +799,21 @@ const CLI = {
         'clear': { desc: 'Clear terminal', args: '' },
         'status': { desc: 'Show financial status', args: '' },
         'stats': { desc: 'Show analytics', args: '' },
+        'theme': { desc: 'Set theme (dark, light, matrix, blue)', args: '<name>' },
         'add': { 
             desc: 'Add record', 
             sub: {
-                'income': { args: '<amount> [-p (default) | -v <name>]', desc: 'Add income/sale' },
-                'expense': { args: '<amount> "<description>"', desc: 'Add expense' },
-                'buy': { args: '<amount> [-p (default) | -v <name>]', desc: 'Add stock/buy' },
+                'income': { args: '<amt> [-p|-v <name>] [desc]', desc: 'Add income/sale' },
+                'expense': { args: '<amt> "<desc>"', desc: 'Add expense' },
+                'buy': { args: '<amt> [-p|-v <name>] [desc]', desc: 'Add stock/buy' },
                 'contact': { args: '"<name>"', desc: 'Create new contact' }
             }
         },
         'pay': {
             desc: 'Debt management',
             sub: {
-                'give': { args: '<contact> <amount>', desc: 'Pay debt to contact' },
-                'take': { args: '<contact> <amount>', desc: 'Collect from contact' }
+                'give': { args: '<name> <amt> [desc]', desc: 'Pay debt to contact' },
+                'take': { args: '<name> <amt> [desc]', desc: 'Collect from contact' }
             }
         },
         'list': {
@@ -898,12 +868,10 @@ function toggleCLI() {
 function initCLIListener() {
     const inp = document.getElementById('cli-input');
     
-    // Desktop Keyboard Support
     document.addEventListener('keydown', (e) => {
         if (e.key === '~' || e.key === '"') { e.preventDefault(); toggleCLI(); }
     });
 
-    // Input Handling
     inp.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -911,7 +879,7 @@ function initCLIListener() {
             if (val) {
                 cliLog(`➜ ${val}`, 'user');
                 CLI.history.push(val);
-                CLI.histPtr = CLI.history.length; // Reset pointer to end
+                CLI.histPtr = CLI.history.length;
                 cliExecute(val);
                 inp.value = '';
                 renderSuggestions('');
@@ -936,15 +904,11 @@ function initCLIListener() {
         }
         else if (e.key === 'Tab') {
              e.preventDefault();
-             // Simple tab completion based on suggestions
              const suggestions = document.querySelectorAll('.cli-chip');
-             if(suggestions.length > 0) {
-                 suggestions[0].click();
-             }
+             if(suggestions.length > 0) suggestions[0].click();
         }
     });
 
-    // Autosuggest Logic
     inp.addEventListener('input', (e) => {
         renderSuggestions(e.target.value);
     });
@@ -960,23 +924,19 @@ function renderSuggestions(val) {
     
     let suggestions = [];
 
-    // 1. Base Commands
     if (parts.length <= 1) {
         suggestions = Object.keys(CLI.commands).filter(k => k.startsWith(main));
     } 
-    // 2. Sub Commands
     else if (parts.length === 2 && CLI.commands[main] && CLI.commands[main].sub) {
         suggestions = Object.keys(CLI.commands[main].sub).filter(s => s.startsWith(sub));
     }
     
-    // Generate Chips
     if (suggestions.length > 0) {
         suggestions.forEach(s => {
             const chip = document.createElement('div');
             chip.className = 'cli-chip';
             chip.innerText = s;
             chip.onclick = () => {
-                // Auto-fill logic
                 if (parts.length <= 1) {
                     document.getElementById('cli-input').value = s + ' ';
                 } else {
@@ -988,7 +948,6 @@ function renderSuggestions(val) {
             cont.appendChild(chip);
         });
     } else if (parts.length >= 2 && CLI.commands[main] && CLI.commands[main].sub && CLI.commands[main].sub[parts[1]]) {
-        // Show args hint if command is complete
         const hint = document.createElement('div');
         hint.className = 'cli-hint';
         hint.innerText = `Args: ${CLI.commands[main].sub[parts[1]].args.join(' ')}`;
@@ -1000,7 +959,7 @@ function cliLog(msg, type='success') {
     const out = document.getElementById('cli-output');
     const div = document.createElement('div');
     div.className = `cli-log ${type}`;
-    div.innerHTML = msg; // Allow HTML for tables
+    div.innerHTML = msg;
     out.appendChild(div);
     out.scrollTop = out.scrollHeight;
 }
@@ -1030,7 +989,6 @@ function cliFindContact(nameOrId) {
 
 /* CORE EXECUTOR */
 async function cliExecute(line) {
-    // Advanced Tokenizer: splits by space but keeps "quoted strings" together
     const args = line.match(/(?:[^\s"]+|"[^"]*")+/g).map(a => a.replace(/"/g, ''));
     const cmd = args.shift();
 
@@ -1054,13 +1012,23 @@ async function cliExecute(line) {
         if (cmd === 'clear') { document.getElementById('cli-output').innerHTML = ''; return; }
         if (cmd === 'time') { cliLog(new Date().toLocaleString('tr-TR'), 'info'); return; }
 
+        if (cmd === 'theme') {
+            const t = args[0];
+            if(['dark','light','matrix','blue'].includes(t)) {
+                document.body.className = `theme-${t}`;
+                cliLog(`Theme changed to ${t}`, 'success');
+            } else {
+                cliLog('Themes: dark, light, matrix, blue', 'error');
+            }
+            return;
+        }
+
         if (cmd === 'status') {
             cliLog(`CASH: ${fmt(db.cash)}<br>STOCK: ${fmt(db.stock)}<br>TX: ${db.txCount}`, 'success');
             return;
         }
 
         if (cmd === 'stats') {
-             // Quick aggregate
              const today = new Date().toISOString().slice(0,10);
              const sales = db.history.filter(h => h.date.startsWith(today) && (h.type === 'ciro' || h.type === 'veresiye_satis')).reduce((a,b)=>a+b.amount,0);
              const count = db.history.filter(h => h.date.startsWith(today)).length;
@@ -1108,23 +1076,35 @@ async function cliExecute(line) {
             else if (sub === 'income') {
                 const amt = parseFloat(args[1]);
                 if (!amt) throw new Error('Amount required.');
-                const flag = args[2]; // -p or -v
                 
-                if (flag === '-v') {
-                    const target = args[3];
-                    if (!target) throw new Error('Contact name required for credit.');
+                let contactId = null;
+                let desc = '';
+                let idx = 2;
+
+                if (args[idx] === '-v') {
+                    const target = args[idx+1];
+                    if (!target) throw new Error('Contact name required.');
                     const c = cliFindContact(target);
-                    const cost = amt * ((100 - db.profitMargin)/100);
+                    contactId = c.id;
+                    idx += 2;
+                } else if (args[idx] === '-p') {
+                    idx += 1;
+                }
+
+                if (args[idx]) desc = args[idx];
+
+                const cost = amt * ((100 - db.profitMargin)/100);
+
+                if (contactId) {
+                    const c = db.contacts.find(x=>x.id === contactId);
                     c.balance += amt;
                     db.stock -= cost;
-                    addHistory('veresiye_satis', amt, `Satış: ${c.name}`, cost, c.id);
+                    addHistory('veresiye_satis', amt, desc || `Satış: ${c.name}`, cost, c.id);
                     cliLog(`Credit Sale: ${c.name}`, 'success');
                 } else {
-                    // Default Cash
-                    const cost = amt * ((100 - db.profitMargin)/100);
                     db.cash += amt;
                     db.stock -= cost;
-                    addHistory('ciro', amt, 'Peşin Satış', cost);
+                    addHistory('ciro', amt, desc || 'Peşin Satış', cost);
                     cliLog('Cash Sale recorded.', 'success');
                 }
                 saveDB();
@@ -1132,19 +1112,33 @@ async function cliExecute(line) {
             else if (sub === 'buy') {
                 const amt = parseFloat(args[1]);
                 if (!amt) throw new Error('Amount required.');
-                const flag = args[2];
-                db.stock += amt;
                 
-                if (flag === '-v') {
-                    const target = args[3];
-                    if (!target) throw new Error('Supplier name required.');
+                let contactId = null;
+                let desc = '';
+                let idx = 2;
+
+                if (args[idx] === '-v') {
+                    const target = args[idx+1];
+                    if (!target) throw new Error('Contact name required.');
                     const c = cliFindContact(target);
+                    contactId = c.id;
+                    idx += 2;
+                } else if (args[idx] === '-p') {
+                    idx += 1;
+                }
+
+                if (args[idx]) desc = args[idx];
+
+                db.stock += amt;
+
+                if (contactId) {
+                    const c = db.contacts.find(x=>x.id === contactId);
                     c.balance -= amt;
-                    addHistory('mal_cari', amt, `Mal: ${c.name}`, null, c.id);
+                    addHistory('mal_cari', amt, desc || `Mal: ${c.name}`, null, c.id);
                     cliLog(`Stock Credit: ${c.name}`, 'success');
                 } else {
                     db.cash -= amt;
-                    addHistory('mal', amt, 'Mal Alımı (Peşin)');
+                    addHistory('mal', amt, desc || 'Mal Alımı (Peşin)');
                     cliLog('Stock Cash Purchase.', 'success');
                 }
                 saveDB();
@@ -1168,17 +1162,18 @@ async function cliExecute(line) {
             const type = args[0]; // give / take
             const target = args[1];
             const amt = parseFloat(args[2]);
+            const desc = args[3];
             
-            if (!target || !amt) throw new Error('Usage: pay give/take <name> <amount>');
+            if (!target || !amt) throw new Error('Usage: pay give/take <name> <amount> [desc]');
             const c = cliFindContact(target);
             
             if (type === 'give') {
                 db.cash -= amt; c.balance += amt;
-                addHistory('cari_cikis', amt, `${c.name} (Ödeme)`, null, c.id);
+                addHistory('cari_cikis', amt, desc || `${c.name} (Ödeme)`, null, c.id);
                 cliLog(`Paid ${fmt(amt)} to ${c.name}`, 'success');
             } else if (type === 'take') {
                 db.cash += amt; c.balance -= amt;
-                addHistory('cari_giris', amt, `${c.name} (Tahsilat)`, null, c.id);
+                addHistory('cari_giris', amt, desc || `${c.name} (Tahsilat)`, null, c.id);
                 cliLog(`Collected ${fmt(amt)} from ${c.name}`, 'success');
             } else {
                 throw new Error('Use pay give or pay take');
@@ -1194,9 +1189,8 @@ async function cliExecute(line) {
             if(!tx) throw new Error('Transaction not found.');
             if(tx.isReversed) throw new Error('Already reversed.');
             
-            // Invoke app logic
             if(confirm(`Reverse tx ${id}?`)) {
-                reverseTx(id); // Passed as string/arg
+                reverseTx(id);
                 cliLog('Transaction reversed.', 'success');
             } else {
                 cliLog('Cancelled.', 'info');
