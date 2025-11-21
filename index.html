@@ -2,7 +2,7 @@
 <html lang="tr"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Esnaf Glass v4.0</title>
+    <title>Esnaf Glass v4.1</title>
     
     <!-- PWA META TAGS -->
     <meta name="theme-color" content="#000000">
@@ -562,9 +562,7 @@
     <div class="modal glass-heavy">
         <div class="drag-handle-zone"><div class="modal-grabber"></div></div>
         <div class="modal-content-scroll">
-            <h3 id="op-c-name" style="text-align:center; margin-bottom:5px;"></h3>
-            <div id="op-c-bal" style="text-align:center; font-weight:800; font-size:1.4rem; margin-bottom:24px;"></div>
-            <button class="btn-action" style="width:100%; margin-bottom:24px; flex-direction:row; justify-content:center; padding:12px; background:rgba(255,255,255,0.05);" onclick="showContactHistoryFromModal()"><span>📜</span> Bu Kişinin Hesap Dökümü (Ekstre)</button>
+            <h3>İşlem Detayı</h3>
             <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:16px; margin-bottom:20px;">
                 <label style="text-align:center;">İşlem Tutarı</label>
                 <input type="number" id="inp-op-amt" style="text-align:center; font-size:1.5rem; background:transparent; border:none;" inputmode="decimal" placeholder="0">
@@ -633,8 +631,8 @@
 </div>
 
 <script>
-/* --- V4.0 LOGIC --- */
-let db={cash:0,stock:0,profitMargin:30,contacts:[],history:[],txCount:0,backupLimit:10,aliases:{}},tempIncomeType='ciro',selectedCId=null;
+/* --- V3.5 IMMUTABLE LOGIC --- */
+let db={cash:0,stock:0,profitMargin:30,contacts:[],history:[],txCount:0,backupLimit:10},tempIncomeType='ciro',selectedCId=null;
 let activeFilter = false;
 
 window.onload=()=>{
@@ -713,7 +711,7 @@ function createHistoryRow(h,d=false){
     if(h.type.includes('ciro')||h.type.includes('satis')) i='💰';
     if(h.type.includes('gider')) i='📉';
     if(h.type.includes('mal')) i='📦';
-    if(h.type.includes('stok')) i='🔄'; // Stock lend/borrow
+    if(h.type.includes('stok')) i='🔄';
     if(h.type.includes('iade')||h.type.includes('iptal')) i='↩️';
 
     const classes = `tx-row ${h.isReversed ? 'reversed' : ''}`;
@@ -778,8 +776,8 @@ function reverseTx(id){
     else if(tx.type === 'mal_cari') { const c = getContact(tx.contactId); if(c) c.balance += amt; db.stock -= amt; addHistory('iade_mal_cari', amt, `İade: ${tx.desc}`, null, tx.contactId); }
     else if(tx.type === 'cari_giris') { const c = getContact(tx.contactId); if(c) c.balance += amt; db.cash -= amt; addHistory('iptal_tahsilat', amt, `İptal: ${tx.desc}`, null, tx.contactId); }
     else if(tx.type === 'cari_cikis') { const c = getContact(tx.contactId); if(c) c.balance -= amt; db.cash += amt; addHistory('iptal_odeme', amt, `İptal: ${tx.desc}`, null, tx.contactId); }
-    else if(tx.type === 'stok_verilen') { const c = getContact(tx.contactId); if(c) c.balance -= amt; db.stock += amt; addHistory('iptal_stok_verilen', amt, `İade: ${tx.desc}`, null, tx.contactId); } // Reversed Lend
-    else if(tx.type === 'stok_alinan') { const c = getContact(tx.contactId); if(c) c.balance += amt; db.stock -= amt; addHistory('iptal_stok_alinan', amt, `İade: ${tx.desc}`, null, tx.contactId); } // Reversed Borrow
+    else if(tx.type === 'stok_verilen') { const c = getContact(tx.contactId); if(c) c.balance -= amt; db.stock += amt; addHistory('iptal_stok_verilen', amt, `İade: ${tx.desc}`, null, tx.contactId); }
+    else if(tx.type === 'stok_alinan') { const c = getContact(tx.contactId); if(c) c.balance += amt; db.stock -= amt; addHistory('iptal_stok_alinan', amt, `İade: ${tx.desc}`, null, tx.contactId); }
     else if(tx.type === 'sermaye') { db.cash -= amt; addHistory('iptal_sermaye', amt, `İptal: ${tx.desc}`); }
 
     closeModal('modal-tx-detail');
@@ -847,69 +845,78 @@ const CLI = {
     isOpen: false,
     history: [],
     histPtr: -1,
-    // Strict Command Definition
     commands: {
-        'help': { desc: 'Show manual', args: '' },
+        'help': { 
+            desc: 'Show manual', args: '[command]',
+            sub: {} 
+        },
         'clear': { desc: 'Clear terminal', args: '' },
         'status': { desc: 'Show financial status', args: '' },
         'stats': { desc: 'Show analytics', args: '' },
         'theme': { desc: 'Set theme (dark, light, matrix, blue)', args: '<name>' },
-        'alias': { desc: 'Manage shortcuts', sub: { 'list': {args:'', desc:'List all'}, 'set': {args:'<key> <cmd>', desc:'Create alias'}, 'del': {args:'<key>', desc:'Remove alias'} } },
+        'alias': { 
+            desc: 'Manage shortcuts', 
+            sub: { 
+                'list': {args:'', desc:'List all', example:'alias list'}, 
+                'set': {args:'<key> <cmd>', desc:'Create alias', example:'alias set s "add income"'}, 
+                'del': {args:'<key>', desc:'Remove alias', example:'alias del s'} 
+            } 
+        },
         'add': { 
             desc: 'Add record', 
             sub: {
-                'income': { args: '<amt> [-p|-v <name>] [desc]', desc: 'Add income/sale' },
-                'expense': { args: '<amt> "<desc>"', desc: 'Add expense' },
-                'buy': { args: '<amt> [-p|-v <name>] [desc]', desc: 'Add stock/buy' },
-                'contact': { args: '"<name>"', desc: 'Create new contact' }
+                'income': { args: '<amt> [-p|-v <name>] [desc]', desc: 'Add income/sale', example: 'add income 500 -p "Nakit Satış"' },
+                'expense': { args: '<amt> "<desc>"', desc: 'Add expense', example: 'add expense 150 "Yemek"' },
+                'buy': { args: '<amt> [-p|-v <name>] [desc]', desc: 'Add stock/buy', example: 'add buy 1000 -v "Toptancı"' },
+                'contact': { args: '"<name>"', desc: 'Create new contact', example: 'add contact "Ahmet Yılmaz"' }
             }
         },
         'pay': {
             desc: 'Debt/Cash Flow',
             sub: {
-                'give': { args: '<name> <amt> [desc]', desc: 'Payment (You pay)' },
-                'take': { args: '<name> <amt> [desc]', desc: 'Collection (You receive)' }
+                'give': { args: '<name> <amt> [desc]', desc: 'Payment (You pay)', example: 'pay give "Ahmet" 500' },
+                'take': { args: '<name> <amt> [desc]', desc: 'Collection (You receive)', example: 'pay take "Mehmet" 1000 "Elden"' }
             }
         },
         'stock': {
             desc: 'Stock Flow',
             sub: {
-                'give': { args: '<name> <amt> [desc]', desc: 'Lend Stock (Receiver owes money)' },
-                'take': { args: '<name> <amt> [desc]', desc: 'Borrow Stock (You owe money)' }
+                'give': { args: '<name> <amt> [desc]', desc: 'Lend Stock', example: 'stock give "Bayi" 200 "Ödünç"' },
+                'take': { args: '<name> <amt> [desc]', desc: 'Borrow Stock', example: 'stock take "Komşu" 50 "Acil"' }
             }
         },
         'list': {
             desc: 'List data',
             sub: {
-                'contacts': { args: '', desc: 'List all contacts' },
-                'history': { args: '[limit]', desc: 'List recent transactions' }
+                'contacts': { args: '', desc: 'List all contacts', example: 'list contacts' },
+                'history': { args: '[limit]', desc: 'List recent transactions', example: 'list history 5' }
             }
         },
-        'reverse': { desc: 'Reverse/Void Transaction', args: '<id>' },
+        'reverse': { desc: 'Reverse/Void Transaction', args: '<id>', example: 'reverse 1705839201' },
         'del': {
             desc: 'Delete items',
             sub: {
-                'contact': { args: '<id>', desc: 'Delete contact by ID' }
+                'contact': { args: '<id>', desc: 'Delete contact by ID', example: 'del contact 123' }
             }
         },
         'set': {
             desc: 'Settings',
             sub: {
-                'margin': { args: '<percent>', desc: 'Set profit margin' },
-                'stock': { args: '<amount>', desc: 'Overwrite stock value' }
+                'margin': { args: '<percent>', desc: 'Set profit margin', example: 'set margin 35' },
+                'stock': { args: '<amount>', desc: 'Overwrite stock value', example: 'set stock 50000' }
             }
         },
         'backup': {
             desc: 'Data management',
             sub: {
-                'copy': { args: '', desc: 'Copy DB to clipboard' },
-                'download': { args: '', desc: 'Download DB file' },
-                'view': { args: '', desc: 'Show raw JSON' }
+                'copy': { args: '', desc: 'Copy DB', example:'backup copy' },
+                'download': { args: '', desc: 'Download DB', example:'backup download' },
+                'view': { args: '', desc: 'Show JSON', example:'backup view' }
             }
         },
         'restore': { desc: 'Paste JSON data', args: '' },
         'reset': { desc: 'Wipe all data', args: 'yes' },
-        'calc': { desc: 'Calculator', args: '<expression>' },
+        'calc': { desc: 'Calculator', args: '<expression>', example: 'calc 500 * 1.2' },
         'time': { desc: 'Current time', args: '' }
     }
 };
@@ -941,7 +948,7 @@ function initCLIListener() {
             if (val) {
                 cliLog(`➜ ${val}`, 'user');
                 CLI.history.push(val);
-                CLI.histPtr = CLI.history.length;
+                CLI.histPtr = CLI.history.length; // Reset pointer to end
                 cliExecute(val);
                 inp.value = '';
                 renderSuggestions('');
@@ -966,11 +973,15 @@ function initCLIListener() {
         }
         else if (e.key === 'Tab') {
              e.preventDefault();
+             // Simple tab completion based on suggestions
              const suggestions = document.querySelectorAll('.cli-chip');
-             if(suggestions.length > 0) suggestions[0].click();
+             if(suggestions.length > 0) {
+                 suggestions[0].click();
+             }
         }
     });
 
+    // Autosuggest Logic
     inp.addEventListener('input', (e) => {
         renderSuggestions(e.target.value);
     });
@@ -986,6 +997,7 @@ function renderSuggestions(val) {
     
     let suggestions = [];
 
+    // 1. Base Commands
     if (parts.length <= 1) {
         suggestions = Object.keys(CLI.commands).filter(k => k.startsWith(main));
         // Add aliases to suggestions
@@ -995,10 +1007,12 @@ function renderSuggestions(val) {
             });
         }
     } 
+    // 2. Sub Commands
     else if (parts.length === 2 && CLI.commands[main] && CLI.commands[main].sub) {
         suggestions = Object.keys(CLI.commands[main].sub).filter(s => s.startsWith(sub));
     }
     
+    // Generate Chips
     if (suggestions.length > 0) {
         suggestions.forEach(s => {
             const isAlias = s.includes('(alias)');
@@ -1007,6 +1021,7 @@ function renderSuggestions(val) {
             chip.className = 'cli-chip';
             chip.innerText = s;
             chip.onclick = () => {
+                // Auto-fill logic
                 if (parts.length <= 1) {
                     document.getElementById('cli-input').value = cleanS + ' ';
                 } else {
@@ -1018,6 +1033,7 @@ function renderSuggestions(val) {
             cont.appendChild(chip);
         });
     } else if (parts.length >= 2 && CLI.commands[main] && CLI.commands[main].sub && CLI.commands[main].sub[parts[1]]) {
+        // Show args hint if command is complete
         const hint = document.createElement('div');
         hint.className = 'cli-hint';
         hint.innerText = `Args: ${CLI.commands[main].sub[parts[1]].args.join(' ')}`;
@@ -1029,7 +1045,7 @@ function cliLog(msg, type='success') {
     const out = document.getElementById('cli-output');
     const div = document.createElement('div');
     div.className = `cli-log ${type}`;
-    div.innerHTML = msg;
+    div.innerHTML = msg; // Allow HTML for tables
     out.appendChild(div);
     out.scrollTop = out.scrollHeight;
 }
@@ -1072,19 +1088,37 @@ async function cliExecute(line) {
     try {
         if (!CLI.commands[cmd]) throw new Error('Command not found.');
 
+        // ---- NEW HELP LOGIC ----
         if (cmd === 'help') {
-            let txt = "";
-            for (let k in CLI.commands) {
-                const c = CLI.commands[k];
-                if (c.sub) {
-                    for (let s in c.sub) txt += `<div style="margin-bottom:4px"><b style="color:#fff">${k} ${s}</b> <span style="color:#888">${c.sub[s].args}</span><br>↳ ${c.sub[s].desc}</div>`;
-                } else {
-                    txt += `<div style="margin-bottom:4px"><b style="color:#fff">${k}</b> <span style="color:#888">${c.args}</span><br>↳ ${c.desc}</div>`;
+            const target = args[0];
+            
+            if(target && CLI.commands[target]) {
+                // Specific Help
+                const c = CLI.commands[target];
+                let o = `<b style="color:#fff; font-size:1.1em">${target.toUpperCase()}</b><br>${c.desc}<br><br>`;
+                
+                if(c.example) o += `<span style="color:var(--teal)">Ex: ${c.example}</span><br>`;
+                
+                if(c.sub) {
+                    o += '<br><b>Subcommands:</b><br>';
+                    for(let s in c.sub) {
+                        o += `• <b>${target} ${s}</b> ${c.sub[s].args}<br>`;
+                        if(c.sub[s].example) o += `&nbsp;&nbsp;<span style="color:var(--teal)">Ex: ${c.sub[s].example}</span><br>`;
+                    }
                 }
+                cliLog(o, 'info');
+            } else {
+                // General Help
+                let txt = "<b>Available Commands:</b><br>";
+                for (let k in CLI.commands) {
+                    txt += `<span style="color:#fff">${k}</span> `;
+                }
+                txt += "<br><br>Type 'help &lt;command&gt;' for details & examples.<br>Ex: <b>help pay</b>";
+                cliLog(txt, 'info');
             }
-            cliLog(txt, 'info');
             return;
         }
+        // ------------------------
 
         if (cmd === 'clear') { document.getElementById('cli-output').innerHTML = ''; return; }
         if (cmd === 'time') { cliLog(new Date().toLocaleString('tr-TR'), 'info'); return; }
