@@ -2,7 +2,7 @@
 <html lang="tr"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Esnaf Glass v3.3</title>
+    <title>Esnaf Glass v3.5</title>
     
     <!-- PWA META TAGS -->
     <meta name="theme-color" content="#000000">
@@ -46,6 +46,7 @@
         body.theme-light .nav-dock { background: rgba(255,255,255,0.9); border-color: rgba(0,0,0,0.1); }
         body.theme-light .nav-item { color: #999; }
         body.theme-light .nav-item.active { color: #000; }
+        body.theme-light .tx-desc { color: #000; }
         
         body.theme-matrix { --cli-green: #0f0; }
         body.theme-blue { --cli-green: #00e5ff; --cli-bg: rgba(5, 10, 30, 0.98); }
@@ -135,14 +136,19 @@
         .list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 4px; }
         .link-btn { color: var(--blue); font-size: 0.9rem; font-weight: 600; cursor: pointer; }
 
-        .tx-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .tx-row { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05); 
+            cursor: pointer;
+        }
+        .tx-row:active { background: rgba(255,255,255,0.05); border-radius: 12px; padding-left: 8px; padding-right: 8px; margin: 0 -8px; }
         .tx-row:last-child { border-bottom: none; }
         /* Reversed (Void) Style */
         .tx-row.reversed { opacity: 0.5; filter: grayscale(1); }
         .tx-row.reversed .tx-desc { text-decoration: line-through; }
 
         .tx-icon { width: 48px; height: 48px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-right: 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; }
-        .tx-desc { font-weight: 600; font-size: 1rem; margin-bottom: 2px; }
+        .tx-desc { font-weight: 600; font-size: 1rem; margin-bottom: 2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:200px; }
         .tx-meta { font-size: 0.75rem; color: var(--text-tertiary); }
         .tx-amt { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.5px; }
 
@@ -240,9 +246,9 @@
         
         #filter-indicator { font-size:0.75rem; background:rgba(10,132,255,0.2); color:var(--blue); padding:4px 10px; border-radius:8px; display:none; align-items:center; gap:5px; border:1px solid rgba(10,132,255,0.3); margin-left: 10px; }
 
-        /* --- CLI OVERLAY (MOBILE OPTIMIZED) --- */
+        /* --- CLI OVERLAY (FIXED MOBILE LAYOUT) --- */
         #cli-layer {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100dvh; /* dynamic viewport height */
             background: var(--cli-bg);
             z-index: 9999;
             display: none; flex-direction: column;
@@ -253,11 +259,10 @@
         #cli-layer.active { display: flex; animation: slideDown 0.25s ease-out; }
         @keyframes slideDown { from{transform:translateY(-100%);} to{transform:translateY(0);} }
 
-        /* Header */
         #cli-header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 15px 20px; border-bottom: 1px solid rgba(0,255,65,0.2);
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.3); flex-shrink: 0;
         }
         .cli-title { font-weight: bold; letter-spacing: 1px; color: #fff; }
         .cli-close { 
@@ -266,41 +271,37 @@
             font-family: inherit; font-weight: bold; cursor: pointer;
         }
 
-        /* Output Area - Improved Flow */
+        /* Output Area - Standard Flow, Scroll Managed by JS */
         #cli-output {
             flex: 1; overflow-y: auto; padding: 15px;
-            display: flex; flex-direction: column; justify-content: flex-end;
+            display: block; /* standard block layout */
             white-space: pre-wrap; word-break: break-word;
-            scroll-behavior: smooth; font-size: 13px;
-            overscroll-behavior: contain;
+            font-size: 13px; -webkit-overflow-scrolling: touch;
         }
-        .cli-log { margin-bottom: 8px; line-height: 1.4; border-left: 2px solid transparent; padding-left: 8px; flex-shrink: 0; }
-        .cli-log.user { color: #fff; font-weight: bold; border-left-color: #fff; background: rgba(255,255,255,0.05); padding: 5px 8px; border-radius: 0 4px 4px 0; }
+        .cli-log { margin-bottom: 8px; line-height: 1.4; border-left: 2px solid transparent; padding-left: 8px; }
+        .cli-log.user { color: #fff; font-weight: bold; border-left-color: #fff; background: rgba(255,255,255,0.05); padding: 5px 8px; border-radius: 0 4px 4px 0; margin-top:15px; }
         .cli-log.success { color: var(--cli-green); border-left-color: var(--cli-green); }
         .cli-log.error { color: var(--red); border-left-color: var(--red); }
         .cli-log.info { color: var(--teal); border-left-color: var(--teal); }
         
-        /* Mobile Suggestion Bar */
         #cli-suggestions {
             display: flex; gap: 10px; padding: 12px 15px;
             overflow-x: auto; background: rgba(30,30,35,0.9);
             border-top: 1px solid rgba(255,255,255,0.1);
             white-space: nowrap; min-height: 55px; align-items: center;
-            -webkit-overflow-scrolling: touch;
+            -webkit-overflow-scrolling: touch; flex-shrink: 0;
         }
         .cli-chip {
             background: rgba(0, 255, 65, 0.1); border: 1px solid var(--cli-green);
-            color: var(--cli-green); padding: 10px 18px; border-radius: 12px;
+            color: var(--cli-green); padding: 8px 16px; border-radius: 8px;
             font-size: 14px; cursor: pointer; font-weight: bold; user-select: none;
         }
         .cli-chip:active { background: var(--cli-green); color: #000; }
-        .cli-hint { color: #888; font-size: 12px; margin-left: auto; font-style: italic; }
-
-        /* Input Area */
+        
         #cli-input-wrapper {
             display: flex; align-items: center; padding: 15px;
             background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: max(15px, env(safe-area-inset-bottom));
+            padding-bottom: max(15px, env(safe-area-inset-bottom)); flex-shrink: 0;
         }
         #cli-prompt { margin-right: 10px; color: #fff; font-weight: bold; font-size: 16px; }
         #cli-input {
@@ -308,9 +309,7 @@
             font-family: var(--cli-font); font-size: 16px; padding: 0; margin: 0;
             outline: none; border-radius: 0;
         }
-        #cli-input::placeholder { color: rgba(255,255,255,0.2); font-style: italic; }
         
-        /* Tables in CLI */
         .cli-table { width: 100%; border-collapse: collapse; margin-top: 5px; font-size: 12px; }
         .cli-table th { text-align: left; border-bottom: 1px dashed var(--cli-green); color: #fff; padding: 4px; }
         .cli-table td { border-bottom: 1px solid rgba(255,255,255,0.1); padding: 4px; color: rgba(255,255,255,0.8); }
@@ -332,12 +331,12 @@
 <!-- CLI OVERLAY -->
 <div id="cli-layer">
     <div id="cli-header">
-        <span class="cli-title">TERMINAL v1.5</span>
+        <span class="cli-title">TERMINAL v1.7</span>
         <button class="cli-close" onclick="toggleCLI()">KAPAT</button>
     </div>
     <div id="cli-output">
-        <div class="cli-log info">Esnaf Glass CLI v1.5</div>
-        <div class="cli-log info">Logs will appear here at the bottom.</div>
+        <div class="cli-log info">Esnaf Glass CLI v1.7</div>
+        <div class="cli-log info">Type 'help' for commands. Use UP/DOWN arrows for history.</div>
     </div>
     
     <!-- Suggestion Chips for Mobile -->
@@ -434,24 +433,42 @@
     </div>
 </div>
 
-<!-- OTHER MODALS -->
+<!-- NEW TX DETAIL MODAL -->
+<div id="modal-tx-detail" class="modal-overlay">
+    <div class="modal glass-heavy">
+        <div class="drag-handle-zone"><div class="modal-grabber"></div></div>
+        <div class="modal-content-scroll">
+            <h3>İşlem Detayı</h3>
+            <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; text-align:center; margin-bottom:20px;">
+                <div style="font-size:0.8rem; color:var(--text-tertiary); margin-bottom:5px;">TUTAR</div>
+                <div id="dt-amt" style="font-size:2.5rem; font-weight:800;"></div>
+                <div id="dt-type" style="font-size:0.9rem; font-weight:600; opacity:0.8; margin-top:5px;"></div>
+            </div>
+            <div class="tx-row"><span>Tarih</span><span id="dt-date"></span></div>
+            <div class="tx-row"><span>Açıklama</span><span id="dt-desc" style="max-width:200px; text-align:right;"></span></div>
+            <div class="tx-row"><span>İlgili Kişi</span><span id="dt-contact">--</span></div>
+            <div class="tx-row"><span>ID</span><span id="dt-id" style="font-family:monospace;"></span></div>
+            
+            <div id="dt-actions" style="margin-top:25px;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- OTHER MODALS (Kept same structure) -->
 <div id="modal-filter" class="modal-overlay">
     <div class="modal glass-heavy">
         <div class="drag-handle-zone"><div class="modal-grabber"></div></div>
         <div class="modal-content-scroll">
             <h3>🔍 Filtreleme Seçenekleri</h3>
-            
             <div class="chips-container" style="margin-bottom:15px;">
                 <div class="chip" onclick="setQuickDate('today')">Bugün</div>
                 <div class="chip" onclick="setQuickDate('week')">Bu Hafta</div>
                 <div class="chip" onclick="setQuickDate('month')">Bu Ay</div>
             </div>
-
             <div class="grid-3" style="grid-template-columns:1fr 1fr; margin-bottom:12px;">
                 <div><label>Başlangıç</label><input type="date" id="f-start"></div>
                 <div><label>Bitiş</label><input type="date" id="f-end"></div>
             </div>
-            
             <div style="margin-bottom:12px;">
                 <label>İşlem Tipi</label>
                 <select id="f-type">
@@ -463,7 +480,6 @@
                 </select>
             </div>
             <div style="margin-bottom:20px;"><label>Kişi / Firma</label><select id="f-contact"><option value="all">Herkes</option></select></div>
-            
             <div class="grid-3" style="grid-template-columns:1fr 1fr; gap:15px;">
                 <button class="btn-main btn-glass" onclick="clearFilter()">TEMİZLE</button>
                 <button class="btn-main btn-primary" onclick="applyFilter()">UYGULA</button>
@@ -617,7 +633,7 @@
 </div>
 
 <script>
-/* --- V3.1 IMMUTABLE LOGIC --- */
+/* --- V3.5 IMMUTABLE LOGIC --- */
 let db={cash:0,stock:0,profitMargin:30,contacts:[],history:[],txCount:0,backupLimit:10},tempIncomeType='ciro',selectedCId=null;
 let activeFilter = false;
 
@@ -689,7 +705,7 @@ function addContact(){const n=document.getElementById('inp-c-name').value.trim()
 function renderContacts(){const l=document.getElementById('contact-list'),t=(document.getElementById('contact-search').value||'').toLowerCase();l.innerHTML='';[...db.contacts].sort((a,b)=>Math.abs(b.balance)-Math.abs(a.balance)).forEach(c=>{if(t&&!c.name.toLowerCase().includes(t))return;let b=c.balance>0?`<span class="badge badge-green">ALACAK: ${fmt(c.balance)}</span>`:(c.balance<0?`<span class="badge badge-red">BORÇ: ${fmt(Math.abs(c.balance))}</span>`:`<span class="badge" style="background:rgba(255,255,255,0.1)">TEMİZ</span>`);l.innerHTML+=`<div class="contact-item" onclick="openContactModal('${c.id}')"><div style="display:flex; align-items:center;"><div class="avatar">${c.name.charAt(0).toUpperCase()}</div><span style="font-weight:600;">${c.name}</span></div>${b}</div>`;});}
 function doContactOp(t){const a=getNum('inp-op-amt');if(a<=0)return;const c=db.contacts.find(x=>x.id===selectedCId);if(t==='give'){db.cash-=a;c.balance+=a;addHistory('cari_cikis',a,`${c.name} (Ödeme)`,null,c.id);}else{db.cash+=a;c.balance-=a;addHistory('cari_giris',a,`${c.name} (Tahsilat)`,null,c.id);}closeModal('modal-contact-op');saveDB();}
 
-/* --- NEW HISTORY ROW & REVERSE LOGIC --- */
+/* --- HISTORY ROW & DETAILS --- */
 function createHistoryRow(h,d=false){
     const p=['ciro','sermaye','cari_giris','veresiye_satis','iade_mal','iade_gider'].includes(h.type);
     const c=p?'var(--green)':'var(--red)';
@@ -699,36 +715,111 @@ function createHistoryRow(h,d=false){
     if(h.type.includes('mal')) i='📦';
     if(h.type.includes('iade')||h.type.includes('iptal')) i='↩️';
 
-    let b='';
-    if(d && !h.isReversed && !h.type.includes('iade') && !h.type.includes('iptal')){
-        b=`<button onclick="reverseTx('${h.id}')" style="margin-left:10px; background:rgba(255,255,255,0.1); color:#fff; border:none; border-radius:8px; width:36px; height:36px; font-size:1.2rem;">↩️</button>`;
-    }
-
     const classes = `tx-row ${h.isReversed ? 'reversed' : ''}`;
     const desc = h.isReversed ? `<span style="color:var(--red)">[İPTAL]</span> ${h.desc}` : h.desc;
+    const onclick = `onclick="openTxDetail('${String(h.id)}')"`;
 
-    return `<div class="${classes}"><div style="display:flex; align-items:center;"><div class="tx-icon">${i}</div><div><div class="tx-desc">${desc}</div><div class="tx-meta">${new Date(h.date).toLocaleDateString()} ${new Date(h.date).toLocaleTimeString().slice(0,5)}</div></div></div><div style="display:flex; align-items:center;"><span class="tx-amt" style="color:${c}">${p?'+':'-'}${fmt(h.amount)}</span>${b}</div></div>`;
+    return `<div class="${classes}" ${onclick}><div style="display:flex; align-items:center;"><div class="tx-icon">${i}</div><div><div class="tx-desc">${desc}</div><div class="tx-meta">${new Date(h.date).toLocaleDateString()} ${new Date(h.date).toLocaleTimeString().slice(0,5)}</div></div></div><div style="display:flex; align-items:center;"><span class="tx-amt" style="color:${c}">${p?'+':'-'}${fmt(h.amount)}</span></div></div>`;
+}
+
+function openTxDetail(id){
+    const tx = db.history.find(h=> String(h.id) === String(id));
+    if(!tx) return;
+    
+    document.getElementById('dt-amt').innerText = fmt(tx.amount);
+    document.getElementById('dt-type').innerText = tx.type.toUpperCase();
+    document.getElementById('dt-date').innerText = new Date(tx.date).toLocaleString('tr-TR');
+    document.getElementById('dt-desc').innerText = tx.desc;
+    document.getElementById('dt-id').innerText = tx.id;
+    
+    let cName = "--";
+    if(tx.contactId) {
+        const c = db.contacts.find(x=>x.id === tx.contactId);
+        cName = c ? c.name : `${tx.desc.split(':')[1] || 'Kayıt'} (Kayıt Silinmiş)`;
+    }
+    document.getElementById('dt-contact').innerText = cName;
+
+    const actions = document.getElementById('dt-actions');
+    actions.innerHTML = '';
+    
+    if(!tx.isReversed && !tx.type.includes('iade') && !tx.type.includes('iptal')){
+        // IMPORTANT: ID passed as string to prevent JS number overflow/parsing issues
+        actions.innerHTML = `<button class="btn-main btn-danger" onclick="reverseTx('${String(tx.id)}')">↩️ İşlemi İptal Et / İade</button>`;
+    } else if(tx.isReversed) {
+        actions.innerHTML = `<div style="color:var(--red); font-weight:bold; text-align:center;">BU İŞLEM İPTAL EDİLMİŞTİR</div>`;
+    } else {
+        actions.innerHTML = `<div style="color:var(--text-tertiary); font-size:0.8rem; text-align:center;">İptal işlemi geri alınamaz.</div>`;
+    }
+    
+    openModal('modal-tx-detail');
 }
 
 function reverseTx(id){
     if(!confirm('Bu işlem geri alınarak ters kayıt oluşturulacak. Onaylıyor musun?')) return;
+    
+    // Robust ID matching
     const tx = db.history.find(h=> String(h.id) === String(id));
-    if(!tx) { alert("İşlem bulunamadı."); return; }
+    if(!tx) { alert("HATA: İşlem veritabanında bulunamadı."); return; }
     if(tx.isReversed) return;
+
+    // Safe Contact Getter (Prevent crashes if user deleted)
+    const getContact = (cid) => {
+        const c = db.contacts.find(x => x.id === cid);
+        if (!c) { 
+            alert('UYARI: Bu işlemle ilişkili kişi silinmiş.\nİşlem iptal edilecek ancak kişi bakiyesi güncellenemeyecek.'); 
+            return null; 
+        }
+        return c;
+    };
 
     tx.isReversed = true;
     const amt = tx.amount;
     const cost = tx.cost || 0;
     
-    if(tx.type === 'ciro') { db.cash -= amt; db.stock += cost; addHistory('iade_satis', amt, `İade/İptal: ${tx.desc}`, cost); }
-    else if(tx.type === 'veresiye_satis') { const c = db.contacts.find(x=>x.id === tx.contactId); if(c) c.balance -= amt; db.stock += cost; addHistory('iade_veresiye', amt, `İade/İptal: ${tx.desc}`, cost, tx.contactId); }
-    else if(tx.type === 'gider') { db.cash += amt; addHistory('iade_gider', amt, `İptal: ${tx.desc}`); }
-    else if(tx.type === 'mal') { db.cash += amt; db.stock -= amt; addHistory('iade_mal', amt, `İade: ${tx.desc}`); }
-    else if(tx.type === 'mal_cari') { const c = db.contacts.find(x=>x.id === tx.contactId); if(c) c.balance += amt; db.stock -= amt; addHistory('iade_mal_cari', amt, `İade: ${tx.desc}`, null, tx.contactId); }
-    else if(tx.type === 'cari_giris') { const c = db.contacts.find(x=>x.id === tx.contactId); if(c) c.balance += amt; db.cash -= amt; addHistory('iptal_tahsilat', amt, `İptal: ${tx.desc}`, null, tx.contactId); }
-    else if(tx.type === 'cari_cikis') { const c = db.contacts.find(x=>x.id === tx.contactId); if(c) c.balance -= amt; db.cash += amt; addHistory('iptal_odeme', amt, `İptal: ${tx.desc}`, null, tx.contactId); }
-    else if(tx.type === 'sermaye') { db.cash -= amt; addHistory('iptal_sermaye', amt, `İptal: ${tx.desc}`); }
+    if(tx.type === 'ciro') { 
+        db.cash -= amt; 
+        db.stock += cost; 
+        addHistory('iade_satis', amt, `İade/İptal: ${tx.desc}`, cost); 
+    }
+    else if(tx.type === 'veresiye_satis') { 
+        const c = getContact(tx.contactId); 
+        if(c) c.balance -= amt; 
+        db.stock += cost; 
+        addHistory('iade_veresiye', amt, `İade/İptal: ${tx.desc}`, cost, tx.contactId); 
+    }
+    else if(tx.type === 'gider') { 
+        db.cash += amt; 
+        addHistory('iade_gider', amt, `İptal: ${tx.desc}`); 
+    }
+    else if(tx.type === 'mal') { 
+        db.cash += amt; 
+        db.stock -= amt; 
+        addHistory('iade_mal', amt, `İade: ${tx.desc}`); 
+    }
+    else if(tx.type === 'mal_cari') { 
+        const c = getContact(tx.contactId); 
+        if(c) c.balance += amt; 
+        db.stock -= amt; 
+        addHistory('iade_mal_cari', amt, `İade: ${tx.desc}`, null, tx.contactId); 
+    }
+    else if(tx.type === 'cari_giris') { 
+        const c = getContact(tx.contactId); 
+        if(c) c.balance += amt; 
+        db.cash -= amt; 
+        addHistory('iptal_tahsilat', amt, `İptal: ${tx.desc}`, null, tx.contactId); 
+    }
+    else if(tx.type === 'cari_cikis') { 
+        const c = getContact(tx.contactId); 
+        if(c) c.balance -= amt; 
+        db.cash += amt; 
+        addHistory('iptal_odeme', amt, `İptal: ${tx.desc}`, null, tx.contactId); 
+    }
+    else if(tx.type === 'sermaye') { 
+        db.cash -= amt; 
+        addHistory('iptal_sermaye', amt, `İptal: ${tx.desc}`); 
+    }
 
+    closeModal('modal-tx-detail');
     saveDB();
     if(document.getElementById('view-history').classList.contains('active')) applyFilter();
 }
